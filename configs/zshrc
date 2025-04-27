@@ -215,3 +215,12 @@ alias rebase="git fetch -va && git rebase origin/main"
 alias rb="git fetch -va && git rebase origin/main"
 
 export PATH="${HOME}/bin:${PATH}"
+
+export PATH="/opt/homebrew/sbin:$PATH"
+
+export PATH="$HOME/bin:$PATH"
+
+. "$HOME/.nvm/nvm.sh"
+
+export PATH="$HOME/.govm/current/bin:$PATH"
+alias claude-cheap=ANTHROPIC_MODEL="claude-3-5-haiku-20241022" ANTHROPIC_SMALL_FAST_MODEL="claude-3-5-haiku-20241022" claude
