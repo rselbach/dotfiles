@@ -1,0 +1,3 @@
+sudo dnf install -y alacritty
+mkdir -p $HOME/.config/alacritty
+ln -snf ${SETUP_DIR}/configs/alacritty.yml-debian $HOME/.config/alacritty/alacritty.yml
