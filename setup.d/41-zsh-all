@@ -14,3 +14,5 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ln -snf "${setupdir}/configs/p10k.zsh" "$HOME/.p10k.zsh"
 git clone https://github.com/jonmosco/kube-ps1.git "$HOME/.kube-ps1"
+
+sudo chsh -s $(which zsh) rselbach
