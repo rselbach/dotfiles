@@ -956,6 +956,9 @@ alias kns = kubens
 alias kl = kubectl logs -f
 alias ke = kubectl exec -it
 
+# muscle memory is hard to overcome
+alias 'ps -ef' = ps
+
 source ~/.config/nushell/env.nu
 source ~/.zoxide.nu
 source ~/.local/share/atuin/init.nu
