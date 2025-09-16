@@ -919,7 +919,6 @@ alias lt = eza --tree --level=2 --long --icons --git
 alias v = nvim
 alias hms = /nix/store/6kc5srg83nkyg21am089xx7pvq44kn2c-home-manager/bin/home-manager switch
 alias as = aerospace
-alias asr = atuin scripts run
 
 def ff [] {
     aerospace list-windows --all | fzf --bind 'enter:execute(bash -c "aerospace focus --window-id {1}")+abort'
@@ -961,7 +960,6 @@ alias 'ps -ef' = ps
 
 source ~/.config/nushell/env.nu
 source ~/.zoxide.nu
-source ~/.local/share/atuin/init.nu
 
 let ruby_ver = "3.4.0"
 let gem_home = ($nu.home-path | path join ".gem" "ruby" $ruby_ver)
