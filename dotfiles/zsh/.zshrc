@@ -236,6 +236,8 @@ if which hcloud > /dev/null; then
   complete -C $(which hcloud) hcloud
 fi
 
+export XDG_CONFIG_HOME=~/.config nu
+
 . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"

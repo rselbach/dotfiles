@@ -1,0 +1,92 @@
+ls
+ps
+ps where status = 'Sleep'
+ps | where status = 'Sleep'
+ps | where Status = 'Sleep'
+ps | where Status == 'Sleep'
+ps | where status == 'Sleep'
+ps | where status == 'Sleep' | to json
+ps | where status == 'Sleep' | to csv
+ps | where status == 'Sleep' | to json
+ps | where status == 'Sleep' | to json | jq
+ps | where status == 'Sleep' | to json
+set -o vi
+vim env.nu +25
+vim env.nu +130
+zoxide init nushell | save -f ~/.zoxide.nu
+source ~/.zoxide.nu
+vim env.nu +961
+vim config.nu
+bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
+atuin
+atuin import auto
+atuin sync
+atuin login
+atuin sync
+mkdir ~/.local/share/atuin/
+atuin init nu | save ~/.local/share/atuin/init.nu<\n>
+vim config.nu
+vim config.nu +239
+vim config.nu +227
+vim config.nu +238
+cd
+ls
+cd devel/hashicorp/cloud-idp/
+ls
+ps 
+ps | top 23
+git fetch origin main --quiet
+ls
+ps -ef
+ps 
+ps -h 
+ps -l
+ps 
+cd
+cd devel/
+ls
+cd setup/
+ls
+mkdir dotfiles
+cd dotfiles/
+ls
+mkdir zsh
+cp ~/.zshrc zsh/
+stow zsh
+brew install stow
+stow zsh
+ls -la ~/.zsh*
+rm ~/.zshrc
+stow zsh
+ls -la ~/.zsh*
+ls
+ls zsh/.zshrc
+cp ../configs/zshrc zsh/.zshrc
+ls zsh/.zshrc
+stow zsh
+ls -la ~/.zsh*
+ls
+ls -la
+cd zsh/
+ls -la
+ls
+ps
+ps -ef
+ps 
+alias "ps -ef" = ps<\n>
+ps -ef
+ls
+mkdir nushell
+cd nushell/
+ls
+mkdir .config
+cd .config/
+mkdir nushell
+cd nushell/
+ls
+export
+$env.XDG_CONFIG_HOME
+ls
+ls ../configs/
+cd ..
+git add dotfiles/
