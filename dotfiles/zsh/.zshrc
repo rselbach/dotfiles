@@ -238,6 +238,3 @@ fi
 
 export XDG_CONFIG_HOME=~/.config nu
 
-. "$HOME/.atuin/bin/env"
-
-eval "$(atuin init zsh)"
