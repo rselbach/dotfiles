@@ -973,3 +973,6 @@ $env.GEM_PATH = $gem_home
 if ($gem_bin | path exists) {
   $env.PATH = ($env.PATH | prepend $gem_bin)
 }
+
+mkdir ($nu.data-dir | path join "vendor/autoload")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
