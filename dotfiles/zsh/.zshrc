@@ -7,6 +7,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 ZSH_TMUX_AUTOSTART="false"
 ZSH_TMUX_ITERM2="true"
 
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
@@ -153,7 +156,6 @@ alias rb="git fetch -va && git rebase origin/main"
 
 export PATH="${HOME}/bin:${PATH}"
 
-export PATH="/opt/homebrew/sbin:$PATH"
 
 export PATH="$HOME/bin:$PATH"
 
