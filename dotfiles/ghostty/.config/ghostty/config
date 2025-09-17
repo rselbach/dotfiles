@@ -49,3 +49,5 @@ shell-integration-features = ssh-env,ssh-terminfo
 macos-option-as-alt = true
 window-decoration = true
 mouse-hide-while-typing = true
+keybind = alt+left=unbind
+keybind = alt+right=unbind
