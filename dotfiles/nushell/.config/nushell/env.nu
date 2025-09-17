@@ -123,8 +123,8 @@ path add /Users/rselbach/.local/bin
 path add /Users/rselbach/bin
 path add /opt/homebrew/opt/ruby/bin:$PATH
 
-$env.config.hooks.env_change.PWD = (
-     $env.config.hooks.env_change.PWD | append (source nu-hooks/direnv/config.nu)
+$env.config.hooks.pre_prompt = (
+	$env.config.hooks.pre_prompt | append (source nu-hooks/direnv/config.nu)
 )
 
 # To load from a custom file you can use:
