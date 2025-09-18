@@ -8,6 +8,7 @@ return {
       opts.servers.gopls = {
         settings = {
           gopls = {
+            enabled = true,
             analyses = {
               unusedparams = true,
             },
