@@ -957,6 +957,7 @@ alias ke = kubectl exec -it
 
 # muscle memory is hard to overcome
 alias 'ps -ef' = ps
+alias j = z
 
 source ~/.config/nushell/env.nu
 source ~/.zoxide.nu
