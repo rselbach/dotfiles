@@ -960,6 +960,7 @@ alias 'ps -ef' = ps
 
 source ~/.config/nushell/env.nu
 source ~/.zoxide.nu
+source coverhtml.nu
 
 let ruby_ver = "3.4.0"
 let gem_home = ($nu.home-path | path join ".gem" "ruby" $ruby_ver)
