@@ -1,0 +1,18 @@
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+keybind = shift+enter=text:\n
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+theme = catppuccin-mocha.conf
+background-opacity = 0.8
+background-blur-radius = 20
+shell-integration-features = ssh-env,ssh-terminfo
+macos-option-as-alt = true
+window-decoration = true
+mouse-hide-while-typing = true
+keybind = alt+left=unbind
+keybind = alt+right=unbind

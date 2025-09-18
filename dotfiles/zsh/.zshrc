@@ -49,6 +49,8 @@ KUBE_PS1_NS_ENABLE=false
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
+alias j=z
+
 # infinite history
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000000
