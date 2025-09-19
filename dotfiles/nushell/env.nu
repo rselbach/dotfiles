@@ -118,6 +118,8 @@ use std "path add"
 # path add ($env.HOME | path join ".local" "bin")
 # $env.PATH = ($env.PATH | uniq)
 path add /opt/homebrew/bin
+path add /home/linuxbrew/.linuxbrew/bin
+path add /home/linuxbrew/.linuxbrew/sbin
 path add /run/current-system/sw/bin
 path add /Users/rselbach/.local/bin
 path add /Users/rselbach/bin
