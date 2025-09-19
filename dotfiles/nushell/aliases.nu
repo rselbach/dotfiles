@@ -46,4 +46,3 @@ export alias ke = kubectl exec -it
 
 # Muscle memory overrides
 export alias 'ps -ef' = ps
-export alias j = z
