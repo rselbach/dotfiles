@@ -110,7 +110,7 @@ path add /Users/rselbach/bin
 if ("/opt/homebrew/bin" | path exists) {
   path add /opt/homebrew/bin
   path add /opt/homebrew/sbin
-  path add /opt/homebrew/opt/ruby/bin:$PATH
+  path add /opt/homebrew/opt/ruby/bin
 }
 if ("/home/linuxbrew/.linuxbrew/bin" | path exists) {
   path add /home/linuxbrew/.linuxbrew/bin
