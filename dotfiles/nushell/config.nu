@@ -7,7 +7,6 @@
 use themes.nu
 use menus.nu
 use keybindings.nu
-use aliases.nu *
 use functions.nu *
 
 # Main configuration
@@ -166,8 +165,6 @@ $env.config = {
 source ~/.zoxide.nu
 source coverhtml.nu
 
-alias j = z
-
 # Ruby/Gem configuration
 let ruby_ver = "3.4.0"
 let gem_home = ($nu.home-path | path join ".gem" "ruby" $ruby_ver)
@@ -186,3 +183,5 @@ if ($gem_bin | path exists) {
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 source ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
+source ~/.config/nushell/aliases.nu
