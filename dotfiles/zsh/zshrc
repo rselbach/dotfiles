@@ -27,6 +27,8 @@ PATH="$HOME/.govm/current/bin:$PATH"
 PATH="$HOME/bin:$PATH"
 PATH="/opt/homebrew/sbin:$PATH"
 PATH="/opt/homebrew/bin:$PATH"
+PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"
 PATH="/Applications/VMware Fusion.app/Contents/Library:$PATH"
 export PATH
 
