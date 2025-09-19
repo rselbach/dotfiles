@@ -35,8 +35,8 @@ install-config:
 install-special:
 	@if [ -d "zsh" ]; then \
 		echo "Creating symlink for .zshrc..."; \
-		ln -sfn $(DOTFILES_DIR)/zsh/.zshrc ~/.zshrc; \
-		echo "✓ Linked zsh/.zshrc to ~/.zshrc"; \
+		ln -sfn $(DOTFILES_DIR)/zsh/zshrc ~/.zshrc; \
+		echo "✓ Linked zsh/zshrc to ~/.zshrc"; \
 	fi
 	@if [ -d "claude" ]; then \
 		echo "Creating symlink for .claude..."; \
@@ -54,8 +54,8 @@ $(filter-out $(SPECIAL_CASES), $(ALL_DIRS)):
 
 zsh:
 	@echo "Creating symlink for .zshrc..."
-	@ln -sfn $(DOTFILES_DIR)/zsh/.zshrc ~/.zshrc
-	@echo "✓ Linked zsh/.zshrc to ~/.zshrc"
+	@ln -sfn $(DOTFILES_DIR)/zsh/zshrc ~/.zshrc
+	@echo "✓ Linked zsh/zshrc to ~/.zshrc"
 
 claude:
 	@echo "Creating symlink for .claude..."
