@@ -88,7 +88,7 @@ fi
 # ============================================================================
 
 # Kubernetes PS1
-source $HOME/.kube-ps1/kube-ps1.sh
+[ -f $HOME/.kube-ps1/kube-ps1.sh ] && source $HOME/.kube-ps1/kube-ps1.sh
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
