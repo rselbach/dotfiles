@@ -7,7 +7,6 @@
 use themes.nu
 use menus.nu
 use keybindings.nu
-use aliases.nu *
 use functions.nu *
 
 # Main configuration
@@ -184,3 +183,5 @@ if ($gem_bin | path exists) {
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 source ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
+source ~/.config/nushell/aliases.nu
