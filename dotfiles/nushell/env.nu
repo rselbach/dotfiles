@@ -57,6 +57,9 @@ if ("/home/linuxbrew/.linuxbrew/bin" | path exists) {
   path add /home/linuxbrew/.linuxbrew/sbin
 }
 
+# OpenCode
+path add ($env.HOME | path join ".opencode/bin")
+
 # Hook configuration for direnv
 $env.config.hooks.pre_prompt = (
 	$env.config.hooks.pre_prompt | append (source nu-hooks/direnv/config.nu)
