@@ -102,6 +102,11 @@ def create_right_prompt [] {
     ([$last_exit_code, (char space), $time_segment] | str join)
 }
 
+^fnm env --json | from json | load-env
+
+path add ($env.FNM_MULTISHELL_PATH | path join "bin")
+
+
 $env.PROMPT_COMMAND = {|| create_left_prompt }
 $env.PROMPT_COMMAND_RIGHT = {|| create_right_prompt }
 $env.PROMPT_INDICATOR = {|| "> " }
