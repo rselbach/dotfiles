@@ -106,7 +106,7 @@ def create_right_prompt [] {
 
 path add ($env.FNM_MULTISHELL_PATH | path join "bin")
 
-
+$env.GOLANG_PROTOBUF_REGISTRATION_CONFLICT = 'ignore'
 $env.PROMPT_COMMAND = {|| create_left_prompt }
 $env.PROMPT_COMMAND_RIGHT = {|| create_right_prompt }
 $env.PROMPT_INDICATOR = {|| "> " }

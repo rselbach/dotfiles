@@ -10,7 +10,7 @@ export XDG_CONFIG_HOME=~/.config
 
 # Application-specific variables
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
-export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn
+export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=ignore
 export KUBE_PS1_NS_ENABLE=false
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
 
@@ -118,6 +118,7 @@ alias j=z
 alias tx='tmux attach || tmux new'
 alias rebase="git fetch -va && git rebase origin/main"
 alias rb="git fetch -va && git rebase origin/main"
+alias ls='ls --color=auto'
 
 # ============================================================================
 # Functions
