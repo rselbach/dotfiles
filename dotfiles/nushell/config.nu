@@ -164,6 +164,7 @@ $env.config = {
 # Source additional configurations
 source ~/.zoxide.nu
 source coverhtml.nu
+source hashistack.nu
 
 # Ruby/Gem configuration
 let ruby_ver = "3.4.0"

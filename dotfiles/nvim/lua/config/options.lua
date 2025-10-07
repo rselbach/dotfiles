@@ -5,5 +5,5 @@
 vim.opt.wrap = true
 -- vim.g.codeium_os = "Darwin"
 -- vim.g.codeium_arch = "arm64"
-
-vim.g.ai_cmp = false
+vim.g.codeium_enabled = false
+-- vim.g.ai_cmp = false
