@@ -25,6 +25,13 @@ symbol = " "
 [golang]
 format = '[ ](bold cyan)'
 
+[hostname]
+ssh_only = true
+disabled = false
+format = '[ $hostname]($style) '
+#trim_at = '.'
+style = "bold green"
+
 [kubernetes]
 symbol = '☸ '
 disabled = true
