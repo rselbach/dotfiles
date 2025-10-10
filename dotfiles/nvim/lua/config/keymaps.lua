@@ -4,4 +4,6 @@
 vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
 vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
 
-vim.api.nvim_set_keymap("i", "<C-_>", "<C-o>", { noremap = true })
+vim.keymap.set('n', '<C-_>', '<C-o>', { desc = 'Jump back (older position)' })
+vim.keymap.set('n', '<C-->', '<C-o>', { desc = 'Jump back (older position duplicate)' })
+vim.keymap.set('n', '<C-=>', '<C-i>', { desc = 'Jump forward (newer position)' })
