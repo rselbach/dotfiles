@@ -8,6 +8,7 @@ alias lt = eza --tree --level=2 --long --icons --git
 
 # Editors
 alias v = nvim
+alias vim = nvim
 
 # System management
 alias hms = /nix/store/6kc5srg83nkyg21am089xx7pvq44kn2c-home-manager/bin/home-manager switch
