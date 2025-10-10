@@ -43,9 +43,8 @@ func DoSomething(s *Something) error {
 ```
 
 
-
 ### Communication Preferences
-- Use Canadian English spelling
+- Use US English spelling
 - Verify APIs and functionality rather than assuming implementation details
 - Ask for clarification when the context is ambiguous rather than making assumptions
 - Provide direct, concise answers without unnecessary elaboration
