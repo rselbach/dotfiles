@@ -41,8 +41,6 @@ func DoSomething(s *Something) error {
    return nil
 }
 ```
-
-
 ### Communication Preferences
 - Use US English spelling
 - Verify APIs and functionality rather than assuming implementation details
@@ -58,3 +56,4 @@ func DoSomething(s *Something) error {
 
 ### Git Preferences
 - Never add yourself as a co-author in commits
+- Never commit anything unless explicitly told otherwise
