@@ -65,6 +65,9 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history
 # Note: You have both SHARE_HISTORY and no_share_history - keeping no_share_history as it comes later
 setopt no_share_history
 
+bindkey '^R' history-incremental-search-backward
+
+
 # ============================================================================
 # Tool Initialization
 # ============================================================================
