@@ -1,9 +1,17 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
-vim.api.nvim_set_keymap("i", "jj", "<Esc>", { noremap = false })
-vim.api.nvim_set_keymap("i", "jk", "<Esc>", { noremap = false })
 
-vim.keymap.set('n', '<C-_>', '<C-o>', { desc = 'Jump back (older position)' })
-vim.keymap.set('n', '<C-->', '<C-o>', { desc = 'Jump back (older position duplicate)' })
-vim.keymap.set('n', '<C-=>', '<C-i>', { desc = 'Jump forward (newer position)' })
+
+
+local map = vim.keymap.set
+-- start visual selection with shift+arrows (normal mode)
+map("n", "<S-Left>", "v<Left>")
+map("n", "<S-Right>", "v<Right>")
+map("n", "<S-Up>", "v<Up>")
+map("n", "<S-Down>", "v<Down>")
+-- extend selection when already in visual mode
+map("v", "<S-Left>", "<Left>")
+map("v", "<S-Right>", "<Right>")
+map("v", "<S-Up>", "<Up>")
+map("v", "<S-Down>", "<Down>")
