@@ -8,4 +8,3 @@ vim.opt.wrap = true
 vim.g.codeium_enabled = false
 vim.g.ai_cmp = true
 vim.o.completeopt = "menuone,noselect,noinsert"
-

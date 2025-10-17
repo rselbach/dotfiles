@@ -1,3 +1,9 @@
 {
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "rrenv": {
+    "ANTHROPIC_AUTH_TOKEN": "0a05f32f447a4878b0c1838545c134b3.Ixve90YkVgETOeQ4",
+    "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1
+  }
 }
