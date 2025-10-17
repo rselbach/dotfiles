@@ -49,8 +49,6 @@ func execNu(nuPath, dir string) error {
 		return err
 	}
 
-	fmt.Println(nuPath, os.Args[1:])
-
 	cmd := exec.Command(nuPath, os.Args[1:]...)
 	cmd.Env = env
 	cmd.Stdin = os.Stdin
