@@ -6,14 +6,16 @@ return {
             list = {
                 selection = {
                     preselect = true,
-                    auto_insert = true,
+                    auto_insert = false,
                 }
             }
         }
         opts.keymap = {
-            preset = "enter",
-            ["<Tab>"] = { "select_next", "fallback" },
-            ["<S-Tab>"] = { "select_prev", "fallback" },
+            preset = "default",
+            ["<Tab>"] = { "accept", "fallback" },
+            ["<Down>"] = { "select_next", "fallback" },
+            ["<Up>"] = { "select_prev", "fallback" },
+            ["<CR>"] = { "fallback" },
         }
         return opts
     end,
