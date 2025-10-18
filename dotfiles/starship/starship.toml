@@ -1,9 +1,9 @@
 add_newline = false
-# A minimal left prompt
-format = """$directory$character"""
+# Single-line prompt: context + directory (space after branch only if present)
+format = """$hostname$git_branch$directory $character"""
 palette = "catppuccin_mocha"
-# move the rest of the prompt to the right
-right_format = """$all"""
+# disable right prompt
+right_format = """"""
 command_timeout = 1000
 
 [character]
@@ -14,15 +14,16 @@ success_symbol = '[➜](bold green)'
 '~/tests/starship-custom' = 'work-project'
 
 [git_branch]
-format =  '[$symbol$branch(:$remote_branch)]($style)'
+format =  '[$symbol$branch(:$remote_branch)]($style) '
 
 [aws]
+disabled = true
 format = '[$symbol(profile: "$profile" )(\(region: $region\) )]($style)'
-disabled = false
 style = 'bold blue'
 symbol = " "
 
 [golang]
+disabled = true
 format = '[ ](bold cyan)'
 
 [hostname]
@@ -71,3 +72,4 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
