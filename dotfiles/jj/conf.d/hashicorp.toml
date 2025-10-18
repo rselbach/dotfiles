@@ -1,0 +1,6 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+--when.repositories = [ "~/devel/hashicorp"]
+
+[user]
+email = "rselbach@hashicorp.com"
+name = "Roberto Selbach"

@@ -1,0 +1,25 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+
+[user]
+email = "rselbach@rselbach.com"
+name = "Roberto Selbach"
+
+[ui]
+default-command = "log"
+log-synthetic-elided-nodes = true
+diff-formatter = ":git"
+editor = "nvim"
+
+[ui.graph]
+style = "curved"
+
+[git]
+auto-local-bookmark = true
+abandon-unreachable-commits = false
+push-new-bookmarks = true
+
+[templates]
+git_push_bookmark = '"rselbach/*" ++ change_id.short()'
+
+[aliases]
+ll = ["log", "-r", "all()", "-T", "builtin_log_detailed"]
