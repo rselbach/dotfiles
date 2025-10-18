@@ -5,6 +5,8 @@
 
 
 local map = vim.keymap.set
+-- jump backwards in jump list (alternative to <C-o>)
+map("n", "<C-->", "<C-o>", { desc = "Jump backwards in jump list" })
 -- start visual selection with shift+arrows (normal mode)
 map("n", "<S-Left>", "v<Left>")
 map("n", "<S-Right>", "v<Right>")

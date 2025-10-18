@@ -18,6 +18,7 @@ return {
           next = "<M-]>",
           prev = "<M-[>",
           dismiss = "<C-]>",
+          suggest = "<C-\\>",
         },
       },
       panel = { enabled = false },
