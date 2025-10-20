@@ -36,7 +36,7 @@ install-special:
 	@if [ -d "nushell" ]; then \
 		echo "Setting up nushell..."; \
 		mkdir -p "$$HOME/.config"; \
-		ln -sfn $(DOTFILES_DIR)/nushell "$$HOME/.config/nushell"; \
+		ln -sfn $(DOTFILES_DIR)/nushell/config "$$HOME/.config/nushell"; \
 		echo "✓ Linked nushell to $$HOME/.config/nushell"; \
 		mkdir -p "$$HOME/bin"; \
 		( \
@@ -47,7 +47,7 @@ install-special:
 		if [ "$$(uname)" = "Darwin" ]; then \
 			SUPPORT_DIR="$$HOME/Library/Application Support"; \
 			mkdir -p "$$SUPPORT_DIR"; \
-			ln -sfn $(DOTFILES_DIR)/nushell "$$SUPPORT_DIR/nushell"; \
+			ln -sfn $(DOTFILES_DIR)/nushell/config "$$SUPPORT_DIR/nushell"; \
 			echo "✓ Linked nushell to $$SUPPORT_DIR/nushell"; \
 		fi; \
 	fi
