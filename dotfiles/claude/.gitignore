@@ -7,3 +7,4 @@ ide
 file-history
 history.jsonl
 debug
+*.lock
