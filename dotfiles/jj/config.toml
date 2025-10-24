@@ -21,5 +21,44 @@ push-new-bookmarks = true
 [templates]
 git_push_bookmark = '"rselbach/*" ++ change_id.short()'
 
+[colors]
+# Base customizations
+"normal change_id" = { bold = true, fg = "magenta" }
+"immutable change_id" = { bold = false, fg = "bright cyan" }
+
+# Used by log node template
+"node" = { bold = true }
+"node elided" = { fg = "bright black" }
+"node working_copy" = { fg = "green" }
+"node conflict" = { fg = "red" }
+"node immutable" = { fg = "bright cyan" }
+"node wip" = { fg = "yellow" }
+"node normal" = { bold = false }
+
+# Used in other various templates
+"text link" = { bold = true, fg = "magenta" }
+"text warning" = { bold = true, fg = "red" }
+
 [aliases]
 ll = ["log", "-r", "all()", "-T", "builtin_log_detailed"]
+l = ["log", "-r", "ancestors(reachable(@, mutable()), 2)"]
+n = ["new"]
+
+# Better name, IMO.
+credit = ["file", "annotate"]
+
+# Retrunk a series. Typically used as `jj retrunk -s ...`, and notably can be
+# used with open:
+# - jj retrunk -s 'all:roots(open())'
+retrunk = ["rebase", "-d", "trunk()"]
+
+# Retrunk the current stack of work.
+reheat = ["rebase", "-d", "trunk()", "-s", "all:roots(trunk()..stack(@))"]
+
+# Take content from any change, and move it into @.
+# - jj consume xyz path/to/file`
+consume = ["squash", "--into", "@", "--from"]
+
+# Eject content from @ into any other change.
+# - jj eject xyz --interactive
+eject = ["squash", "--from", "@", "--into"]
