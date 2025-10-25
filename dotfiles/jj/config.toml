@@ -44,21 +44,17 @@ ll = ["log", "-r", "all()", "-T", "builtin_log_detailed"]
 l = ["log", "-r", "ancestors(reachable(@, mutable()), 2)"]
 n = ["new"]
 
-# Better name, IMO.
-credit = ["file", "annotate"]
+# Move the closest bookmark to the current commit. This is useful when
+# working on a named branch, creating a bunch of commits, and then needing
+# to update the bookmark before pushing.
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
 
-# Retrunk a series. Typically used as `jj retrunk -s ...`, and notably can be
-# used with open:
-# - jj retrunk -s 'all:roots(open())'
+# Rebase the current branch onto the trunk.
 retrunk = ["rebase", "-d", "trunk()"]
 
-# Retrunk the current stack of work.
-reheat = ["rebase", "-d", "trunk()", "-s", "all:roots(trunk()..stack(@))"]
+[revset-aliases]
+"closest_bookmark(to)" = "heads(::to & bookmarks())"
+"fork_history(to, from)" = "fork_point(to | from)..@"
 
-# Take content from any change, and move it into @.
-# - jj consume xyz path/to/file`
-consume = ["squash", "--into", "@", "--from"]
-
-# Eject content from @ into any other change.
-# - jj eject xyz --interactive
-eject = ["squash", "--from", "@", "--into"]
+[template-aliases]
+"format_timestamp(timestamp)" = "timestamp.ago()"
