@@ -18,6 +18,11 @@ auto-local-bookmark = true
 abandon-unreachable-commits = false
 push-new-bookmarks = true
 
+[signing]
+behavior = "own"
+backend = "gpg"
+key ="7D1ABF3FA1B59C43"
+
 [templates]
 git_push_bookmark = '"rselbach/*" ++ change_id.short()'
 
