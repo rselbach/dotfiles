@@ -187,3 +187,4 @@ starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.n
 source ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 source ~/.config/nushell/aliases.nu
+source $"($nu.home-path)/.cargo/env.nu"
