@@ -4,3 +4,11 @@
 [user]
 email = "rselbach@hashicorp.com"
 name = "Roberto Selbach"
+
+
+[signing]
+behavior = "own"
+backend = "gpg"
+key ="0ECFD015DAF6B114"
+
+
