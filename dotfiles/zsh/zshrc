@@ -141,6 +141,10 @@ coverhtml() {
 # opencode
 export PATH=/Users/rselbach/.opencode/bin:$PATH
 
+# gpg
+
+export GPG_TTY="$(tty)"
+
 # fnm
 FNM_PATH="/opt/homebrew/opt/fnm/bin"
 if [ -d "$FNM_PATH" ]; then
