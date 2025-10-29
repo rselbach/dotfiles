@@ -1,0 +1,14 @@
+[user]
+	name = Roberto Selbach
+	email = rselbach@rselbach.com
+	signingkey = 59B18958FD2754F97C355D0E7D1ABF3FA1B59C43
+
+[push]
+	autoSetupRemote = true
+
+[commit]
+	gpgsign = true
+
+
+[includeIf "gitdir:~/devel/hashicorp/"]
+ 	path = ~/.gitconfig-ibm

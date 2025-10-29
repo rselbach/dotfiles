@@ -1,0 +1,7 @@
+[user]
+	name = Roberto Selbach
+	email = rselbach@ibm.com
+	signingkey = F8867E3588431E4085D17B270ECFD015DAF6B114
+
+[url "git@github.com:hashicorp"]
+	insteadOf = https://github.com/hashicorp

@@ -7,7 +7,7 @@ DOTFILES_DIR := $(shell pwd)
 ALL_DIRS := $(shell find . -maxdepth 1 -type d ! -name '.*' ! -name 'zsh' ! -name 'claude' ! -name 'nushell' -exec basename {} \;)
 
 # Special cases that don't go to ~/.config/
-SPECIAL_CASES := claude zsh nushell
+SPECIAL_CASES := claude zsh nushell git
 
 # Directories that should be linked to ~/.config/
 CONFIG_DIRS := $(filter-out $(SPECIAL_CASES), $(ALL_DIRS))
@@ -74,6 +74,12 @@ zsh:
 	@echo "Creating symlink for .zshrc..."
 	@ln -sfn $(DOTFILES_DIR)/zsh/zshrc ~/.zshrc
 	@echo "✓ Linked zsh/zshrc to ~/.zshrc"
+
+git:
+	@echo "Creating symlink for .gitconfig..."
+	@for i in $(DOTFILES_DIR)/git/*; do ln -sfn "$$i" "$$HOME/.$${i##*/}"; done
+	@echo "✓ Linked git/* to ~/"
+
 
 claude:
 	@echo "Creating symlink for .claude..."
