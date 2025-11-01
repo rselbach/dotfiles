@@ -17,6 +17,4 @@ mouse-hide-while-typing = true
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 split-divider-color = orange
-command = /bin/zsh
-window-padding-x = 16
-window-padding-y = 8
+command = /bin/zsh -l -i -c nu
