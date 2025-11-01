@@ -1,9 +1,0 @@
-install_chrome() {
-    git clone https://aur.archlinux.org/google-chrome.git /tmp/google-chrome|| return
-    cd /tmp/google-chrome || return
-    makepkg -s -f || return
-    sudo pacman -U --noconfirm "$(ls *.zst|head)" || return
-}
-
-install_chrome
-cd -

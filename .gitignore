@@ -1,4 +1,3 @@
 .DS_Store
-*.deb
-
-**/.claude/settings.local.json
+history.txt
+tmux/.config/tmux/plugins

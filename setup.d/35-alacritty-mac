@@ -1,3 +1,0 @@
-brew install alacritty
-mkdir -p $HOME/.config/alacritty
-ln -snf ${SETUP_DIR}/configs/alacritty.yml-mac $HOME/.config/alacritty/alacritty.yml

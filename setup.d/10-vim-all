@@ -1,2 +1,0 @@
-# restore my vim settings
-git clone --recursive git@github.com:robteix/.vim.git ~/.config/nvim

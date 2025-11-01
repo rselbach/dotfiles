@@ -1,4 +1,0 @@
-latest=$(wget -qO- https://golang.org/dl/ | grep -oP 'go([0-9\.]+)\.linux-amd64\.tar\.gz'|head -n 1)
-curl -L https://golang.org/dl/${latest} -o /tmp/${latest}
-sudo tar -C /usr/local -zxvf /tmp/${latest}
-

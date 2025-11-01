@@ -1,5 +1,8 @@
 ## User Preferences
 
+- In all interactions and commit messages, be extremely concise and sacrifice
+grammar for the sake of concision.
+
 ### Go Testing Practices
 - Implement table-driven tests using map syntax: `tests := map[string]struct{...}`
 - Name test case variables `tc` instead of `tt` in test loops
@@ -43,7 +46,6 @@ func DoSomething(s *Something) error {
 ```
 
 
-
 ### Communication Preferences
 - Use Canadian English spelling
 - Verify APIs and functionality rather than assuming implementation details
@@ -59,3 +61,9 @@ func DoSomething(s *Something) error {
 
 ### Git Preferences
 - Never add yourself as a co-author in commits
+
+## Plans
+
+- At the end of each plan, give me a list of unresolved questions to answer, if
+any. Make the questions extremely concise. Sacrifice grammar for the sake of
+concision.
