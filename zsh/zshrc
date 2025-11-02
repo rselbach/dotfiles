@@ -163,3 +163,7 @@ if [ -d "$FNM_PATH" ]; then
   eval "`fnm env`"
 fi
 export PATH=/Users/rselbach/.local/bin:$PATH
+
+
+
+SHELL="$HOME/bin/nu" $HOME/bin/nu
