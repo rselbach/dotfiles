@@ -76,7 +76,19 @@ bindkey '^R' history-incremental-search-backward
 eval "$(starship init zsh)"
 
 # SSH agent
-eval "$(ssh-agent -s)"
+
+# Add to your shell config
+SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh-agent.sock"
+
+if [ -z "$SSH_AGENT_PID" ]; then
+  # Check if agent is already running
+  if [ -S "$SSH_AUTH_SOCK_FILE" ]; then
+    export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
+  else
+    # Start new agent with fixed socket
+    eval $(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE")
+  fi
+fi
 
 # Zoxide (z command replacement)
 eval "$(zoxide init zsh)"
