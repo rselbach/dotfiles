@@ -12,10 +12,10 @@ return {
         }
         opts.keymap = {
             preset = "default",
-            ["<Tab>"] = { "accept", "fallback" },
+            ["<Tab>"] = { "fallback" },
             ["<Down>"] = { "select_next", "fallback" },
             ["<Up>"] = { "select_prev", "fallback" },
-            ["<CR>"] = { "fallback" },
+            ["<CR>"] = { "accept", "fallback" },
         }
         return opts
     end,
