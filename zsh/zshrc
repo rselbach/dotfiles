@@ -98,6 +98,9 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+# Go stuff
+export GOPRIVATE=github.com/hashicorp
+
 # ============================================================================
 # Source External Files
 # ============================================================================
@@ -132,7 +135,7 @@ fi
 alias tx='tmux attach || tmux new'
 alias rebase="git fetch -va && git rebase origin/main"
 alias rb="git fetch -va && git rebase origin/main"
-alias ls='ls --color=auto'
+alias ls='eza'
 
 # ============================================================================
 # Functions
@@ -164,6 +167,3 @@ if [ -d "$FNM_PATH" ]; then
 fi
 export PATH=/Users/rselbach/.local/bin:$PATH
 
-
-
-SHELL="$HOME/bin/nu" $HOME/bin/nu

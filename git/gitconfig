@@ -9,6 +9,8 @@
 [commit]
 	gpgsign = true
 
+[url "git@github.com:hashicorp"]
+        insteadOf = https://github.com/hashicorp
 
 [includeIf "gitdir:~/devel/hashicorp/"]
  	path = ~/.gitconfig-ibm
