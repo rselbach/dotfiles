@@ -7,6 +7,7 @@ export LANG=en_US.UTF-8
 export EDITOR='nvim'
 export DEFAULT_USER="rselbach"
 export XDG_CONFIG_HOME=~/.config
+export EZA_CONFIG_DIR="${XDG_CONFIG_HOME}/eza"
 
 # Application-specific variables
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
