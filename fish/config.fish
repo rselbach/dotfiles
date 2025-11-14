@@ -8,6 +8,7 @@ set -gx EDITOR nvim
 set -gx DEFAULT_USER rselbach
 set -gx XDG_CONFIG_HOME "$HOME/.config"
 set -gx EZA_CONFIG_DIR "$XDG_CONFIG_HOME/eza"
+set -g fish_greeting
 
 # Application-specific variables
 set -gx STARSHIP_CONFIG "$XDG_CONFIG_HOME/starship/starship.toml"
@@ -117,6 +118,10 @@ alias tx 'tmux attach; or tmux new'
 alias rebase 'git fetch -va; and git rebase origin/main'
 alias rb 'git fetch -va; and git rebase origin/main'
 alias ls 'eza'
+alias cx 'cd'
+alias ll 'eza -la'
+alias l 'eza -la'
+alias pef 'ps -ef'
 
 # ============================================================================
 # Functions
