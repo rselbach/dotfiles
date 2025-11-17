@@ -97,7 +97,7 @@ if test -f "$HOME/.fzf.fish"
 end
 
 # VS Code shell integration
-if test "$TERM_PROGRAM" = "vscode"
+if test "$TERM_PROGRAM" = vscode
     source (code --locate-shell-integration-path fish)
 end
 
@@ -117,11 +117,12 @@ end
 alias tx 'tmux attach; or tmux new'
 alias rebase 'git fetch -va; and git rebase origin/main'
 alias rb 'git fetch -va; and git rebase origin/main'
-alias ls 'eza'
-alias cx 'cd'
+alias ls eza
+alias cx cd
 alias ll 'eza -la'
 alias l 'eza -la'
 alias pef 'ps -ef'
+alias vim nvim
 
 # ============================================================================
 # Functions
@@ -152,11 +153,10 @@ fish_add_path /Users/rselbach/.opencode/bin
 set -gx GPG_TTY (tty)
 
 # fnm (Fast Node Manager)
-set -gx FNM_PATH "/opt/homebrew/opt/fnm/bin"
+set -gx FNM_PATH /opt/homebrew/opt/fnm/bin
 if test -d "$FNM_PATH"
     fnm env --use-on-cd | source
 end
 
 # Final PATH addition (highest precedence)
 fish_add_path /Users/rselbach/.local/bin
-
