@@ -19,6 +19,9 @@ export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_c
 # PATH Configuration (consolidated to avoid duplicates)
 # ============================================================================
 
+# Ensure unique PATH entries
+typeset -U PATH
+
 # Build PATH in order of priority (later entries take precedence)
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/go/bin:$PATH"
@@ -40,6 +43,13 @@ export PATH
 # Case sensitivity and git status
 CASE_SENSITIVE="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Convenience options
+setopt AUTO_CD               # Type dir name to cd into it
+setopt AUTO_PUSHD            # cd pushes to directory stack
+setopt PUSHD_IGNORE_DUPS     # No duplicate dirs in stack
+setopt CORRECT               # Command spelling correction
+setopt GLOB_DOTS             # Include dotfiles in glob patterns
 
 # ============================================================================
 # History Configuration
@@ -63,8 +73,7 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion
 setopt HIST_BEEP                 # Beep when accessing nonexistent history
 
-# Note: You have both SHARE_HISTORY and no_share_history - keeping no_share_history as it comes later
-setopt no_share_history
+setopt no_share_history          # Don't share history between sessions
 
 bindkey '^R' history-incremental-search-backward
 
@@ -77,27 +86,26 @@ bindkey '^R' history-incremental-search-backward
 eval "$(starship init zsh)"
 
 # SSH agent
-
-# Add to your shell config
 SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh-agent.sock"
+export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
 
-if [ -z "$SSH_AGENT_PID" ]; then
-  # Check if agent is already running
-  if [ -S "$SSH_AUTH_SOCK_FILE" ]; then
-    export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
-  else
-    # Start new agent with fixed socket
-    eval $(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE")
-  fi
+# Start agent if not responding
+if ! ssh-add -l &>/dev/null; then
+  rm -f "$SSH_AUTH_SOCK_FILE"
+  eval $(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE") >/dev/null
 fi
 
 # Zoxide (z command replacement)
 eval "$(zoxide init zsh)"
 
-# Python environment
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+# Python environment (lazy-loaded)
+pyenv() {
+  unset -f pyenv
+  if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(command pyenv init -)"
+  fi
+  pyenv "$@"
+}
 
 # Go stuff
 export GOPRIVATE=github.com/hashicorp
@@ -112,10 +120,7 @@ export GOPRIVATE=github.com/hashicorp
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-## NVM (Node Version Manager) - consolidated duplicate entries
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 
 # VS Code shell integration
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
@@ -124,10 +129,9 @@ export GOPRIVATE=github.com/hashicorp
 # Completions
 # ============================================================================
 
-## hcloud
-#if which hcloud > /dev/null 2>&1; then
-#  complete -C $(which hcloud) hcloud
-#fi
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # ============================================================================
 # Aliases
@@ -155,16 +159,31 @@ coverhtml() {
 [ -f "${HOME}/.zsh.local" ] && source "${HOME}/.zsh.local"
 
 # opencode
-export PATH=/Users/rselbach/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
 # gpg
 
 export GPG_TTY="$(tty)"
 
-# fnm
+# fnm (lazy-loaded)
 FNM_PATH="/opt/homebrew/opt/fnm/bin"
 if [ -d "$FNM_PATH" ]; then
-  eval "`fnm env`"
+  export PATH="$FNM_PATH:$PATH"
+  fnm() {
+    unset -f fnm
+    eval "$(command fnm env)"
+    fnm "$@"
+  }
+  node() {
+    unset -f node fnm
+    eval "$(command fnm env)"
+    node "$@"
+  }
+  npm() {
+    unset -f npm fnm
+    eval "$(command fnm env)"
+    npm "$@"
+  }
 fi
-export PATH=/Users/rselbach/.local/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 
