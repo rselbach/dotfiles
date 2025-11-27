@@ -42,12 +42,9 @@ end
 # Shell Options / History
 # ============================================================================
 
-# Notes:
-# - Zsh options like CASE_SENSITIVE, DISABLE_UNTRACKED_FILES_DIRTY, and detailed
-#   history flags do not have direct Fish equivalents. Fish manages history differently.
-# - Bind Ctrl-R to Fish's history pager (interactive search).
-if status is-interactive
-    bind \cr history-pager
+# Atuin for history sync (replaces default Ctrl-R)
+if status is-interactive; and type -q atuin
+    atuin init fish | source
 end
 
 # ============================================================================
@@ -75,11 +72,10 @@ end
 if not test -S "$SSH_AUTH_SOCK_FILE"
     set -l _agent_out (ssh-agent -s -a "$SSH_AUTH_SOCK_FILE" 2>/dev/null)
     for line in $_agent_out
-        if string match -q -r '^SSH_AUTH_SOCK=' -- $line
-            set -gx SSH_AUTH_SOCK (string replace -r '.*=' '' (string replace -r ';.*$' '' $line))
-        end
-        if string match -q -r '^SSH_AGENT_PID=' -- $line
-            set -gx SSH_AGENT_PID (string replace -r '.*=' '' (string replace -r ';.*$' '' $line))
+        if string match -rq '^SSH_AUTH_SOCK=([^;]+)' -- $line
+            set -gx SSH_AUTH_SOCK $match[1]
+        else if string match -rq '^SSH_AGENT_PID=([^;]+)' -- $line
+            set -gx SSH_AGENT_PID $match[1]
         end
     end
 end
@@ -90,7 +86,6 @@ type -q zoxide; and zoxide init fish | source
 # Python environment (pyenv) - only init on login shells for speed
 if type -q pyenv; and status is-login
     pyenv init - | source
-    pyenv init --path | source
 end
 
 # Go private modules
@@ -111,18 +106,20 @@ if test -f "$HOME/.fzf.fish"
 end
 
 # VS Code shell integration
-if test "$TERM_PROGRAM" = vscode
-    source (code --locate-shell-integration-path fish)
+if test "$TERM_PROGRAM" = vscode; and type -q code
+    set -l _vscode_integration (code --locate-shell-integration-path fish 2>/dev/null)
+    test -n "$_vscode_integration"; and source $_vscode_integration
 end
 
 # ============================================================================
 # Completions
 # ============================================================================
 
-# Example (commented as in Zsh). For Fish you'd define completions differently:
-# if type -q hcloud
-#     # Define fish completions here if desired
-# end
+# Carapace for multi-command completions
+if status is-interactive; and type -q carapace
+    set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
+    carapace _carapace fish | source
+end
 
 # ============================================================================
 # Abbreviations (expand inline for better history/composability)
@@ -134,12 +131,29 @@ if status is-interactive
     abbr --add rb 'git fetch -va && git rebase origin/main'
     abbr --add cx cd
     abbr --add pef 'ps -ef'
+    # eza for better ls
+    abbr --add ls eza
+    abbr --add ll 'eza -la'
+    abbr --add l 'eza -la'
 end
 
-# Keep as aliases (these benefit from being actual commands)
-alias ls eza
-alias ll 'eza -la'
-alias l 'eza -la'
+# ============================================================================
+# Additional Tools
+# ============================================================================
+
+# opencode
+fish_add_path $HOME/.opencode/bin
+
+# gpg
+set -gx GPG_TTY (tty)
+
+# fnm (Fast Node Manager) - only init on login shells for speed
+if type -q fnm; and status is-login
+    fnm env --use-on-cd | source
+end
+
+# Final PATH addition (highest precedence)
+fish_add_path --move $HOME/.local/bin
 
 # ============================================================================
 # Machine-specific configurations (keep this last)
@@ -152,18 +166,3 @@ end
 if test -f "$HOME/.fish.local"
     source "$HOME/.fish.local"
 end
-
-# opencode
-fish_add_path $HOME/.opencode/bin
-
-# gpg
-set -gx GPG_TTY (tty)
-
-# fnm (Fast Node Manager) - only init on login shells for speed
-set -gx FNM_PATH /opt/homebrew/opt/fnm/bin
-if test -d "$FNM_PATH"; and status is-login
-    fnm env --use-on-cd | source
-end
-
-# Final PATH addition (highest precedence)
-fish_add_path --move $HOME/.local/bin

@@ -7,7 +7,7 @@ DOTFILES_DIR := $(shell pwd)
 ALL_DIRS := $(shell find . -maxdepth 1 -type d ! -name '.*' ! -name 'zsh' ! -name 'claude' ! -name 'nushell' -exec basename {} \;)
 
 # Special cases that don't go to ~/.config/
-SPECIAL_CASES := claude zsh nushell git
+SPECIAL_CASES := claude zsh nushell git fish
 
 # Directories that should be linked to ~/.config/
 CONFIG_DIRS := $(filter-out $(SPECIAL_CASES), $(ALL_DIRS))
@@ -61,6 +61,21 @@ install-special:
 		ln -sfn $(DOTFILES_DIR)/claude ~/.claude; \
 		echo "✓ Linked claude to ~/.claude"; \
 	fi
+	@if [ -d "fish" ]; then \
+		echo "Setting up fish..."; \
+		mkdir -p "$$HOME/.config"; \
+		ln -sfn $(DOTFILES_DIR)/fish "$$HOME/.config/fish"; \
+		echo "✓ Linked fish to $$HOME/.config/fish"; \
+		mkdir -p "$$HOME/.local/bin"; \
+		echo '#!/bin/sh' > "$$HOME/.local/bin/fish.sh"; \
+		if [ "$$(uname)" = "Darwin" ]; then \
+			echo 'exec /opt/homebrew/bin/fish "$$@"' >> "$$HOME/.local/bin/fish.sh"; \
+		else \
+			echo 'exec /home/linuxbrew/.linuxbrew/bin/fish "$$@"' >> "$$HOME/.local/bin/fish.sh"; \
+		fi; \
+		chmod +x "$$HOME/.local/bin/fish.sh"; \
+		echo "✓ Created $$HOME/.local/bin/fish.sh"; \
+	fi
 
 # Individual target for any directory (works for both config and special cases)
 .PHONY: $(ALL_DIRS) $(SPECIAL_CASES)
@@ -104,6 +119,21 @@ nushell:
 		echo "✓ Linked nushell to $$SUPPORT_DIR/nushell"; \
 	fi
 
+fish:
+	@echo "Setting up fish..."
+	@mkdir -p "$$HOME/.config"
+	@ln -sfn $(DOTFILES_DIR)/fish "$$HOME/.config/fish"
+	@echo "✓ Linked fish to $$HOME/.config/fish"
+	@mkdir -p "$$HOME/.local/bin"
+	@echo '#!/bin/sh' > "$$HOME/.local/bin/fish.sh"
+	@echo 'if [ "$$(uname)" = "Darwin" ]; then' >> "$$HOME/.local/bin/fish.sh"
+	@echo '    exec /opt/homebrew/bin/fish "$$@"' >> "$$HOME/.local/bin/fish.sh"
+	@echo 'else' >> "$$HOME/.local/bin/fish.sh"
+	@echo '    exec /home/linuxbrew/.linuxbrew/bin/fish "$$@"' >> "$$HOME/.local/bin/fish.sh"
+	@echo 'fi' >> "$$HOME/.local/bin/fish.sh"
+	@chmod +x "$$HOME/.local/bin/fish.sh"
+	@echo "✓ Created $$HOME/.local/bin/fish.sh"
+
 # Uninstall all symlinks
 .PHONY: uninstall
 uninstall:
@@ -136,6 +166,14 @@ uninstall:
 	@if [ -L ~/.claude ]; then \
 		rm ~/.claude; \
 		echo "✓ Removed ~/.claude"; \
+	fi
+	@if [ -L "$$HOME/.config/fish" ]; then \
+		rm "$$HOME/.config/fish"; \
+		echo "✓ Removed $$HOME/.config/fish"; \
+	fi
+	@if [ -e "$$HOME/.local/bin/fish.sh" ]; then \
+		rm "$$HOME/.local/bin/fish.sh"; \
+		echo "✓ Removed $$HOME/.local/bin/fish.sh"; \
 	fi
 
 # Check status of symlinks
@@ -187,6 +225,18 @@ status:
 			fi; \
 		fi; \
 	fi
+	@if [ -d "fish" ]; then \
+		if [ -L $$HOME/.config/fish ]; then \
+			echo "✓ fish is linked to $$(readlink $$HOME/.config/fish)"; \
+		else \
+			echo "✗ fish is not linked"; \
+		fi; \
+		if [ -x $$HOME/.local/bin/fish.sh ]; then \
+			echo "✓ fish.sh exists and is executable"; \
+		else \
+			echo "✗ fish.sh is missing or not executable"; \
+		fi; \
+	fi
 
 # Help target
 .PHONY: help
@@ -206,6 +256,7 @@ help:
 	@echo "  zsh (links to ~/.zshrc)"
 	@echo "  claude (links to ~/.claude)"
 	@echo "  nushell (links config, builds nu shim, macOS support link)"
+	@echo "  fish (links config, creates ~/.local/bin/fish.sh wrapper)"
 
 # Clean target (just an alias for uninstall)
 .PHONY: clean
