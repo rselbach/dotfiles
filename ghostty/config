@@ -17,5 +17,3 @@ mouse-hide-while-typing = true
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 split-divider-color = orange
-command = /opt/homebrew/bin/fish
-# -l -i -c nu

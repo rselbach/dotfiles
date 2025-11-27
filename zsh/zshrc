@@ -36,6 +36,9 @@ PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"
 PATH="/Applications/VMware Fusion.app/Contents/Library:$PATH"
 export PATH
 
+autoload -Uz compinit
+compinit
+
 # ============================================================================
 # Shell Options
 # ============================================================================
@@ -141,6 +144,9 @@ alias tx='tmux attach || tmux new'
 alias rebase="git fetch -va && git rebase origin/main"
 alias rb="git fetch -va && git rebase origin/main"
 alias ls='eza'
+alias ll='ls -la'
+alias l='ls -la'
+alias pef='ps -ef'
 
 # ============================================================================
 # Functions
@@ -187,3 +193,8 @@ if [ -d "$FNM_PATH" ]; then
 fi
 export PATH="$HOME/.local/bin:$PATH"
 
+eval "$(atuin init zsh)"
+
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
