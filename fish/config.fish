@@ -131,6 +131,8 @@ if status is-interactive
     abbr --add rb 'git fetch -va && git rebase origin/main'
     abbr --add cx cd
     abbr --add pef 'ps -ef'
+    abbr --add vi nvim
+    abbr --add vim nvim
     # eza for better ls
     abbr --add ls eza
     abbr --add ll 'eza -la'
