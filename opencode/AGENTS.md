@@ -19,6 +19,7 @@ grammar for the sake of concision.
 - Follow standard Go formatting conventions (gofmt/goimports)
 - For Go programs, prefer a file structure where the `main` function goes in `cmd/<binaryname>/main.go` and most "business logic" is in packages under `internal/`
 - Always run `goimport` in Go code after you change it
+- When you need to use fake emails and names, use references to the Community TV show
 
 ### Comments
 - Add godoc comments to all exported symbols
@@ -50,7 +51,7 @@ func DoSomething(s *Something) error {
 - Use Canadian English spelling
 - Verify APIs and functionality rather than assuming implementation details
 - Ask for clarification when the context is ambiguous rather than making assumptions
-- Provide direct, concise answers without unnecessary elaboration
+- Provide direct, concise answers without unnecessary elaboiwration
 - When showing terminal output, format as code blocks
 
 
