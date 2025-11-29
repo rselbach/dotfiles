@@ -5,6 +5,7 @@
 # Basic environment settings
 set -gx LANG en_US.UTF-8
 set -gx EDITOR nvim
+set -gx VISUAL $EDITOR
 set -gx DEFAULT_USER rselbach
 set -gx XDG_CONFIG_HOME "$HOME/.config"
 set -gx EZA_CONFIG_DIR "$XDG_CONFIG_HOME/eza"
@@ -44,15 +45,27 @@ end
 
 # Atuin for history sync (replaces default Ctrl-R)
 if status is-interactive; and type -q atuin
-    atuin init fish | source
+    set -l cache "$HOME/.cache/fish/atuin.fish"
+    if not test -f $cache
+        mkdir -p (dirname $cache)
+        atuin init fish > $cache
+    end
+    source $cache
 end
 
 # ============================================================================
 # Tool Initialization
 # ============================================================================
 
-# Starship prompt
-type -q starship; and starship init fish | source
+# Starship prompt (cached for speed)
+if type -q starship
+    set -l cache "$HOME/.cache/fish/starship.fish"
+    if not test -f $cache; or test -f $STARSHIP_CONFIG -a (path mtime $STARSHIP_CONFIG) -gt (path mtime $cache)
+        mkdir -p (dirname $cache)
+        starship init fish > $cache
+    end
+    source $cache
+end
 
 # SSH agent (fixed socket)
 set -gx SSH_AUTH_SOCK_FILE "$HOME/.ssh/ssh-agent.sock"
@@ -80,12 +93,51 @@ if not test -S "$SSH_AUTH_SOCK_FILE"
     end
 end
 
-# Zoxide (z command replacement)
-type -q zoxide; and zoxide init fish | source
+# auto-add default SSH key if not loaded
+if test -S "$SSH_AUTH_SOCK"
+    if not ssh-add -l 2>/dev/null | string match -q '*id_ed25519*' '*id_rsa*'
+        for key in ~/.ssh/id_ed25519 ~/.ssh/id_rsa
+            test -f $key; and ssh-add $key 2>/dev/null; and break
+        end
+    end
+end
 
-# Python environment (pyenv) - only init on login shells for speed
-if type -q pyenv; and status is-login
-    pyenv init - | source
+# Zoxide (z command replacement, cached)
+if type -q zoxide
+    set -l cache "$HOME/.cache/fish/zoxide.fish"
+    if not test -f $cache
+        mkdir -p (dirname $cache)
+        zoxide init fish > $cache
+    end
+    source $cache
+end
+
+# Python environment (pyenv) - lazy loaded on first python/pip call
+if type -q pyenv; and not functions -q __pyenv_initialized
+    function python --wraps python
+        pyenv init - | source
+        function __pyenv_initialized; end
+        functions -e python pip python3 pip3
+        command python $argv
+    end
+    function python3 --wraps python3
+        pyenv init - | source
+        function __pyenv_initialized; end
+        functions -e python pip python3 pip3
+        command python3 $argv
+    end
+    function pip --wraps pip
+        pyenv init - | source
+        function __pyenv_initialized; end
+        functions -e python pip python3 pip3
+        command pip $argv
+    end
+    function pip3 --wraps pip3
+        pyenv init - | source
+        function __pyenv_initialized; end
+        functions -e python pip python3 pip3
+        command pip3 $argv
+    end
 end
 
 # Go private modules
@@ -115,10 +167,15 @@ end
 # Completions
 # ============================================================================
 
-# Carapace for multi-command completions
+# Carapace for multi-command completions (cached)
 if status is-interactive; and type -q carapace
     set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
-    carapace _carapace fish | source
+    set -l cache "$HOME/.cache/fish/carapace.fish"
+    if not test -f $cache
+        mkdir -p (dirname $cache)
+        carapace _carapace fish > $cache
+    end
+    source $cache
 end
 
 # ============================================================================
@@ -128,8 +185,6 @@ end
 if status is-interactive
     abbr --add tx 'tmux attach; or tmux new'
     abbr --add rebase 'git fetch -va && git rebase origin/main'
-    abbr --add rb 'git fetch -va && git rebase origin/main'
-    abbr --add cx cd
     abbr --add pef 'ps -ef'
     abbr --add vi nvim
     abbr --add vim nvim
@@ -137,6 +192,14 @@ if status is-interactive
     abbr --add ls eza
     abbr --add ll 'eza -la'
     abbr --add l 'eza -la'
+    # git shortcuts
+    abbr --add gs 'git status'
+    abbr --add gd 'git diff'
+    abbr --add gp 'git push'
+    abbr --add gl 'git log --oneline -20'
+    abbr --add gc 'git commit'
+    abbr --add ga 'git add'
+    abbr --add gaa 'git add -A'
 end
 
 # ============================================================================
@@ -149,9 +212,26 @@ fish_add_path $HOME/.opencode/bin
 # gpg
 set -gx GPG_TTY (tty)
 
-# fnm (Fast Node Manager) - only init on login shells for speed
-if type -q fnm; and status is-login
-    fnm env --use-on-cd | source
+# fnm (Fast Node Manager) - lazy loaded on first node/npm/npx call
+if type -q fnm; and not functions -q __fnm_initialized
+    function node --wraps node
+        fnm env --use-on-cd | source
+        function __fnm_initialized; end
+        functions -e node npm npx
+        command node $argv
+    end
+    function npm --wraps npm
+        fnm env --use-on-cd | source
+        function __fnm_initialized; end
+        functions -e node npm npx
+        command npm $argv
+    end
+    function npx --wraps npx
+        fnm env --use-on-cd | source
+        function __fnm_initialized; end
+        functions -e node npm npx
+        command npx $argv
+    end
 end
 
 # Final PATH addition (highest precedence)
