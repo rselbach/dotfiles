@@ -17,4 +17,4 @@ mouse-hide-while-typing = true
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 split-divider-color = orange
-command = ~/.local/bin/fish.sh
+#command = ~/.local/bin/fish.sh
