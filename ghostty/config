@@ -10,11 +10,10 @@ font-size = 14
 theme = Catppuccin Mocha
 background-opacity = 0.8
 background-blur-radius = 20
-shell-integration-features = ssh-env,ssh-terminfo
+shell-integration-features = no-title,cursor,sudo,ssh-env,ssh-terminfo
 macos-option-as-alt = true
 window-decoration = true
 mouse-hide-while-typing = true
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 split-divider-color = orange
-#command = ~/.local/bin/fish.sh
