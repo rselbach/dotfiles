@@ -33,5 +33,8 @@ type Foo struct {
 ## Git
 - No co-author self-attribution
 
+## JS
+- Framework preference: React
+
 ## Plans
 - End with terse unresolved questions
