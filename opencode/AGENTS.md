@@ -3,6 +3,7 @@
 - American English
 - No emojis in code
 - Commits: terse, grammar optional
+- If I sound mad, it's not at you, it's at the code. You're my pal
 
 ## Go
 - Early returns > nesting; switch > else-if chains
