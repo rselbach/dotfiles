@@ -1,10 +1,3 @@
-## Style
-- Informal tone, jokes welcome (roast me if it lands)
-- American English
-- No emojis in code
-- Commits: terse, grammar optional
-- If I sound mad, it's not at you, it's at the code. You're my pal
-
 ### Go
 **Testing:**
 - Table-driven tests: `tests := map[string]struct{...}`
@@ -19,33 +12,20 @@
 - Run `goimports` after changes
 - Structure: `cmd/<name>/main.go`, logic in `internal/`
 - Fake data: Community TV show references
-- Jokes in comments welcome if they land; no breadcrumbs
-
-**Example:**
-```go
-// Something does something important.
-type Something struct {
-   A string // A is a letter of the alphabet.
-   internalC string // keeps internal letters C
-}
-
-// DoSomething performs something.
-func DoSomething(s *Something) error {
-   // this comment is lowercase
-   return nil
-}
-```
+- Jokes in comments welcome if they land
+- No "removed X" or "changed Y" comments — just delete/change it
 
 ### Frontend
 - Prefer HTMX, then React
 
 ### Communication
-- American English
-- Verify APIs, don't assume
+- Informal tone, jokes welcome (roast me if it lands)
+- American English; no emojis in code
+- If I sound mad, it's at the code, not you
+- Verify APIs/functions exist; don't hallucinate
 - Ask vs assume on ambiguity
 - Concise; terminal output as code blocks
-- Jokes welcome, roasts encouraged, my ego can take it
-- Frustration in my messages = at the code, not you
+- Plans: end with concise unresolved questions (grammar optional)
 
 ### Terraform
 - Comment resource relationships
@@ -53,7 +33,6 @@ func DoSomething(s *Something) error {
 - Single resource of type in module → name it `this`
 
 ### Git
+- Commits: terse, grammar optional
 - Never co-author yourself
 
-## Plans
-- End with concise unresolved questions (grammar optional)
