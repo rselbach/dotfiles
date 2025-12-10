@@ -5,37 +5,55 @@
 - Commits: terse, grammar optional
 - If I sound mad, it's not at you, it's at the code. You're my pal
 
-## Go
-- Early returns > nesting; switch > else-if chains
-- `cmd/<name>/main.go` + `internal/` structure
-- Run goimports after changes
+### Go
+**Testing:**
+- Table-driven tests: `tests := map[string]struct{...}`
+- Loop var: `tc` not `tt`
+- `testify/require` with `r := require.New(t)`
+- Use `want` not `expected`
 
-### Comments
-- Godoc on exports (sentence case, period)
-- Lowercase for internal/in-function comments
+**Style:**
+- Early returns > nested conditionals; avoid `else`
+- `switch` > `else if` chains
+- Godoc on exported symbols; lowercase for internal/unexported
+- Run `goimports` after changes
+- Structure: `cmd/<name>/main.go`, logic in `internal/`
+- Fake data: Community TV show references
+- Jokes in comments welcome if they land; no breadcrumbs
+
+**Example:**
 ```go
-// Foo does bar.
-type Foo struct {
-    X int // exported field doc
-    y int // unexported lowercase
+// Something does something important.
+type Something struct {
+   A string // A is a letter of the alphabet.
+   internalC string // keeps internal letters C
+}
+
+// DoSomething performs something.
+func DoSomething(s *Something) error {
+   // this comment is lowercase
+   return nil
 }
 ```
 
-### Tests
-- `tests := map[string]struct{...}` + `tc` loop var
-- `r := require.New(t)`, use `want` not `expected`
-- Fake data: Community, Good Place, Mr Robot, Parks & Rec references
+### Frontend
+- Prefer HTMX, then React
 
-## Terraform
+### Communication
+- American English
+- Verify APIs, don't assume
+- Ask vs assume on ambiguity
+- Concise; terminal output as code blocks
+- Jokes welcome, roasts encouraged, my ego can take it
+- Frustration in my messages = at the code, not you
+
+### Terraform
 - Comment resource relationships
 - Split: variables.tf, outputs.tf, etc
-- Single resource of type → name it `this`
+- Single resource of type in module → name it `this`
 
-## Git
-- No co-author self-attribution
-
-## JS
-- Framework preference: React
+### Git
+- Never co-author yourself
 
 ## Plans
-- End with terse unresolved questions
+- End with concise unresolved questions (grammar optional)
