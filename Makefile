@@ -7,7 +7,7 @@ DOTFILES_DIR := $(shell pwd)
 ALL_DIRS := $(shell find . -maxdepth 1 -type d ! -name '.*' ! -name 'zsh' ! -name 'claude' ! -name 'nushell' -exec basename {} \;)
 
 # Special cases that don't go to ~/.config/
-SPECIAL_CASES := claude zsh nushell git fish
+SPECIAL_CASES := claude zsh nushell git fish gnupg jj scripts
 
 # Directories that should be linked to ~/.config/
 CONFIG_DIRS := $(filter-out $(SPECIAL_CASES), $(ALL_DIRS))
@@ -60,6 +60,33 @@ install-special:
 		echo "Creating symlink for .claude..."; \
 		ln -sfn $(DOTFILES_DIR)/claude ~/.claude; \
 		echo "✓ Linked claude to ~/.claude"; \
+	fi
+	@if [ -d "gnupg" ]; then \
+		echo "Setting up gnupg..."; \
+		mkdir -p "$$HOME/.gnupg"; \
+		chmod 700 "$$HOME/.gnupg"; \
+		ln -sfn $(DOTFILES_DIR)/gnupg/gpg.conf "$$HOME/.gnupg/gpg.conf"; \
+		ln -sfn $(DOTFILES_DIR)/gnupg/gpg-agent.conf "$$HOME/.gnupg/gpg-agent.conf"; \
+		if [ -f "$(DOTFILES_DIR)/gnupg/scdaemon.conf" ]; then \
+			ln -sfn $(DOTFILES_DIR)/gnupg/scdaemon.conf "$$HOME/.gnupg/scdaemon.conf"; \
+		fi; \
+		echo "✓ Linked gnupg configs to ~/.gnupg/"; \
+	fi
+	@if [ -d "jj" ]; then \
+		echo "Setting up jujutsu..."; \
+		mkdir -p "$$HOME/.config/jj/conf.d"; \
+		ln -sfn $(DOTFILES_DIR)/jj/config.toml "$$HOME/.config/jj/config.toml"; \
+		if [ -d "$(DOTFILES_DIR)/jj/conf.d" ]; then \
+			for f in $(DOTFILES_DIR)/jj/conf.d/*; do \
+				ln -sfn "$$f" "$$HOME/.config/jj/conf.d/$$(basename $$f)"; \
+			done; \
+		fi; \
+		echo "✓ Linked jj configs to ~/.config/jj/"; \
+	fi
+	@if [ -d "git" ]; then \
+		echo "Setting up git..."; \
+		for i in $(DOTFILES_DIR)/git/*; do ln -sfn "$$i" "$$HOME/.$${i##*/}"; done; \
+		echo "✓ Linked git/* to ~/"; \
 	fi
 	@if [ -d "fish" ]; then \
 		echo "Setting up fish..."; \
@@ -133,6 +160,41 @@ fish:
 	@echo 'fi' >> "$$HOME/.local/bin/fish.sh"
 	@chmod +x "$$HOME/.local/bin/fish.sh"
 	@echo "✓ Created $$HOME/.local/bin/fish.sh"
+
+gnupg:
+	@echo "Setting up gnupg..."
+	@mkdir -p "$$HOME/.gnupg"
+	@chmod 700 "$$HOME/.gnupg"
+	@ln -sfn $(DOTFILES_DIR)/gnupg/gpg.conf "$$HOME/.gnupg/gpg.conf"
+	@ln -sfn $(DOTFILES_DIR)/gnupg/gpg-agent.conf "$$HOME/.gnupg/gpg-agent.conf"
+	@if [ -f "$(DOTFILES_DIR)/gnupg/scdaemon.conf" ]; then \
+		ln -sfn $(DOTFILES_DIR)/gnupg/scdaemon.conf "$$HOME/.gnupg/scdaemon.conf"; \
+	fi
+	@echo "✓ Linked gnupg configs to ~/.gnupg/"
+
+jj:
+	@echo "Setting up jujutsu..."
+	@mkdir -p "$$HOME/.config/jj/conf.d"
+	@ln -sfn $(DOTFILES_DIR)/jj/config.toml "$$HOME/.config/jj/config.toml"
+	@if [ -d "$(DOTFILES_DIR)/jj/conf.d" ]; then \
+		for f in $(DOTFILES_DIR)/jj/conf.d/*; do \
+			ln -sfn "$$f" "$$HOME/.config/jj/conf.d/$$(basename $$f)"; \
+		done; \
+	fi
+	@echo "✓ Linked jj configs to ~/.config/jj/"
+
+macos:
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		echo "Running macOS defaults script..."; \
+		$(DOTFILES_DIR)/scripts/macos-defaults.sh; \
+	else \
+		echo "Skipping macOS defaults (not on macOS)"; \
+	fi
+
+brew:
+	@echo "Installing Homebrew packages..."
+	@brew bundle --file=$(DOTFILES_DIR)/Brewfile
+	@echo "✓ Homebrew packages installed"
 
 # Uninstall all symlinks
 .PHONY: uninstall
@@ -247,6 +309,8 @@ help:
 	@echo "  make install   - Create all symlinks (default)"
 	@echo "  make uninstall - Remove all symlinks"
 	@echo "  make status    - Check status of all symlinks"
+	@echo "  make brew      - Install Homebrew packages from Brewfile"
+	@echo "  make macos     - Apply macOS system defaults"
 	@echo "  make <tool>    - Install specific tool (e.g., make nvim)"
 	@echo ""
 	@echo "Auto-detected tools:"
@@ -254,6 +318,9 @@ help:
 	@echo ""
 	@echo "Special cases:"
 	@echo "  zsh (links to ~/.zshrc)"
+	@echo "  git (links git/* to ~/.*)"
+	@echo "  gnupg (links to ~/.gnupg/)"
+	@echo "  jj (links to ~/.config/jj/)"
 	@echo "  claude (links to ~/.claude)"
 	@echo "  nushell (links config, builds nu shim, macOS support link)"
 	@echo "  fish (links config, creates ~/.local/bin/fish.sh wrapper)"

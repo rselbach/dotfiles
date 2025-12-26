@@ -158,6 +158,11 @@ coverhtml() {
   open /tmp/coverage.html
 }
 
+get-github-token() {
+  export GITHUB_TOKEN=$(op item --account my.1password.ca get "Github Token" --field credential --reveal)
+  export HOMEBREW_GITHUB_API_TOKEN=$GITHUB_TOKEN
+}
+
 # ============================================================================
 # Machine-specific configurations (keep this last)
 # ============================================================================

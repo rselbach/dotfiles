@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "plugins": {
+    "gopls-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/gopls-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2025-12-29T19:56:08.601Z",
+        "lastUpdated": "2025-12-29T19:56:08.601Z",
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
+        "isLocal": true
+      }
+    ],
+    "swift-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/swift-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-01-02T12:19:45.225Z",
+        "lastUpdated": "2026-01-02T12:19:45.225Z",
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
+        "isLocal": true
+      }
+    ],
+    "ralph-wiggum@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/ralph-wiggum/6d3752c000e2",
+        "version": "6d3752c000e2",
+        "installedAt": "2026-01-02T21:51:13.414Z",
+        "lastUpdated": "2026-01-02T21:53:17.362Z",
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
+        "isLocal": true
+      }
+    ],
+    "pr-review-toolkit@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/6d3752c000e2",
+        "version": "6d3752c000e2",
+        "installedAt": "2026-01-02T21:52:18.157Z",
+        "lastUpdated": "2026-01-02T21:53:17.361Z",
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
+        "isLocal": true
+      }
+    ]
+  }
+}
