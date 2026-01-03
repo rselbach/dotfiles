@@ -92,10 +92,18 @@ eval "$(starship init zsh)"
 SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh-agent.sock"
 export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
 
-# Start agent if not responding
-if ! ssh-add -l &>/dev/null; then
+# Start agent if not responding (exit code 2 = can't connect)
+ssh-add -l &>/dev/null
+if [[ $? -eq 2 ]]; then
   rm -f "$SSH_AUTH_SOCK_FILE"
   eval $(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE") >/dev/null
+fi
+
+# Add key if not loaded
+if ! ssh-add -l 2>/dev/null | grep -q 'id_ed25519\|id_rsa'; then
+  for key in ~/.ssh/id_ed25519 ~/.ssh/id_rsa; do
+    [[ -f "$key" ]] && ssh-add "$key" 2>/dev/null && break
+  done
 fi
 
 # Zoxide (z command replacement)
