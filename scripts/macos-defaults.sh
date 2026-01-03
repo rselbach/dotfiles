@@ -149,9 +149,23 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true
 # ============================================================================
 
 SUDO_LOCAL="/etc/pam.d/sudo_local"
+SUDO_LOCAL_TEMPLATE="/etc/pam.d/sudo_local.template"
+
+# Remove dangling symlink if present (e.g., leftover from nix-darwin)
+if [ -L "$SUDO_LOCAL" ] && [ ! -e "$SUDO_LOCAL" ]; then
+    echo "Removing dangling sudo_local symlink..."
+    sudo rm "$SUDO_LOCAL"
+fi
+
 if [ ! -f "$SUDO_LOCAL" ] || ! grep -q "pam_tid.so" "$SUDO_LOCAL"; then
     echo "Enabling TouchID for sudo..."
-    echo "auth       sufficient     pam_tid.so" | sudo tee "$SUDO_LOCAL" > /dev/null
+    if [ -f "$SUDO_LOCAL_TEMPLATE" ]; then
+        # Copy template and enable TouchID
+        sudo cp "$SUDO_LOCAL_TEMPLATE" "$SUDO_LOCAL"
+        sudo sed -i '' 's/^#auth/auth/' "$SUDO_LOCAL"
+    else
+        echo "auth       sufficient     pam_tid.so" | sudo tee "$SUDO_LOCAL" > /dev/null
+    fi
 fi
 
 # ============================================================================
