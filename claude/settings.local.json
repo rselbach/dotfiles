@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I)",
+      "Bash(networksetup -getairportnetwork:*)",
+      "Bash(ping:*)",
+      "Bash(networksetup -listallhardwareports:*)",
+      "Bash(system_profiler:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}

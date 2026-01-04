@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastComputedDate": "2026-01-03",
+  "lastComputedDate": "2026-01-04",
   "dailyActivity": [
     {
       "date": "2025-11-27",
@@ -43,6 +43,12 @@
       "messageCount": 568,
       "sessionCount": 4,
       "toolCallCount": 163
+    },
+    {
+      "date": "2026-01-04",
+      "messageCount": 312,
+      "sessionCount": 5,
+      "toolCallCount": 96
     }
   ],
   "dailyModelTokens": [
@@ -87,21 +93,27 @@
       "tokensByModel": {
         "claude-opus-4-5-20251101": 67935
       }
+    },
+    {
+      "date": "2026-01-04",
+      "tokensByModel": {
+        "claude-opus-4-5-20251101": 28602
+      }
     }
   ],
   "modelUsage": {
     "claude-opus-4-5-20251101": {
-      "inputTokens": 42308,
-      "outputTokens": 219989,
-      "cacheReadInputTokens": 100572070,
-      "cacheCreationInputTokens": 8102827,
+      "inputTokens": 52713,
+      "outputTokens": 238186,
+      "cacheReadInputTokens": 107305126,
+      "cacheCreationInputTokens": 9088480,
       "webSearchRequests": 0,
       "costUSD": 0,
       "contextWindow": 0
     }
   },
-  "totalSessions": 23,
-  "totalMessages": 2477,
+  "totalSessions": 28,
+  "totalMessages": 2789,
   "longestSession": {
     "sessionId": "524817a7-1943-45a5-9f90-1b425ad3c392",
     "duration": 7538291,
@@ -112,8 +124,9 @@
   "hourCounts": {
     "6": 1,
     "7": 2,
-    "8": 1,
-    "9": 6,
+    "8": 3,
+    "9": 8,
+    "10": 1,
     "11": 1,
     "12": 1,
     "13": 1,
