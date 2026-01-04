@@ -155,6 +155,7 @@ alias ls='eza'
 alias ll='ls -la'
 alias l='ls -la'
 alias pef='ps -ef'
+alias vim='nvim'
 
 # ============================================================================
 # Functions
