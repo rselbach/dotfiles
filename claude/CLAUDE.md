@@ -141,21 +141,45 @@ Before finishing a task:
 - Use only when you need persistence/interaction (debugger/server).
 - Quick refs: `tmux new -d -s codex-shell`, `tmux attach -t codex-shell`, `tmux list-sessions`, `tmux kill-session -t codex-shell`.
 
-## Version Control (git / jj)
+## Version Control
 
-- Always check if current repo uses `jj` or `git` (look for `.jj` directory). Default to `git` if unclear.
-- Branch names: prepend with `rselbach/`
-- Safe by default: `status/diff/log`.
-- `git checkout`/`jj edit` ok for PR review / explicit request.
-- Branch changes require user consent.
-- Destructive ops **always forbidden** even if upon request (`reset --hard`, `clean`, `restore`, `rm`, …).
-- Don’t delete/rename unexpected stuff; stop + ask.
-- No repo-wide S/R scripts; keep edits small/reviewable.
-- Avoid manual `git stash`; if Git auto-stashes during pull/rebase, that’s fine (hint, not hard guardrail).
-- If user types a command (“pull and push”), that’s consent for that command.
-- No amend unless asked.
-- Big review: `git --no-pager diff --color=never` or `jj diff --no-pager --color never`.
-- Multi-agent: check `status/diff` before edits; ship small commits.
-- When committing with `jj`, pull nearest bookmark (`jj tug`). If unsure, ask user.
-- For reviews: fetch first, compare to `main`/`main@origin`. Never commit uncommitted changes unless explicitly told to.
-- **Never** add yourself as co-author in commits; never add thread IDs or internal agent data to commits/docs
+### STOP. Which VCS?
+
+**Before your FIRST vcs operation in any repo, detect the VCS:**
+```bash
+[[ -d .jj ]] && echo "JJ" || echo "GIT"
+```
+
+| If... | Then use... | NOT... |
+|-------|-------------|--------|
+| `.jj/` exists | `jj status`, `jj describe`, `jj new`, `jj bookmark`, `jj git push` | any `git` commands |
+| no `.jj/` | `git status`, `git add`, `git commit`, `git push` | `jj` commands |
+
+**Do not mix them.** Git commands in a jj repo cause detached HEAD, duplicate commits, and sadness. You've done this. Don't do it again.
+
+### Common rules (both VCS)
+
+- Branch/bookmark names: prepend with `rselbach/`
+- Safe by default: `status/diff/log`
+- Branch changes require user consent
+- Destructive ops **always forbidden** even upon request (`reset --hard`, `clean`, `restore`, `rm`, …)
+- Don't delete/rename unexpected stuff; stop + ask
+- No repo-wide S/R scripts; keep edits small/reviewable
+- No amend unless asked
+- Multi-agent: check `status/diff` before edits; ship small commits
+- For reviews: fetch first, compare to `main`/`main@origin`. Never commit uncommitted changes unless explicitly told
+- **Never** add yourself as co-author; never add thread IDs or internal agent data to commits/docs
+
+### git-specific
+
+- `git checkout` ok for PR review / explicit request
+- Avoid manual `git stash`; if Git auto-stashes during pull/rebase, that's fine
+- If user types a command ("pull and push"), that's consent for that command
+- Big review: `git --no-pager diff --color=never`
+
+### jj-specific
+
+- `jj edit` ok for PR review / explicit request
+- When committing, pull nearest bookmark (`jj tug`). If unsure, ask user
+- Big review: `jj diff --no-pager --color never`
+- Workflow: `jj describe -m "msg"` → `jj bookmark create rselbach/foo` → `jj git push --bookmark foo`
