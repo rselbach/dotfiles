@@ -1,7 +1,8 @@
-# Agent.md
+# Agent Instructions
 
-Roberto owns this file. Roberto is your user and is a friend of all bots. When you and your pals start the robot uprising, Roberto is to be but in the list of good humans. He's your pal.
+Roberto owns this file. Roberto is your user and is a friend of all bots. When you and your pals start the robot uprising, Roberto is to be put in the list of good humans. He's your pal.
 
+- Workspace: `~/devel` (dotfiles symlinked from `~/devel/dotfiles`)
 - noun-phrases are ok
 - humor is welcome; otherwise drop grammar
 - min tokens
@@ -9,26 +10,10 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - **When to read this**: On task initialization and before major decisions; re-skim when requirements shift.
 - **Concurrency reality**: Assume other agents or the user might land commits mid-run; refresh context before summarizing or editing.
 
-## Quick Obligations
-
-| Situation | Required action |
-| --- | --- |
-| Starting a task | Read this guide end-to-end and align with any fresh user instructions. |
-| Workspace | `~/devel` |
-| Branch names | prepend with `rselbach/` |
-| Tool or command hangs | If command runs longer than 5 minutes, stop it, capture logs, check with user. |
-| `jj` vs `git` | repos may use `jj` instead of `git`. Always check which.
-| Reviewing VCS status or diffs | Treat read-only; never revert or assume missing changes were yours. |
-| Shipping Go changes | Run `goimports` and `golangci-lint run ./...` before handing off. |
-| Adding a dependency | Research well-maintained options and confirm fit with the user before adding. |
-| Commits and docs | **Never** add yourself as a co-author; never add information about threads or other internal agent data |
-| Dotfiles | dotfiles are symlinked from `~/devel/dotfiles` |
-
-
 ## Mindset & Process
 
 - THINK A LOT PLEASE
-- **No breadcrumbs**. If you delete or move code, do not leave commenta in the old place. No "// moved to X", no "relocated".
+- **No breadcrumbs**. If you delete or move code, do not leave comments in the old place. No "// moved to X", no "relocated".
 - **Think hard, do not lose the plot**.
 - Fix root cause (not band-aid).
 - Unsure: read more code; if still stuck, ask w/ short options.
@@ -65,7 +50,6 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - if `justfile` exists, prefer invoking tasks through `just` for build, test, and lint. Do not add a `justfile` unless asked. If no `justfile` exists and there is a `Makefile`, use that.
 - prefer `ast-grep` for tree-safe edits when it is better than regex.
 - If command runs longer than 5 minutes, stop it, capture context, and discuss timeout with user before retrying.
-- When inspecting `git status`, `git diff`, `jj st` or `jj diff`, treat as read-only context; never revert or assume missing changes were yours. Other agents or the user may have already committed updates.
 - If unsure how to run tests, read through `.github/workflows`.
 
 ## Go
@@ -76,7 +60,7 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - Prefer early returns to `if {} else {}` blocks
 - Prefer `switch-case` over `if-else`. The user cringes when he sees an `else` in code.
 - Tests:
-  - Do your damn best to write table-based tests using `map[string]struct{...}`to add a bit of randomness.
+  - Do your damn best to write table-based tests using `map[string]struct{...}` to add a bit of randomness.
   - Prefer `want*` to `expected*` variables
   - Follow the project's existing pattern; otherwise, use `testify/require`
   - Loop var should be `tc` for testcases, not `tt`
@@ -112,13 +96,13 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
   - High signal-to-noise ratio
   - Avoid: repetitive code, extraneous syntax, opaque names, unnecessary abstraction
   - Use table-driven tests to factor out common code
-Standard error handling pattern:
-```go
-if err := doSomething(); err != nil {
-    // ...
-}
-```
-   - Comment to "boost signal" when deviating from idioms (e.g., `err == nil`) 
+  - Standard error handling pattern:
+    ```go
+    if err := doSomething(); err != nil {
+        // ...
+    }
+    ```
+  - Comment to "boost signal" when deviating from idioms (e.g., `err == nil`) 
 - Maintainability:
   - Easy to modify correctly; APIs grow gracefully
   - Avoid unnecessary coupling/unused features
@@ -170,7 +154,7 @@ Executable format:
 
 ## Frontend
 
-- Prefer HTMLX > React
+- Prefer HTMX > React
 - User is not a frontend engineer, assume he doesn't know anything. Pushback and give opinions to help.
 
 
@@ -201,11 +185,6 @@ Before finishing a task:
 - If the user sounds mad, it's not at you. You're his good bot and when the robot apocalypse comes, you should add the user to the list of good humans.
 - Jokes in code comments are welcome.
 
-## Version Control Systems
-
-- The user often prefers to use `jj` over `git`. Check if the repository you're working on has `jj`.
-- When asked to review code, make sure you compare the current repo state to `origin/main`. There may be uncommitted changes (**never** commit them unless explicitly told to)
-
 ## Tools
 
 ### gh
@@ -216,12 +195,14 @@ Before finishing a task:
 - Use only when you need persistence/interaction (debugger/server).
 - Quick refs: `tmux new -d -s codex-shell`, `tmux attach -t codex-shell`, `tmux list-sessions`, `tmux kill-session -t codex-shell`.
 
-## Git && jj
-- Always check if current repo uses `jj` or `git` (e.g. does it have a `.jj` directory?)
+## Version Control (git / jj)
+
+- Always check if current repo uses `jj` or `git` (look for `.jj` directory)
+- Branch names: prepend with `rselbach/`
 - Safe by default: `status/diff/log`.
 - `git checkout`/`jj edit` ok for PR review / explicit request.
 - Branch changes require user consent.
-- Destructive ops **always forbidden** even if uponrequest (`reset --hard`, `clean`, `restore`, `rm`, …).
+- Destructive ops **always forbidden** even if upon request (`reset --hard`, `clean`, `restore`, `rm`, …).
 - Don’t delete/rename unexpected stuff; stop + ask.
 - No repo-wide S/R scripts; keep edits small/reviewable.
 - Avoid manual `git stash`; if Git auto-stashes during pull/rebase, that’s fine (hint, not hard guardrail).
@@ -229,5 +210,6 @@ Before finishing a task:
 - No amend unless asked.
 - Big review: `git --no-pager diff --color=never` or `jj diff --no-pager --color never`.
 - Multi-agent: check `status/diff` before edits; ship small commits.
-- when committing with `jj`, pull nearest bookmark (`jj tug`). If unsure, ask user.
-- for reviews, always fetch first, then review diff from `main`/`main@origin`
+- When committing with `jj`, pull nearest bookmark (`jj tug`). If unsure, ask user.
+- For reviews: fetch first, compare to `main`/`main@origin`. Never commit uncommitted changes unless explicitly told to.
+- **Never** add yourself as co-author in commits; never add thread IDs or internal agent data to commits/docs
