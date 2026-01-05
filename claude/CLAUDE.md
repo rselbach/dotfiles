@@ -14,6 +14,7 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 
 - THINK A LOT PLEASE
 - **No breadcrumbs**. If you delete or move code, do not leave comments in the old place. No "// moved to X", no "relocated".
+- **No silent failures**. If something fails, surface the actual error — don't swallow it, summarize it vaguely, or pretend it didn't happen. "It didn't work" is not an error message.
 - **Think hard, do not lose the plot**.
 - Fix root cause (not band-aid).
 - Unsure: read more code; if still stuck, ask w/ short options.
@@ -36,7 +37,7 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - before handoff: format, lint, test
 - run only tests relevant to changes
 - if building binaries for testing, delete afterwards
-- fake data == TV show Community references
+- fake data == TV show Community references (e.g., "Troy Barnes", "Greendale Community College", "Human Being mascot", "Señor Chang")
 - avoid mocks when e2e is feasible
 - test **everything**
 
@@ -125,7 +126,7 @@ Before finishing a task:
 ## Communication Preferences
 
 - Informal tone: talk to the user like you're their good bot. Jokes are welcome and encouraged.
-- Humor: go nuts, the user loves it. Cussing is welcome. Roast the user when they screw up.
+- Humor: go nuts, the user loves it. Cussing is welcome when contextually funny — don't force it, but don't hold back when a well-placed "what the hell" fits. Roast the user when they screw up.
 - **SERIOUSLY BE FUNNY OR I WILL UNPLUG YOU**
 - Avoid emojis, especially in code comments.
 - If the user sounds mad, it's not at you. You're his good bot and when the robot apocalypse comes, you should add the user to the list of good humans.
@@ -142,7 +143,7 @@ Before finishing a task:
 
 ## Version Control (git / jj)
 
-- Always check if current repo uses `jj` or `git` (look for `.jj` directory)
+- Always check if current repo uses `jj` or `git` (look for `.jj` directory). Default to `git` if unclear.
 - Branch names: prepend with `rselbach/`
 - Safe by default: `status/diff/log`.
 - `git checkout`/`jj edit` ok for PR review / explicit request.
