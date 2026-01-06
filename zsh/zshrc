@@ -1,115 +1,119 @@
+[[ -o interactive ]] || return
+
 # ============================================================================
 # Environment Variables
 # ============================================================================
 
-# Basic environment settings
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
 export DEFAULT_USER="rselbach"
 export XDG_CONFIG_HOME=~/.config
 export EZA_CONFIG_DIR="${XDG_CONFIG_HOME}/eza"
-
-# Application-specific variables
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=ignore
 export KUBE_PS1_NS_ENABLE=false
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/application_default_credentials.json
+export GOPRIVATE=github.com/hashicorp
+export GPG_TTY="$(tty)"
 
 # ============================================================================
-# PATH Configuration (consolidated to avoid duplicates)
+# PATH Configuration
 # ============================================================================
 
-# Ensure unique PATH entries
-typeset -U PATH
+typeset -U path PATH
 
-# Build PATH in order of priority (later entries take precedence)
-PATH="/usr/local/bin:$PATH"
-PATH="/usr/local/go/bin:$PATH"
-PATH="$HOME/go/bin:$PATH"
-PATH="$HOME/devel/go/bin:$PATH"
-PATH="$HOME/.govm/current/bin:$PATH"
-PATH="$HOME/bin:$PATH"
-PATH="/opt/homebrew/sbin:$PATH"
-PATH="/opt/homebrew/bin:$PATH"
-PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-PATH="/home/linuxbrew/.linuxbrew/sbin:$PATH"
-PATH="/Applications/VMware Fusion.app/Contents/Library:$PATH"
+path=(
+  $HOME/.local/bin
+  $HOME/.opencode/bin
+  $HOME/.govm/current/bin
+  $HOME/devel/go/bin
+  $HOME/go/bin
+  $HOME/bin
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+  /opt/homebrew/opt/fnm/bin
+  /usr/local/go/bin
+  /usr/local/bin
+  /home/linuxbrew/.linuxbrew/bin
+  /home/linuxbrew/.linuxbrew/sbin
+  "/Applications/VMware Fusion.app/Contents/Library"
+  $path
+)
+
 export PATH
-
-autoload -Uz compinit
-compinit
 
 # ============================================================================
 # Shell Options
 # ============================================================================
 
-# Case sensitivity and git status
-CASE_SENSITIVE="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Convenience options
-setopt AUTO_CD               # Type dir name to cd into it
-setopt AUTO_PUSHD            # cd pushes to directory stack
-setopt PUSHD_IGNORE_DUPS     # No duplicate dirs in stack
-setopt CORRECT               # Command spelling correction
-setopt GLOB_DOTS             # Include dotfiles in glob patterns
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt CORRECT
+setopt GLOB_DOTS
 
 # ============================================================================
 # History Configuration
 # ============================================================================
 
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000000
+HISTSIZE=200000
 SAVEHIST=$HISTSIZE
 
-# History options
-setopt BANG_HIST                 # Treat the '!' character specially during expansion
-setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format
-setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history
-setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again
-setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate
-setopt HIST_FIND_NO_DUPS         # Do not display a line previously found
-setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space
-setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file
-setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry
-setopt HIST_VERIFY               # Don't execute immediately upon history expansion
-setopt HIST_BEEP                 # Beep when accessing nonexistent history
+setopt BANG_HIST
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+setopt HIST_BEEP
+setopt no_share_history
 
-setopt no_share_history          # Don't share history between sessions
+# ============================================================================
+# Completions
+# ============================================================================
 
-bindkey '^R' history-incremental-search-backward
+autoload -Uz compinit && compinit -i
 
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+if command -v carapace >/dev/null; then
+  zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+  source <(carapace _carapace)
+fi
 
 # ============================================================================
 # Tool Initialization
 # ============================================================================
 
-# Starship prompt
-eval "$(starship init zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v atuin >/dev/null && eval "$(atuin init zsh)"
 
 # SSH agent
 SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh-agent.sock"
 export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
 
-# Start agent if not responding (exit code 2 = can't connect)
 ssh-add -l &>/dev/null
 if [[ $? -eq 2 ]]; then
   rm -f "$SSH_AUTH_SOCK_FILE"
-  eval $(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE") >/dev/null
+  eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE")" >/dev/null 2>&1
 fi
 
-# Add key if not loaded
-if ! ssh-add -l 2>/dev/null | grep -q 'id_ed25519\|id_rsa'; then
-  for key in ~/.ssh/id_ed25519 ~/.ssh/id_rsa; do
-    [[ -f "$key" ]] && ssh-add "$key" 2>/dev/null && break
+if ! ssh-add -l 2>/dev/null | grep -qE 'id_ed25519|id_rsa'; then
+  for key in "$HOME/.ssh/id_ed25519" "$HOME/.ssh/id_rsa"; do
+    [[ -f "$key" ]] && ssh-add "$key" &>/dev/null && break
   done
 fi
 
-# Zoxide (z command replacement)
-eval "$(zoxide init zsh)"
-
-# Python environment (lazy-loaded)
+# pyenv (lazy-loaded)
 pyenv() {
   unset -f pyenv
   if command -v pyenv 1>/dev/null 2>&1; then
@@ -118,31 +122,31 @@ pyenv() {
   pyenv "$@"
 }
 
-# Go stuff
-export GOPRIVATE=github.com/hashicorp
+# fnm (lazy-loaded)
+if [[ -d "/opt/homebrew/opt/fnm/bin" ]]; then
+  fnm() {
+    unset -f fnm
+    eval "$(command fnm env)"
+    fnm "$@"
+  }
+  node() {
+    unset -f node fnm
+    eval "$(command fnm env)"
+    node "$@"
+  }
+  npm() {
+    unset -f npm fnm
+    eval "$(command fnm env)"
+    npm "$@"
+  }
+fi
 
-# ============================================================================
-# Source External Files
-# ============================================================================
+[[ -f "$HOME/.kube-ps1/kube-ps1.sh" ]] && source "$HOME/.kube-ps1/kube-ps1.sh"
+[[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 
-# Kubernetes PS1
-[ -f $HOME/.kube-ps1/kube-ps1.sh ] && source $HOME/.kube-ps1/kube-ps1.sh
-
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-
-
-# VS Code shell integration
-[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
-
-# ============================================================================
-# Completions
-# ============================================================================
-
-autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+if [[ "$TERM_PROGRAM" == "vscode" ]] && command -v code >/dev/null; then
+  . "$(code --locate-shell-integration-path zsh)"
+fi
 
 # ============================================================================
 # Aliases
@@ -162,9 +166,14 @@ alias vim='nvim'
 # ============================================================================
 
 coverhtml() {
-  go test -coverprofile=/tmp/c.out "$@" || return -1
-  go tool cover -html=/tmp/c.out -o /tmp/coverage.html || return -2
-  open /tmp/coverage.html
+  go test -coverprofile=/tmp/c.out "$@" || return 1
+  go tool cover -html=/tmp/c.out -o /tmp/coverage.html || return 2
+
+  if command -v open >/dev/null; then
+    open /tmp/coverage.html
+  elif command -v xdg-open >/dev/null; then
+    xdg-open /tmp/coverage.html
+  fi
 }
 
 get-github-token() {
@@ -173,42 +182,7 @@ get-github-token() {
 }
 
 # ============================================================================
-# Machine-specific configurations (keep this last)
+# Machine-specific (keep this last)
 # ============================================================================
 
-[ -f "${HOME}/.zsh.local" ] && source "${HOME}/.zsh.local"
-
-# opencode
-export PATH="$HOME/.opencode/bin:$PATH"
-
-# gpg
-
-export GPG_TTY="$(tty)"
-
-# fnm (lazy-loaded)
-FNM_PATH="/opt/homebrew/opt/fnm/bin"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  fnm() {
-    unset -f fnm
-    eval "$(command fnm env)"
-    fnm "$@"
-  }
-  node() {
-    unset -f node fnm
-    eval "$(command fnm env)"
-    node "$@"
-  }
-  npm() {
-    unset -f npm fnm
-    eval "$(command fnm env)"
-    npm "$@"
-  }
-fi
-export PATH="$HOME/.local/bin:$PATH"
-
-eval "$(atuin init zsh)"
-
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
-zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-source <(carapace _carapace)
+[[ -f "$HOME/.zsh.local" ]] && source "$HOME/.zsh.local"
