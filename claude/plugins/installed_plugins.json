@@ -26,10 +26,10 @@
     "ralph-wiggum@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/ralph-wiggum/dbc4a7733cd4",
-        "version": "dbc4a7733cd4",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/ralph-wiggum/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2026-01-02T21:51:13.414Z",
-        "lastUpdated": "2026-01-06T15:38:30.935Z",
+        "lastUpdated": "2026-01-06T20:02:26.911Z",
         "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
         "isLocal": true
       }
@@ -37,10 +37,10 @@
     "pr-review-toolkit@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/dbc4a7733cd4",
-        "version": "dbc4a7733cd4",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/883f2ba69e50",
+        "version": "883f2ba69e50",
         "installedAt": "2026-01-02T21:52:18.157Z",
-        "lastUpdated": "2026-01-06T15:38:30.937Z",
+        "lastUpdated": "2026-01-06T20:02:26.912Z",
         "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
         "isLocal": true
       }
