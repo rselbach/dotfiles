@@ -1,347 +1,193 @@
-# Justfile for dotfiles symlink management
+# Dotfiles symlink manager
 
-# Get the directory where this justfile is located
-dotfiles_dir := justfile_directory()
+dotfiles := justfile_directory()
 
-# Special cases that don't go to ~/.config/
-special_cases := "claude zsh nushell git fish gnupg jj scripts"
+# Directories with special install logic (not just ~/.config symlinks)
+special := "claude zsh nushell git fish gnupg jj scripts"
 
 # Auto-detect config directories (excluding dot dirs and special cases)
-config_dirs := `find . -maxdepth 1 -type d ! -name '.*' ! -name 'zsh' ! -name 'claude' ! -name 'nushell' ! -name 'git' ! -name 'fish' ! -name 'gnupg' ! -name 'jj' ! -name 'scripts' -exec basename {} \; | tr '\n' ' '`
+config_dirs := `find . -maxdepth 1 -type d ! -name '.*' \
+    ! -name 'claude' ! -name 'zsh' ! -name 'nushell' \
+    ! -name 'git' ! -name 'fish' ! -name 'gnupg' \
+    ! -name 'jj' ! -name 'scripts' \
+    -exec basename {} \; | sort | tr '\n' ' '`
 
-# Default recipe - show help
 default:
     @just --list
 
 # Install all symlinks
 install: install-config install-special
 
-# Install config directories
+# Install config directories to ~/.config/
 install-config:
     #!/usr/bin/env bash
     set -euo pipefail
     mkdir -p ~/.config
     for dir in {{config_dirs}}; do
-        echo "Creating symlink for $dir..."
-        ln -sfn "{{dotfiles_dir}}/$dir" "$HOME/.config/$dir"
-        echo "✓ Linked $dir to ~/.config/$dir"
+        ln -sfn "{{dotfiles}}/$dir" "$HOME/.config/$dir"
+        echo "✓ $dir → ~/.config/$dir"
     done
 
 # Install special cases
-install-special: _install-nushell _install-zsh _install-claude _install-gnupg _install-jj _install-git _install-fish
+install-special: _zsh _claude _nushell _gnupg _jj _git _fish
 
-_install-nushell:
+[private]
+_zsh:
+    @[ -d "{{dotfiles}}/zsh" ] && ln -sfn "{{dotfiles}}/zsh/zshrc" "$HOME/.zshrc" && echo "✓ zshrc → ~/.zshrc" || true
+
+[private]
+_claude:
+    @[ -d "{{dotfiles}}/claude" ] && ln -sfn "{{dotfiles}}/claude" "$HOME/.claude" && echo "✓ claude → ~/.claude" || true
+
+[private]
+_nushell:
     #!/usr/bin/env bash
     set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/nushell" ]; then
-        echo "Setting up nushell..."
-        mkdir -p "$HOME/.config"
-        ln -sfn "{{dotfiles_dir}}/nushell/config" "$HOME/.config/nushell"
-        echo "✓ Linked nushell to $HOME/.config/nushell"
-        mkdir -p "$HOME/bin"
-        (
-            cd "{{dotfiles_dir}}/nushell/startnu" && \
-            go build -o "$HOME/bin/nu" ./cmd/startnu
-        )
-        echo "✓ Built nu to $HOME/bin/nu"
-        if [ "$(uname)" = "Darwin" ]; then
-            SUPPORT_DIR="$HOME/Library/Application Support"
-            mkdir -p "$SUPPORT_DIR"
-            ln -sfn "{{dotfiles_dir}}/nushell/config" "$SUPPORT_DIR/nushell"
-            echo "✓ Linked nushell to $SUPPORT_DIR/nushell"
-        fi
-    fi
-
-_install-zsh:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/zsh" ]; then
-        echo "Creating symlink for .zshrc..."
-        ln -sfn "{{dotfiles_dir}}/zsh/zshrc" "$HOME/.zshrc"
-        echo "✓ Linked zsh/zshrc to ~/.zshrc"
-    fi
-
-_install-claude:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/claude" ]; then
-        echo "Creating symlink for .claude..."
-        ln -sfn "{{dotfiles_dir}}/claude" "$HOME/.claude"
-        echo "✓ Linked claude to ~/.claude"
-    fi
-
-_install-gnupg:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/gnupg" ]; then
-        echo "Setting up gnupg..."
-        mkdir -p "$HOME/.gnupg"
-        chmod 700 "$HOME/.gnupg"
-        ln -sfn "{{dotfiles_dir}}/gnupg/gpg.conf" "$HOME/.gnupg/gpg.conf"
-        ln -sfn "{{dotfiles_dir}}/gnupg/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
-        if [ -f "{{dotfiles_dir}}/gnupg/scdaemon.conf" ]; then
-            ln -sfn "{{dotfiles_dir}}/gnupg/scdaemon.conf" "$HOME/.gnupg/scdaemon.conf"
-        fi
-        echo "✓ Linked gnupg configs to ~/.gnupg/"
-    fi
-
-_install-jj:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/jj" ]; then
-        echo "Setting up jujutsu..."
-        mkdir -p "$HOME/.config/jj/conf.d"
-        ln -sfn "{{dotfiles_dir}}/jj/config.toml" "$HOME/.config/jj/config.toml"
-        if [ -d "{{dotfiles_dir}}/jj/conf.d" ]; then
-            for f in "{{dotfiles_dir}}/jj/conf.d"/*; do
-                ln -sfn "$f" "$HOME/.config/jj/conf.d/$(basename "$f")"
-            done
-        fi
-        echo "✓ Linked jj configs to ~/.config/jj/"
-    fi
-
-_install-git:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/git" ]; then
-        echo "Setting up git..."
-        for i in "{{dotfiles_dir}}/git"/*; do
-            ln -sfn "$i" "$HOME/.$(basename "$i")"
-        done
-        echo "✓ Linked git/* to ~/"
-    fi
-
-_install-fish:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ -d "{{dotfiles_dir}}/fish" ]; then
-        echo "Setting up fish..."
-        mkdir -p "$HOME/.config"
-        ln -sfn "{{dotfiles_dir}}/fish" "$HOME/.config/fish"
-        echo "✓ Linked fish to $HOME/.config/fish"
-        mkdir -p "$HOME/.local/bin"
-        cat > "$HOME/.local/bin/fish.sh" << 'EOF'
-    #!/bin/sh
+    [ -d "{{dotfiles}}/nushell" ] || exit 0
+    mkdir -p "$HOME/.config" "$HOME/bin"
+    ln -sfn "{{dotfiles}}/nushell/config" "$HOME/.config/nushell"
+    echo "✓ nushell → ~/.config/nushell"
+    (cd "{{dotfiles}}/nushell/startnu" && go build -o "$HOME/bin/nu" ./cmd/startnu)
+    echo "✓ built nu → ~/bin/nu"
     if [ "$(uname)" = "Darwin" ]; then
-        exec /opt/homebrew/bin/fish "$@"
-    else
-        exec /home/linuxbrew/.linuxbrew/bin/fish "$@"
-    fi
-    EOF
-        chmod +x "$HOME/.local/bin/fish.sh"
-        echo "✓ Created $HOME/.local/bin/fish.sh"
+        ln -sfn "{{dotfiles}}/nushell/config" "$HOME/Library/Application Support/nushell"
+        echo "✓ nushell → ~/Library/Application Support/nushell"
     fi
 
-# Individual tool recipes
-nushell: _install-nushell
-zsh: _install-zsh
-claude: _install-claude
-gnupg: _install-gnupg
-jj: _install-jj
-git: _install-git
-fish: _install-fish
+[private]
+_gnupg:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{dotfiles}}/gnupg" ] || exit 0
+    mkdir -p "$HOME/.gnupg"
+    chmod 700 "$HOME/.gnupg"
+    ln -sfn "{{dotfiles}}/gnupg/gpg.conf" "$HOME/.gnupg/gpg.conf"
+    ln -sfn "{{dotfiles}}/gnupg/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
+    [ -f "{{dotfiles}}/gnupg/scdaemon.conf" ] && ln -sfn "{{dotfiles}}/gnupg/scdaemon.conf" "$HOME/.gnupg/scdaemon.conf"
+    echo "✓ gnupg → ~/.gnupg/"
+
+[private]
+_jj:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{dotfiles}}/jj" ] || exit 0
+    mkdir -p "$HOME/.config/jj/conf.d"
+    ln -sfn "{{dotfiles}}/jj/config.toml" "$HOME/.config/jj/config.toml"
+    for f in "{{dotfiles}}/jj/conf.d"/*; do
+        [ -e "$f" ] && ln -sfn "$f" "$HOME/.config/jj/conf.d/$(basename "$f")"
+    done
+    echo "✓ jj → ~/.config/jj/"
+
+[private]
+_git:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{dotfiles}}/git" ] || exit 0
+    for f in "{{dotfiles}}/git"/*; do
+        ln -sfn "$f" "$HOME/.$(basename "$f")"
+    done
+    echo "✓ git/* → ~/.*"
+
+[private]
+_fish:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{dotfiles}}/fish" ] || exit 0
+    mkdir -p "$HOME/.config" "$HOME/.local/bin"
+    ln -sfn "{{dotfiles}}/fish" "$HOME/.config/fish"
+    echo "✓ fish → ~/.config/fish"
+    printf '%s\n' '#!/bin/sh' \
+        'if [ "$(uname)" = "Darwin" ]; then' \
+        '    exec /opt/homebrew/bin/fish "$@"' \
+        'else' \
+        '    exec /home/linuxbrew/.linuxbrew/bin/fish "$@"' \
+        'fi' > "$HOME/.local/bin/fish.sh"
+    chmod +x "$HOME/.local/bin/fish.sh"
+    echo "✓ created ~/.local/bin/fish.sh"
+
+# Individual tool install aliases
+zsh: _zsh
+claude: _claude
+nushell: _nushell
+gnupg: _gnupg
+jj: _jj
+git: _git
+fish: _fish
 
 # Install a specific config directory by name
 config name:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    echo "Creating symlink for {{name}}..."
-    mkdir -p ~/.config
-    ln -sfn "{{dotfiles_dir}}/{{name}}" "$HOME/.config/{{name}}"
-    echo "✓ Linked {{name}} to ~/.config/{{name}}"
+    @mkdir -p ~/.config && ln -sfn "{{dotfiles}}/{{name}}" "$HOME/.config/{{name}}" && echo "✓ {{name}} → ~/.config/{{name}}"
 
 # Run macOS defaults script
 macos:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    if [ "$(uname)" = "Darwin" ]; then
-        echo "Running macOS defaults script..."
-        "{{dotfiles_dir}}/scripts/macos-defaults.sh"
-    else
-        echo "Skipping macOS defaults (not on macOS)"
-    fi
+    @[ "$(uname)" = "Darwin" ] && "{{dotfiles}}/scripts/macos-defaults.sh" || echo "skip: not macOS"
 
 # Install Homebrew packages
 brew:
-    @echo "Installing Homebrew packages..."
-    brew bundle --file={{dotfiles_dir}}/Brewfile
-    @echo "✓ Homebrew packages installed"
+    brew bundle --file={{dotfiles}}/Brewfile
 
-# Uninstall all symlinks
+# Remove all symlinks
 uninstall:
     #!/usr/bin/env bash
     set -euo pipefail
-    echo "Removing symlinks..."
     
-    # Remove config dirs
+    # Config dirs
     for dir in {{config_dirs}}; do
-        if [ -L "$HOME/.config/$dir" ]; then
-            rm "$HOME/.config/$dir"
-            echo "✓ Removed ~/.config/$dir"
-        fi
+        [ -L "$HOME/.config/$dir" ] && rm "$HOME/.config/$dir" && echo "✗ ~/.config/$dir"
     done
     
-    # Remove nushell
-    if [ -L "$HOME/.config/nushell" ]; then
-        rm "$HOME/.config/nushell"
-        echo "✓ Removed $HOME/.config/nushell"
-    fi
-    if [ -e "$HOME/bin/nu" ]; then
-        rm "$HOME/bin/nu"
-        echo "✓ Removed $HOME/bin/nu"
-    fi
-    if [ "$(uname)" = "Darwin" ]; then
-        SUPPORT_DIR="$HOME/Library/Application Support"
-        if [ -L "$SUPPORT_DIR/nushell" ]; then
-            rm "$SUPPORT_DIR/nushell"
-            echo "✓ Removed $SUPPORT_DIR/nushell"
-        fi
-    fi
+    # Special cases
+    [ -L "$HOME/.zshrc" ] && rm "$HOME/.zshrc" && echo "✗ ~/.zshrc"
+    [ -L "$HOME/.claude" ] && rm "$HOME/.claude" && echo "✗ ~/.claude"
+    [ -L "$HOME/.config/nushell" ] && rm "$HOME/.config/nushell" && echo "✗ ~/.config/nushell"
+    [ -e "$HOME/bin/nu" ] && rm "$HOME/bin/nu" && echo "✗ ~/bin/nu"
+    [ -L "$HOME/.config/fish" ] && rm "$HOME/.config/fish" && echo "✗ ~/.config/fish"
+    [ -e "$HOME/.local/bin/fish.sh" ] && rm "$HOME/.local/bin/fish.sh" && echo "✗ ~/.local/bin/fish.sh"
     
-    # Remove zsh
-    if [ -L "$HOME/.zshrc" ]; then
-        rm "$HOME/.zshrc"
-        echo "✓ Removed ~/.zshrc"
-    fi
-    
-    # Remove claude
-    if [ -L "$HOME/.claude" ]; then
-        rm "$HOME/.claude"
-        echo "✓ Removed ~/.claude"
-    fi
-    
-    # Remove fish
-    if [ -L "$HOME/.config/fish" ]; then
-        rm "$HOME/.config/fish"
-        echo "✓ Removed $HOME/.config/fish"
-    fi
-    if [ -e "$HOME/.local/bin/fish.sh" ]; then
-        rm "$HOME/.local/bin/fish.sh"
-        echo "✓ Removed $HOME/.local/bin/fish.sh"
-    fi
-    
-    # Remove gnupg
     for f in gpg.conf gpg-agent.conf scdaemon.conf; do
-        if [ -L "$HOME/.gnupg/$f" ]; then
-            rm "$HOME/.gnupg/$f"
-            echo "✓ Removed ~/.gnupg/$f"
-        fi
+        [ -L "$HOME/.gnupg/$f" ] && rm "$HOME/.gnupg/$f" && echo "✗ ~/.gnupg/$f"
     done
     
-    # Remove jj
-    if [ -L "$HOME/.config/jj/config.toml" ]; then
-        rm "$HOME/.config/jj/config.toml"
-        echo "✓ Removed ~/.config/jj/config.toml"
-    fi
-    if [ -d "$HOME/.config/jj/conf.d" ]; then
-        for f in "$HOME/.config/jj/conf.d"/*; do
-            if [ -L "$f" ]; then
-                rm "$f"
-                echo "✓ Removed $f"
-            fi
-        done
+    [ -L "$HOME/.config/jj/config.toml" ] && rm "$HOME/.config/jj/config.toml" && echo "✗ ~/.config/jj/config.toml"
+    for f in "$HOME/.config/jj/conf.d"/*; do
+        [ -L "$f" ] && rm "$f" && echo "✗ $f"
+    done
+    
+    for f in "{{dotfiles}}/git"/*; do
+        t="$HOME/.$(basename "$f")"
+        [ -L "$t" ] && rm "$t" && echo "✗ $t"
+    done
+    
+    if [ "$(uname)" = "Darwin" ]; then
+        [ -L "$HOME/Library/Application Support/nushell" ] && rm "$HOME/Library/Application Support/nushell" && echo "✗ ~/Library/Application Support/nushell"
     fi
     
-    # Remove git
-    for i in "{{dotfiles_dir}}/git"/*; do
-        target="$HOME/.$(basename "$i")"
-        if [ -L "$target" ]; then
-            rm "$target"
-            echo "✓ Removed $target"
-        fi
-    done
+    echo "done"
 
-# Check status of symlinks
+# Check symlink status
 status:
     #!/usr/bin/env bash
     set -euo pipefail
-    echo "Checking symlink status..."
-    echo "Auto-detected directories: {{config_dirs}}"
-    echo "Special cases: {{special_cases}}"
-    echo ""
     
-    # Check config dirs
+    check() { [ -L "$1" ] && echo "✓ $2 → $(readlink "$1")" || echo "✗ $2"; }
+    check_exists() { [ -e "$1" ] && echo "✓ $2" || echo "✗ $2"; }
+    
     for dir in {{config_dirs}}; do
-        if [ -L "$HOME/.config/$dir" ]; then
-            echo "✓ $dir is linked to $(readlink "$HOME/.config/$dir")"
-        else
-            echo "✗ $dir is not linked"
-        fi
+        check "$HOME/.config/$dir" "$dir"
     done
     
-    # Check zsh
-    if [ -d "{{dotfiles_dir}}/zsh" ]; then
-        if [ -L "$HOME/.zshrc" ]; then
-            echo "✓ .zshrc is linked to $(readlink "$HOME/.zshrc")"
-        else
-            echo "✗ .zshrc is not linked"
-        fi
-    fi
+    check "$HOME/.zshrc" ".zshrc"
+    check "$HOME/.claude" ".claude"
+    check "$HOME/.config/nushell" "nushell"
+    check_exists "$HOME/bin/nu" "~/bin/nu"
+    check "$HOME/.config/fish" "fish"
+    check_exists "$HOME/.local/bin/fish.sh" "fish.sh"
+    check "$HOME/.gnupg/gpg.conf" "gpg.conf"
+    check "$HOME/.gnupg/gpg-agent.conf" "gpg-agent.conf"
+    check "$HOME/.config/jj/config.toml" "jj/config.toml"
     
-    # Check claude
-    if [ -d "{{dotfiles_dir}}/claude" ]; then
-        if [ -L "$HOME/.claude" ]; then
-            echo "✓ .claude is linked to $(readlink "$HOME/.claude")"
-        else
-            echo "✗ .claude is not linked"
-        fi
-    fi
-    
-    # Check nushell
-    if [ -d "{{dotfiles_dir}}/nushell" ]; then
-        if [ -L "$HOME/.config/nushell" ]; then
-            echo "✓ nushell config is linked to $(readlink "$HOME/.config/nushell")"
-        else
-            echo "✗ nushell config is not linked"
-        fi
-        if [ -x "$HOME/bin/nu" ]; then
-            echo "✓ nu exists and is executable in $HOME/bin"
-        else
-            echo "✗ nu is missing or not executable in $HOME/bin"
-        fi
-        if [ "$(uname)" = "Darwin" ]; then
-            SUPPORT_DIR="$HOME/Library/Application Support"
-            if [ -L "$SUPPORT_DIR/nushell" ]; then
-                echo "✓ macOS nushell link points to $(readlink "$SUPPORT_DIR/nushell")"
-            else
-                echo "✗ macOS nushell link is missing"
-            fi
-        fi
-    fi
-    
-    # Check fish
-    if [ -d "{{dotfiles_dir}}/fish" ]; then
-        if [ -L "$HOME/.config/fish" ]; then
-            echo "✓ fish is linked to $(readlink "$HOME/.config/fish")"
-        else
-            echo "✗ fish is not linked"
-        fi
-        if [ -x "$HOME/.local/bin/fish.sh" ]; then
-            echo "✓ fish.sh exists and is executable"
-        else
-            echo "✗ fish.sh is missing or not executable"
-        fi
-    fi
-    
-    # Check gnupg
-    if [ -d "{{dotfiles_dir}}/gnupg" ]; then
-        for f in gpg.conf gpg-agent.conf; do
-            if [ -L "$HOME/.gnupg/$f" ]; then
-                echo "✓ $f is linked to $(readlink "$HOME/.gnupg/$f")"
-            else
-                echo "✗ $f is not linked"
-            fi
-        done
-    fi
-    
-    # Check jj
-    if [ -d "{{dotfiles_dir}}/jj" ]; then
-        if [ -L "$HOME/.config/jj/config.toml" ]; then
-            echo "✓ jj config.toml is linked to $(readlink "$HOME/.config/jj/config.toml")"
-        else
-            echo "✗ jj config.toml is not linked"
-        fi
+    if [ "$(uname)" = "Darwin" ]; then
+        check "$HOME/Library/Application Support/nushell" "nushell (macOS)"
     fi
 
-# Alias for uninstall
 clean: uninstall
