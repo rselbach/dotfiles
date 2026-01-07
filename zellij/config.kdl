@@ -294,7 +294,23 @@ web_client {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-theme "catppuccin-mocha"
+theme "coffee"
+
+themes {
+    coffee {
+        fg "#000000"
+        bg "#f5deb3"
+        black "#3A2C28"
+        red "#c91b00"
+        green "#00c200"
+        yellow "#adaa00"
+        blue "#0225c7"
+        magenta "#ca30c7"
+        cyan "#00b8ba"
+        white "#a1a1a1"
+        orange "#ff6e67"
+    }
+}
  
 // Choose the base input mode of zellij.
 // Default: normal

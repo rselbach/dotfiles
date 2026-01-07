@@ -89,7 +89,7 @@ $env.config = {
         vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
     }
 
-    color_config: (themes dark) # use (themes light) for light theme
+    color_config: (themes light) # use (themes light) for light theme
     #use_grid_icons: true
     footer_mode: "always" # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
@@ -165,7 +165,7 @@ $env.config = {
 source ~/.zoxide.nu
 source coverhtml.nu
 source hashistack.nu
-source catppuccin-mocha.nu
+source coffee.nu
 source $"($nu.cache-dir)/carapace.nu"
 
 # Ruby/Gem configuration
@@ -188,4 +188,3 @@ starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.n
 #source ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 source ~/.config/nushell/aliases.nu
-

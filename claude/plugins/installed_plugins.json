@@ -37,10 +37,10 @@
     "pr-review-toolkit@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/b97f6eadd929",
-        "version": "b97f6eadd929",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/f1be96f0fb58",
+        "version": "f1be96f0fb58",
         "installedAt": "2026-01-02T21:52:18.157Z",
-        "lastUpdated": "2026-01-07T08:47:20.660Z",
+        "lastUpdated": "2026-01-09T23:42:41.077Z",
         "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
         "isLocal": true
       }
