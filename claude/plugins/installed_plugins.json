@@ -8,8 +8,7 @@
         "version": "1.0.0",
         "installedAt": "2025-12-29T19:56:08.601Z",
         "lastUpdated": "2025-12-29T19:56:08.601Z",
-        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
-        "isLocal": true
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0"
       }
     ],
     "swift-lsp@claude-plugins-official": [
@@ -19,8 +18,7 @@
         "version": "1.0.0",
         "installedAt": "2026-01-02T12:19:45.225Z",
         "lastUpdated": "2026-01-02T12:19:45.225Z",
-        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
-        "isLocal": true
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0"
       }
     ],
     "ralph-wiggum@claude-plugins-official": [
@@ -30,8 +28,7 @@
         "version": "883f2ba69e50",
         "installedAt": "2026-01-02T21:51:13.414Z",
         "lastUpdated": "2026-01-06T20:02:26.911Z",
-        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
-        "isLocal": true
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0"
       }
     ],
     "pr-review-toolkit@claude-plugins-official": [
@@ -41,8 +38,57 @@
         "version": "f1be96f0fb58",
         "installedAt": "2026-01-02T21:52:18.157Z",
         "lastUpdated": "2026-01-09T23:42:41.077Z",
-        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0",
-        "isLocal": true
+        "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0"
+      }
+    ],
+    "code-simplifier@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/code-simplifier/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-01-11T02:29:17.195Z",
+        "lastUpdated": "2026-01-11T02:29:17.195Z",
+        "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
+      }
+    ],
+    "frontend-design@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/frontend-design/f1be96f0fb58",
+        "version": "f1be96f0fb58",
+        "installedAt": "2026-01-11T02:30:45.661Z",
+        "lastUpdated": "2026-01-11T02:31:26.945Z",
+        "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
+      }
+    ],
+    "code-review@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/code-review/f1be96f0fb58",
+        "version": "f1be96f0fb58",
+        "installedAt": "2026-01-11T02:30:45.670Z",
+        "lastUpdated": "2026-01-11T02:31:26.946Z",
+        "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
+      }
+    ],
+    "security-guidance@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/security-guidance/f1be96f0fb58",
+        "version": "f1be96f0fb58",
+        "installedAt": "2026-01-11T02:30:45.680Z",
+        "lastUpdated": "2026-01-11T02:31:26.946Z",
+        "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
+      }
+    ],
+    "playwright@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/playwright/f1be96f0fb58",
+        "version": "f1be96f0fb58",
+        "installedAt": "2026-01-11T02:30:45.689Z",
+        "lastUpdated": "2026-01-11T02:31:26.947Z",
+        "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
       }
     ]
   }

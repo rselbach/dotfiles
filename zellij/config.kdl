@@ -294,21 +294,21 @@ web_client {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-theme "coffee"
+theme "catppuccin-mocha"
 
 themes {
-    coffee {
-        fg "#000000"
-        bg "#f5deb3"
-        black "#3A2C28"
-        red "#c91b00"
-        green "#00c200"
-        yellow "#adaa00"
-        blue "#0225c7"
-        magenta "#ca30c7"
-        cyan "#00b8ba"
-        white "#a1a1a1"
-        orange "#ff6e67"
+    catppuccin-mocha {
+        fg "#cdd6f4"
+        bg "#1e1e2e"
+        black "#45475a"
+        red "#f38ba8"
+        green "#a6e3a1"
+        yellow "#f9e2af"
+        blue "#89b4fa"
+        magenta "#cba6f7"
+        cyan "#94e2d5"
+        white "#bac2de"
+        orange "#fab387"
     }
 }
  
