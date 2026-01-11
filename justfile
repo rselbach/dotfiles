@@ -3,11 +3,11 @@
 dotfiles := justfile_directory()
 
 # Directories with special install logic (not just ~/.config symlinks)
-special := "claude zsh nushell git fish gnupg jj scripts"
+special := "claude codex zsh nushell git fish gnupg jj scripts"
 
 # Auto-detect config directories (excluding dot dirs and special cases)
 config_dirs := `find . -maxdepth 1 -type d ! -name '.*' \
-    ! -name 'claude' ! -name 'zsh' ! -name 'nushell' \
+    ! -name 'claude' ! -name 'codex' ! -name 'zsh' ! -name 'nushell' \
     ! -name 'git' ! -name 'fish' ! -name 'gnupg' \
     ! -name 'jj' ! -name 'scripts' \
     -exec basename {} \; | sort | tr '\n' ' '`
@@ -22,34 +22,61 @@ install: install-config install-special
 install-config:
     #!/usr/bin/env bash
     set -euo pipefail
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
     mkdir -p ~/.config
     for dir in {{config_dirs}}; do
+        backup "$HOME/.config/$dir"
         ln -sfn "{{dotfiles}}/$dir" "$HOME/.config/$dir"
         echo "✓ $dir → ~/.config/$dir"
     done
 
 # Install special cases
-install-special: _zsh _claude _nushell _gnupg _jj _git _fish
+install-special: _zsh _claude _codex _nushell _gnupg _jj _git _fish
 
 [private]
 _zsh:
-    @[ -d "{{dotfiles}}/zsh" ] && ln -sfn "{{dotfiles}}/zsh/zshrc" "$HOME/.zshrc" && echo "✓ zshrc → ~/.zshrc" || true
+    #!/usr/bin/env bash
+    set -euo pipefail
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/zsh" ]] || exit 0
+    backup "$HOME/.zshrc"
+    ln -sfn "{{dotfiles}}/zsh/zshrc" "$HOME/.zshrc"
+    echo "✓ zshrc → ~/.zshrc"
 
 [private]
 _claude:
-    @[ -d "{{dotfiles}}/claude" ] && ln -sfn "{{dotfiles}}/claude" "$HOME/.claude" && echo "✓ claude → ~/.claude" || true
+    #!/usr/bin/env bash
+    set -euo pipefail
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/claude" ]] || exit 0
+    backup "$HOME/.claude"
+    ln -sfn "{{dotfiles}}/claude" "$HOME/.claude"
+    echo "✓ claude → ~/.claude"
+
+[private]
+_codex:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/codex" ]] || exit 0
+    backup "$HOME/.codex"
+    ln -sfn "{{dotfiles}}/codex" "$HOME/.codex"
+    echo "✓ codex → ~/.codex"
 
 [private]
 _nushell:
     #!/usr/bin/env bash
     set -euo pipefail
-    [ -d "{{dotfiles}}/nushell" ] || exit 0
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/nushell" ]] || exit 0
     mkdir -p "$HOME/.config" "$HOME/bin"
+    backup "$HOME/.config/nushell"
     ln -sfn "{{dotfiles}}/nushell/config" "$HOME/.config/nushell"
     echo "✓ nushell → ~/.config/nushell"
     (cd "{{dotfiles}}/nushell/startnu" && go build -o "$HOME/bin/nu" ./cmd/startnu)
     echo "✓ built nu → ~/bin/nu"
-    if [ "$(uname)" = "Darwin" ]; then
+    if [[ "$(uname)" == "Darwin" ]]; then
+        backup "$HOME/Library/Application Support/nushell"
         ln -sfn "{{dotfiles}}/nushell/config" "$HOME/Library/Application Support/nushell"
         echo "✓ nushell → ~/Library/Application Support/nushell"
     fi
@@ -58,23 +85,35 @@ _nushell:
 _gnupg:
     #!/usr/bin/env bash
     set -euo pipefail
-    [ -d "{{dotfiles}}/gnupg" ] || exit 0
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/gnupg" ]] || exit 0
     mkdir -p "$HOME/.gnupg"
     chmod 700 "$HOME/.gnupg"
+    backup "$HOME/.gnupg/gpg.conf"
     ln -sfn "{{dotfiles}}/gnupg/gpg.conf" "$HOME/.gnupg/gpg.conf"
+    backup "$HOME/.gnupg/gpg-agent.conf"
     ln -sfn "{{dotfiles}}/gnupg/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
-    [ -f "{{dotfiles}}/gnupg/scdaemon.conf" ] && ln -sfn "{{dotfiles}}/gnupg/scdaemon.conf" "$HOME/.gnupg/scdaemon.conf"
+    if [[ -f "{{dotfiles}}/gnupg/scdaemon.conf" ]]; then
+        backup "$HOME/.gnupg/scdaemon.conf"
+        ln -sfn "{{dotfiles}}/gnupg/scdaemon.conf" "$HOME/.gnupg/scdaemon.conf"
+    fi
     echo "✓ gnupg → ~/.gnupg/"
 
 [private]
 _jj:
     #!/usr/bin/env bash
     set -euo pipefail
-    [ -d "{{dotfiles}}/jj" ] || exit 0
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/jj" ]] || exit 0
     mkdir -p "$HOME/.config/jj/conf.d"
+    backup "$HOME/.config/jj/config.toml"
     ln -sfn "{{dotfiles}}/jj/config.toml" "$HOME/.config/jj/config.toml"
     for f in "{{dotfiles}}/jj/conf.d"/*; do
-        [ -e "$f" ] && ln -sfn "$f" "$HOME/.config/jj/conf.d/$(basename "$f")"
+        if [[ -e "$f" ]]; then
+            target="$HOME/.config/jj/conf.d/$(basename "$f")"
+            backup "$target"
+            ln -sfn "$f" "$target"
+        fi
     done
     echo "✓ jj → ~/.config/jj/"
 
@@ -82,9 +121,12 @@ _jj:
 _git:
     #!/usr/bin/env bash
     set -euo pipefail
-    [ -d "{{dotfiles}}/git" ] || exit 0
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/git" ]] || exit 0
     for f in "{{dotfiles}}/git"/*; do
-        ln -sfn "$f" "$HOME/.$(basename "$f")"
+        target="$HOME/.$(basename "$f")"
+        backup "$target"
+        ln -sfn "$f" "$target"
     done
     echo "✓ git/* → ~/.*"
 
@@ -92,8 +134,10 @@ _git:
 _fish:
     #!/usr/bin/env bash
     set -euo pipefail
-    [ -d "{{dotfiles}}/fish" ] || exit 0
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    [[ -d "{{dotfiles}}/fish" ]] || exit 0
     mkdir -p "$HOME/.config" "$HOME/.local/bin"
+    backup "$HOME/.config/fish"
     ln -sfn "{{dotfiles}}/fish" "$HOME/.config/fish"
     echo "✓ fish → ~/.config/fish"
     printf '%s\n' '#!/bin/sh' \
@@ -108,6 +152,7 @@ _fish:
 # Individual tool install aliases
 zsh: _zsh
 claude: _claude
+codex: _codex
 nushell: _nushell
 gnupg: _gnupg
 jj: _jj
@@ -116,7 +161,13 @@ fish: _fish
 
 # Install a specific config directory by name
 config name:
-    @mkdir -p ~/.config && ln -sfn "{{dotfiles}}/{{name}}" "$HOME/.config/{{name}}" && echo "✓ {{name}} → ~/.config/{{name}}"
+    #!/usr/bin/env bash
+    set -euo pipefail
+    backup() { [[ -e "$1" && ! -L "$1" ]] && mv "$1" "$1-old" && echo "⚠ moved $1 → $1-old"; true; }
+    mkdir -p ~/.config
+    backup "$HOME/.config/{{name}}"
+    ln -sfn "{{dotfiles}}/{{name}}" "$HOME/.config/{{name}}"
+    echo "✓ {{name}} → ~/.config/{{name}}"
 
 # Run macOS defaults script
 macos:
@@ -139,6 +190,7 @@ uninstall:
     # Special cases
     [ -L "$HOME/.zshrc" ] && rm "$HOME/.zshrc" && echo "✗ ~/.zshrc"
     [ -L "$HOME/.claude" ] && rm "$HOME/.claude" && echo "✗ ~/.claude"
+    [ -L "$HOME/.codex" ] && rm "$HOME/.codex" && echo "✗ ~/.codex"
     [ -L "$HOME/.config/nushell" ] && rm "$HOME/.config/nushell" && echo "✗ ~/.config/nushell"
     [ -e "$HOME/bin/nu" ] && rm "$HOME/bin/nu" && echo "✗ ~/bin/nu"
     [ -L "$HOME/.config/fish" ] && rm "$HOME/.config/fish" && echo "✗ ~/.config/fish"
@@ -178,6 +230,7 @@ status:
     
     check "$HOME/.zshrc" ".zshrc"
     check "$HOME/.claude" ".claude"
+    check "$HOME/.codex" ".codex"
     check "$HOME/.config/nushell" "nushell"
     check_exists "$HOME/bin/nu" "~/bin/nu"
     check "$HOME/.config/fish" "fish"

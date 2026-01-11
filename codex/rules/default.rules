@@ -1,0 +1,7 @@
+prefix_rule(pattern=["swift", "build"], decision="allow")
+prefix_rule(pattern=["jj", "commit", "-m", "refactor model download notif"], decision="allow")
+prefix_rule(pattern=["jj", "status"], decision="allow")
+prefix_rule(pattern=["jj", "commit", "-m", "refactor language picker"], decision="allow")
+prefix_rule(pattern=["jj", "describe", "-m", "Add auto-update toggle and launch checks"], decision="allow")
+prefix_rule(pattern=["make", "test"], decision="allow")
+prefix_rule(pattern=["golangci-lint", "run", "./..."], decision="allow")

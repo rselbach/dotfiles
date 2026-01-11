@@ -1,0 +1,7 @@
+auth.json
+config.toml
+history.jsonl
+log/
+sessions/
+shell_snapshots/
+version.json
