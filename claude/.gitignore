@@ -1,3 +1,4 @@
+telemetry/
 __store.db
 shell-snapshots
 statsig
@@ -8,3 +9,4 @@ file-history
 history.jsonl
 debug
 *.lock
+transcripts/
