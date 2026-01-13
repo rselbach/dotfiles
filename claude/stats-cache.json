@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastComputedDate": "2026-01-10",
+  "lastComputedDate": "2026-01-12",
   "dailyActivity": [
     {
       "date": "2025-11-27",
@@ -79,6 +79,18 @@
       "messageCount": 3,
       "sessionCount": 1,
       "toolCallCount": 0
+    },
+    {
+      "date": "2026-01-11",
+      "messageCount": 379,
+      "sessionCount": 19,
+      "toolCallCount": 113
+    },
+    {
+      "date": "2026-01-12",
+      "messageCount": 118,
+      "sessionCount": 2,
+      "toolCallCount": 40
     }
   ],
   "dailyModelTokens": [
@@ -154,17 +166,31 @@
       "tokensByModel": {
         "claude-sonnet-4-5-20250929": 4631
       }
+    },
+    {
+      "date": "2026-01-11",
+      "tokensByModel": {
+        "claude-opus-4-5-20251101": 35501,
+        "anthropic/claude-opus-4.5": 1884360
+      }
+    },
+    {
+      "date": "2026-01-12",
+      "tokensByModel": {
+        "claude-opus-4-5-20251101": 30188
+      }
     }
   ],
   "modelUsage": {
     "claude-opus-4-5-20251101": {
-      "inputTokens": 84453,
-      "outputTokens": 257948,
-      "cacheReadInputTokens": 116803594,
-      "cacheCreationInputTokens": 10627972,
+      "inputTokens": 114752,
+      "outputTokens": 293338,
+      "cacheReadInputTokens": 127694350,
+      "cacheCreationInputTokens": 11707945,
       "webSearchRequests": 0,
       "costUSD": 0,
-      "contextWindow": 0
+      "contextWindow": 0,
+      "maxOutputTokens": 0
     },
     "claude-sonnet-4-5-20250929": {
       "inputTokens": 17313,
@@ -175,10 +201,20 @@
       "costUSD": 0,
       "contextWindow": 0,
       "maxOutputTokens": null
+    },
+    "anthropic/claude-opus-4.5": {
+      "inputTokens": 1869996,
+      "outputTokens": 14364,
+      "cacheReadInputTokens": 1388913,
+      "cacheCreationInputTokens": 0,
+      "webSearchRequests": 0,
+      "costUSD": 0,
+      "contextWindow": 0,
+      "maxOutputTokens": 0
     }
   },
-  "totalSessions": 47,
-  "totalMessages": 4302,
+  "totalSessions": 68,
+  "totalMessages": 4799,
   "longestSession": {
     "sessionId": "524817a7-1943-45a5-9f90-1b425ad3c392",
     "duration": 7538291,
@@ -187,7 +223,8 @@
   },
   "firstSessionDate": "2025-11-27T18:49:54.588Z",
   "hourCounts": {
-    "3": 1,
+    "2": 7,
+    "3": 7,
     "4": 2,
     "6": 1,
     "7": 2,
@@ -199,10 +236,12 @@
     "13": 1,
     "14": 1,
     "15": 1,
-    "16": 2,
+    "16": 3,
     "17": 4,
     "18": 4,
-    "21": 1,
+    "19": 2,
+    "20": 2,
+    "21": 4,
     "22": 1
   }
 }

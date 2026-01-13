@@ -10,3 +10,4 @@ history.jsonl
 debug
 *.lock
 transcripts/
+cache/
