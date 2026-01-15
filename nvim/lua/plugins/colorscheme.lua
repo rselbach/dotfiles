@@ -1,11 +1,15 @@
 return {
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "ellisonleao/gruvbox.nvim",
     priority = 1000,
     lazy = false,
     opts = {
-      flavour = "mocha",
+      contrast = "soft",
+      italic = {
+        strings = false,
+        comments = true,
+        operators = false,
+      },
       integrations = {
         cmp = true,
         gitsigns = true,
@@ -13,22 +17,14 @@ return {
         treesitter = true,
         notify = true,
         mini = { enabled = true },
-        native_lsp = {
-          enabled = true,
-          underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
-          },
-        },
         telescope = { enabled = true },
         which_key = true,
       },
     },
     config = function(_, opts)
-      require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin")
+      require("gruvbox").setup(opts)
+      vim.o.background = "light"
+      vim.cmd.colorscheme("gruvbox")
     end,
   },
 }
