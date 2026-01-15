@@ -46,6 +46,9 @@ brew "zoxide"
 brew "zsh"
 brew "zsh-completions"
 
+brew "dmmulroy/tap/jj-starship"
+brew "rselbach/tap/jwtdebug"
+
 # Casks
 cask "1password"
 cask "ghostty"
