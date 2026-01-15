@@ -10,3 +10,19 @@ vim.g.codeium_enabled = false
 vim.g.ai_cmp = true
 vim.o.completeopt = "menuone,noselect,noinsert"
 vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard
+
+-- OSC 52: enables clipboard over SSH (requires terminal support: iTerm2, Kitty, Alacritty, etc.)
+-- only enable when SSH_TTY is set (i.e., we're in an SSH session)
+if vim.env.SSH_TTY then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end
