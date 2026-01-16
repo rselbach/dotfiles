@@ -89,7 +89,7 @@ $env.config = {
         vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
     }
 
-    color_config: (themes light) # use (themes light) for light theme
+    color_config: (themes catppuccin_mocha)
     #use_grid_icons: true
     footer_mode: "always" # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
