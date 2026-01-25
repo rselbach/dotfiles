@@ -5,3 +5,5 @@ prefix_rule(pattern=["jj", "commit", "-m", "refactor language picker"], decision
 prefix_rule(pattern=["jj", "describe", "-m", "Add auto-update toggle and launch checks"], decision="allow")
 prefix_rule(pattern=["make", "test"], decision="allow")
 prefix_rule(pattern=["golangci-lint", "run", "./..."], decision="allow")
+prefix_rule(pattern=["go", "test", "./..."], decision="allow")
+prefix_rule(pattern=["curl", "-L", "https://support.typora.io/sitemap.xml"], decision="allow")

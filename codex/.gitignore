@@ -2,6 +2,7 @@ auth.json
 config.toml
 history.jsonl
 log/
+tmp/
 sessions/
 shell_snapshots/
 version.json
