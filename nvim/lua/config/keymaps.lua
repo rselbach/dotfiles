@@ -2,8 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-
-
 local map = vim.keymap.set
 -- jump backwards in jump list (alternative to <C-o>)
 map("n", "<C-->", "<C-o>", { desc = "Jump backwards in jump list" })

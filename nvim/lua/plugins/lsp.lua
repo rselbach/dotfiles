@@ -42,7 +42,9 @@ return {
             pattern = "*.go",
             callback = function()
               local clients = vim.lsp.get_clients({ bufnr = 0, name = "gopls" })
-              if #clients == 0 then return end
+              if #clients == 0 then
+                return
+              end
               local offset_encoding = clients[1].offset_encoding or "utf-16"
               local params = vim.lsp.util.make_range_params(nil, offset_encoding)
               params.context = { only = { "source.organizeImports" } }
