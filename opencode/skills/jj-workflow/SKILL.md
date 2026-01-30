@@ -1,9 +1,18 @@
 ---
 name: jj-workflow
-description: Jujutsu (jj) version control, load skill when hook output shows vcs=jj-colocated or vcs=jj in the system-reminder.
+description: Jujutsu (jj) version control. Load when the repo has a .jj directory, when the user mentions jj/jujutsu, when running jj commands, or when the system reminder shows vcs=jj or vcs=jj-colocated.
 ---
 
 # jj Workflow
+
+## When to Load This Skill
+
+Use this skill when:
+
+- The repo has a `.jj` directory (jj is in use)
+- The user asks about jj/jujutsu workflow
+- You are about to run jj commands (status/diff/describe/bookmark/push)
+- The system reminder indicates `vcs=jj` or `vcs=jj-colocated`
 
 ## CRITICAL: Avoid Interactive Mode
 
@@ -130,4 +139,3 @@ jj op restore <id>             # Jump to any past state
 ```bash
 rm -rf .jj    # Delete jj, keep git unchanged
 ```
-
