@@ -6,3 +6,5 @@ tmp/
 sessions/
 shell_snapshots/
 version.json
+sqlite/
+vendor_imports/

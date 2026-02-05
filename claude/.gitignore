@@ -11,3 +11,4 @@ debug
 *.lock
 transcripts/
 cache/
+plugins/marketplaces/
