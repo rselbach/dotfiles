@@ -108,19 +108,18 @@ command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
 
 # SSH agent
-SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh-agent.sock"
-export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
+if [[ "$OSTYPE" != darwin* ]]; then
+  SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh-agent.sock"
+  export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
 
-ssh-add -l &>/dev/null
-if [[ $? -eq 2 ]]; then
-  rm -f "$SSH_AUTH_SOCK_FILE"
-  eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE")" >/dev/null 2>&1
-fi
-
-if ! ssh-add -l 2>/dev/null | grep -qE 'id_ed25519|id_rsa'; then
-  for key in "$HOME/.ssh/id_ed25519" "$HOME/.ssh/id_rsa"; do
-    [[ -f "$key" ]] && ssh-add "$key" &>/dev/null && break
-  done
+  ssh_add_rc=0
+  ssh-add -l >/dev/null 2>&1 || ssh_add_rc=$?
+  if [[ ${ssh_add_rc} -eq 2 ]]; then
+    rm -f "$SSH_AUTH_SOCK_FILE"
+    if ! eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK_FILE")" >/dev/null 2>&1; then
+      echo "error: failed to start ssh-agent on ${SSH_AUTH_SOCK_FILE}" >&2
+    fi
+  fi
 fi
 
 # pyenv (lazy-loaded)
