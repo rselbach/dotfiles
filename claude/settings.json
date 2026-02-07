@@ -13,7 +13,6 @@
     "deny": [],
     "ask": []
   },
-  "model": "Opus",
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,

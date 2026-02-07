@@ -294,21 +294,21 @@ web_client {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-theme "catppuccin-mocha"
+theme "gruvbox-light-hard"
 
 themes {
-    catppuccin-mocha {
-        fg "#cdd6f4"
-        bg "#1e1e2e"
-        black "#45475a"
-        red "#f38ba8"
-        green "#a6e3a1"
-        yellow "#f9e2af"
-        blue "#89b4fa"
-        magenta "#cba6f7"
-        cyan "#94e2d5"
-        white "#bac2de"
-        orange "#fab387"
+    gruvbox-light-hard {
+        fg "#3c3836"
+        bg "#f9f5d7"
+        black "#3c3836"
+        red "#cc241d"
+        green "#98971a"
+        yellow "#d79921"
+        blue "#076678"
+        magenta "#b16286"
+        cyan "#689d6a"
+        white "#7c6f64"
+        orange "#d65d0e"
     }
 }
  

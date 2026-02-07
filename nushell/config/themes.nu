@@ -1,5 +1,10 @@
 # Nushell color themes
 
+export def gruvbox_light_hard [] {
+    source coffee.nu
+    $env.config.color_config
+}
+
 export def catppuccin_mocha [] {
     source catppuccin-mocha.nu
     $env.config.color_config

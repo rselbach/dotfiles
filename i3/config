@@ -55,7 +55,7 @@ bindsym $mod+Return exec ghostty
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id "dmenu_run -nf '#BBBBBB' -nb '#222222' -sb '#005577' -sf '#EEEEEE' -fn 'monospace-10'"
+bindsym $mod+d exec --no-startup-id "dmenu_run -nf '#3C3836' -nb '#F9F5D7' -sb '#076678' -sf '#F9F5D7' -fn 'monospace-10'"
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -184,27 +184,27 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # class                 border  bground text    indicator child_border
-client.focused          #83CAFA #51A2DA #FFFFFF #83CAFA   #51A2DA
-client.focused_inactive #8C8C8C #4C4C4C #FFFFFF #4C4C4C   #8C8C8C
-client.unfocused        #4C4C4C #222222 #888888 #292D2E   #222222
-client.urgent           #EC69A0 #DB3279 #FFFFFF #DB3279   #DB3279
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+client.focused          #076678 #458588 #F9F5D7 #076678   #458588
+client.focused_inactive #A89984 #EBDBB2 #3C3836 #BDAE93   #EBDBB2
+client.unfocused        #BDAE93 #F2E5BC #665C54 #D5C4A1   #F2E5BC
+client.urgent           #9D0006 #CC241D #F9F5D7 #CC241D   #CC241D
+client.placeholder      #A89984 #EBDBB2 #3C3836 #A89984   #EBDBB2
 
-client.background       #FFFFFF
+client.background       #F9F5D7
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
   colors {
-    background #000000
-    statusline #FFFFFF
-    separator  #666666
+    background #F9F5D7
+    statusline #3C3836
+    separator  #A89984
 
-    focused_workspace  #83CAFA #51A2DA #FFFFFF
-    active_workspace   #3C6EB4 #294172 #FFFFFF
-    inactive_workspace #8C8C8C #4C4C4C #888888
-    urgent_workspace   #EC69A0 #DB3279 #FFFFFF
-    binding_mode       #b691d3 #A07CBC #FFFFFF
+    focused_workspace  #076678 #458588 #F9F5D7
+    active_workspace   #427B58 #689D6A #F9F5D7
+    inactive_workspace #A89984 #EBDBB2 #3C3836
+    urgent_workspace   #9D0006 #CC241D #F9F5D7
+    binding_mode       #8F3F71 #B16286 #F9F5D7
   }
   status_command i3status
 }

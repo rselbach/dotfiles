@@ -89,7 +89,7 @@ $env.config = {
         vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
     }
 
-    color_config: (themes catppuccin_mocha)
+    color_config: (themes gruvbox_light_hard)
     #use_grid_icons: true
     footer_mode: "always" # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
@@ -165,7 +165,6 @@ $env.config = {
 source ~/.zoxide.nu
 source coverhtml.nu
 source hashistack.nu
-source coffee.nu
 source $"($nu.cache-dir)/carapace.nu"
 
 # Ruby/Gem configuration

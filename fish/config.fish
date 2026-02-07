@@ -212,15 +212,15 @@ fish_add_path $HOME/.opencode/bin
 # gpg
 set -gx GPG_TTY (tty)
 
-# Catppuccin Mocha FZF colors
+# Gruvbox Light Hard FZF colors
 set -gx FZF_DEFAULT_OPTS "\
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
---color=selected-bg:#45475a"
+--color=bg+:#ebdbb2,bg:#f9f5d7,spinner:#d65d0e,hl:#cc241d \
+--color=fg:#282828,header:#cc241d,info:#8f3f71,pointer:#d65d0e \
+--color=marker:#8f3f71,fg+:#282828,prompt:#8f3f71,hl+:#cc241d \
+--color=selected-bg:#d5c4a1"
 
 # bat theme
-set -gx BAT_THEME "Catppuccin Mocha"
+set -gx BAT_THEME "gruvbox-light"
 
 # fnm (Fast Node Manager) - lazy loaded on first node/npm/npx call
 if type -q fnm; and not functions -q __fnm_initialized

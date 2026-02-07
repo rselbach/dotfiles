@@ -1,7 +1,7 @@
 {
-  "fetched_at": "2026-02-07T00:18:50.276895Z",
+  "fetched_at": "2026-02-07T15:08:49.708468Z",
   "etag": "W/\"e3344adf258d1a96ebfd9099244d1880\"",
-  "client_version": "0.99.0",
+  "client_version": "0.98.0",
   "models": [
     {
       "slug": "gpt-5.2-codex",
