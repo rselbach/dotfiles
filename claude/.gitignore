@@ -12,3 +12,5 @@ debug
 transcripts/
 cache/
 plugins/marketplaces/
+plans/
+stats-cache.json

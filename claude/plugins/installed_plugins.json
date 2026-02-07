@@ -34,10 +34,10 @@
     "pr-review-toolkit@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/e30768372b41",
-        "version": "e30768372b41",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/pr-review-toolkit/2cd88e7947b7",
+        "version": "2cd88e7947b7",
         "installedAt": "2026-01-02T21:52:18.157Z",
-        "lastUpdated": "2026-01-22T00:35:48.682Z",
+        "lastUpdated": "2026-02-07T00:38:31.149Z",
         "gitCommitSha": "c12b3faa797ba8bf87f2186946450ddef77cd3f0"
       }
     ],
@@ -54,40 +54,40 @@
     "frontend-design@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/frontend-design/e30768372b41",
-        "version": "e30768372b41",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/frontend-design/2cd88e7947b7",
+        "version": "2cd88e7947b7",
         "installedAt": "2026-01-11T02:30:45.661Z",
-        "lastUpdated": "2026-01-22T00:35:48.678Z",
+        "lastUpdated": "2026-02-07T00:38:31.150Z",
         "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
       }
     ],
     "code-review@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/code-review/e30768372b41",
-        "version": "e30768372b41",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/code-review/2cd88e7947b7",
+        "version": "2cd88e7947b7",
         "installedAt": "2026-01-11T02:30:45.670Z",
-        "lastUpdated": "2026-01-22T00:35:48.680Z",
+        "lastUpdated": "2026-02-07T00:38:31.151Z",
         "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
       }
     ],
     "security-guidance@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/security-guidance/e30768372b41",
-        "version": "e30768372b41",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/security-guidance/2cd88e7947b7",
+        "version": "2cd88e7947b7",
         "installedAt": "2026-01-11T02:30:45.680Z",
-        "lastUpdated": "2026-01-22T00:35:48.684Z",
+        "lastUpdated": "2026-02-07T00:38:31.147Z",
         "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
       }
     ],
     "playwright@claude-plugins-official": [
       {
         "scope": "user",
-        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/playwright/e30768372b41",
-        "version": "e30768372b41",
+        "installPath": "/Users/rselbach/.claude/plugins/cache/claude-plugins-official/playwright/2cd88e7947b7",
+        "version": "2cd88e7947b7",
         "installedAt": "2026-01-11T02:30:45.689Z",
-        "lastUpdated": "2026-01-22T00:35:48.683Z",
+        "lastUpdated": "2026-02-07T00:38:31.146Z",
         "gitCommitSha": "72aff7d3c37c25a3133136b048627bf0da1a1391"
       }
     ]
