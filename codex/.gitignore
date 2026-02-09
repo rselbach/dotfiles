@@ -8,3 +8,4 @@ shell_snapshots/
 version.json
 sqlite/
 vendor_imports/
+models_cache.json
