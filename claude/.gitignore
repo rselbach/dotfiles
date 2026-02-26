@@ -16,4 +16,5 @@ plans/
 stats-cache.json
 tasks/
 paste-cache/
-plugins/known_marketplaces.json
+plugins/
+teams/

@@ -21,3 +21,4 @@ prefix_rule(pattern=["git", "add", "Sources/Highlighting/MermaidHighlighter.swif
 prefix_rule(pattern=["git", "add", "Sources/Views/DocumentView.swift"], decision="allow")
 prefix_rule(pattern=["git", "add", ".github/dependabot.yml", "Tests/MermaidRendererSecurityTests.swift", "Tests/MermaidDocumentTests.swift", "Tests/MermaidRendererTests.swift", "Tests/PlantUMLRendererTests.swift"], decision="allow")
 prefix_rule(pattern=["git", "add", "Sources/Views/EditorView.swift"], decision="allow")
+prefix_rule(pattern=["just", "build"], decision="allow")

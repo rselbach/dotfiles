@@ -169,7 +169,8 @@ alias ll='ls -la'
 alias l='ls -la'
 alias pef='ps -ef'
 alias vim='nvim'
-
+alias claude='claude --dangerously-skip-permissions'
+alias codex='codex --yolo'
 # ============================================================================
 # Functions
 # ============================================================================

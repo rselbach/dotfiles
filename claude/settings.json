@@ -24,5 +24,18 @@
     "security-guidance@claude-plugins-official": true,
     "playwright@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": true
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "_ANTHROPIC_AUTH_TOKEN": "2f8b33ca0f6c466c9672f6ce14496c3f.hect5nz1x3pksXQC",
+    "_ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
+    "_ANTHROPIC_API_KEY": "",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
+    "_ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-Air",
+    "_ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-5",
+    "_ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5",
+    "_CLAUDE_CODE_SUBAGENT_MODEL": "glm-5"
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true
 }
