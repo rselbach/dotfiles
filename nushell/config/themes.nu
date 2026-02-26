@@ -5,6 +5,11 @@ export def gruvbox_light_hard [] {
     $env.config.color_config
 }
 
+export def tokyonight [] {
+    source tokyonight.nu
+    $env.config.color_config
+}
+
 export def catppuccin_mocha [] {
     source catppuccin-mocha.nu
     $env.config.color_config

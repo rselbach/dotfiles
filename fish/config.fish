@@ -212,15 +212,15 @@ fish_add_path $HOME/.opencode/bin
 # gpg
 set -gx GPG_TTY (tty)
 
-# Gruvbox Light Hard FZF colors
+# Tokyo Night FZF colors
 set -gx FZF_DEFAULT_OPTS "\
---color=bg+:#ebdbb2,bg:#f9f5d7,spinner:#d65d0e,hl:#cc241d \
---color=fg:#282828,header:#cc241d,info:#8f3f71,pointer:#d65d0e \
---color=marker:#8f3f71,fg+:#282828,prompt:#8f3f71,hl+:#cc241d \
---color=selected-bg:#d5c4a1"
+--color=bg+:#283457,bg:#1a1b26,spinner:#ff007c,hl:#2ac3de \
+--color=fg:#c0caf5,header:#ff9e64,info:#545c7e,pointer:#ff007c \
+--color=marker:#ff007c,fg+:#c0caf5,prompt:#2ac3de,hl+:#2ac3de \
+--color=selected-bg:#283457"
 
-# bat theme
-set -gx BAT_THEME "gruvbox-light"
+# bat theme (base16 picks up terminal's Tokyo Night palette)
+set -gx BAT_THEME "base16"
 
 # fnm (Fast Node Manager) - lazy loaded on first node/npm/npx call
 if type -q fnm; and not functions -q __fnm_initialized

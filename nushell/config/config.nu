@@ -47,15 +47,15 @@ $env.config = {
     }
 
     explore: {
-        status_bar_background: { fg: "#1D1F21", bg: "#C4C9C6" },
-        command_bar_text: { fg: "#C4C9C6" },
-        highlight: { fg: "black", bg: "yellow" },
+        status_bar_background: { fg: "#c0caf5", bg: "#1a1b26" },
+        command_bar_text: { fg: "#c0caf5" },
+        highlight: { fg: "#c0caf5", bg: "#e0af68" },
         status: {
-            error: { fg: "white", bg: "red" },
+            error: { fg: "#c0caf5", bg: "#f7768e" },
             warn: {}
             info: {}
         },
-        selected_cell: { bg: light_blue },
+        selected_cell: { bg: "#283457" },
     }
 
     history: {
@@ -89,7 +89,7 @@ $env.config = {
         vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
     }
 
-    color_config: (themes gruvbox_light_hard)
+    color_config: (themes tokyonight)
     #use_grid_icons: true
     footer_mode: "always" # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
