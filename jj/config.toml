@@ -25,7 +25,7 @@ backend = "gpg"
 key = "59B18958FD2754F97C355D0E7D1ABF3FA1B59C43"
 
 [templates]
-git_push_bookmark = '"rselbach/*" ++ change_id.short()'
+git_push_bookmark = '"rselbach/" ++ change_id.short()'
 
 [colors]
 # base customizations
