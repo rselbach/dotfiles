@@ -2,6 +2,7 @@
 font-family = "JetBrainsMono Nerd Font"
 font-style = Regular
 font-size = 16
+theme = TokyoNight Night
 
 # Window
 window-theme = ghostty
