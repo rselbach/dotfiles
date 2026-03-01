@@ -12,6 +12,8 @@ confirm-close-surface=false
 resize-overlay = never
 gtk-toolbar-style = flat
 
+split-divider-color = orange
+
 # Cursor styling
 cursor-style = "block"
 cursor-style-blink = false
