@@ -1,0 +1,7 @@
+[[links]]
+src = "config.toml"
+dst = "~/.config/jj/config.toml"
+
+[[links]]
+src = "conf.d/*"
+dst = "~/.config/jj/conf.d/<name>"

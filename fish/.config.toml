@@ -1,0 +1,5 @@
+target = "~/.config/fish"
+
+[[links]]
+src = "fish-wrapper.sh"
+dst = "~/.local/bin/fish.sh"

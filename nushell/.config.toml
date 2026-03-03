@@ -1,0 +1,12 @@
+[[links]]
+src = "config"
+dst = "~/.config/nushell"
+
+[[links]]
+src = "config"
+dst = "~/Library/Application Support/nushell"
+os = "darwin"
+
+[[run]]
+cmd = "go build -o \"$HOME/bin/nu\" ./cmd/startnu"
+cwd = "startnu"

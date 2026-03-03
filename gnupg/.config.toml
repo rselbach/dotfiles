@@ -1,0 +1,16 @@
+[[dirs]]
+path = "~/.gnupg"
+mode = "0700"
+
+[[links]]
+src = "gpg.conf"
+dst = "~/.gnupg/gpg.conf"
+
+[[links]]
+src = "gpg-agent.conf"
+dst = "~/.gnupg/gpg-agent.conf"
+
+[[links]]
+src = "scdaemon.conf"
+dst = "~/.gnupg/scdaemon.conf"
+optional = true

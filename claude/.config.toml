@@ -1,0 +1,7 @@
+[[links]]
+src = "settings.json"
+dst = "~/.claude/settings.json"
+
+[[links]]
+src = "../agents/AGENTS.md"
+dst = "~/.claude/CLAUDE.md"
