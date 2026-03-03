@@ -1,0 +1,11 @@
+[[links]]
+src = "settings.json"
+dst = "~/.config/amp/settings.json"
+
+[[links]]
+src = "../agents/AGENTS.md"
+dst = "~/.config/amp/AGENTS.md"
+
+[[links]]
+src = "commands"
+dst = "~/.config/amp/commands"
