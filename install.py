@@ -242,8 +242,11 @@ def expand_links(link: LinkSpec, config_dir: Path) -> list[tuple[Path, Path]]:
 
 
 def make_symlink(src: Path, dst: Path, manifest: dict) -> None:
-    """Create a symlink dst -> src, backing up any existing non-link."""
+    """Create a symlink dst -> src, skipping if already correct."""
     dst.parent.mkdir(parents=True, exist_ok=True)
+    if dst.is_symlink() and dst.resolve() == src.resolve():
+        record_symlink(manifest, dst)
+        return
     backup(dst)
     if dst.is_symlink():
         dst.unlink()
