@@ -20,6 +20,9 @@ Quit Brave first, then:
 powershell -ExecutionPolicy Bypass -File brave-defang.ps1
 ```
 
+The shell script auto-detects the OS via `uname -s` and uses the correct
+config path and process name for each platform.
+
 Verify after launching Brave at `brave://settings/wallet` and `brave://settings/web3`.
 
 ## What it disables

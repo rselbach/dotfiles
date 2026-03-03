@@ -1,13 +1,9 @@
 #!/bin/bash
 # Disable all crypto, ads, and revenue-generating features in Brave Browser.
 # Run with Brave closed. Edits Default/Preferences and Local State via jq.
-# Idempotent -- safe to re-run.
+# Supports macOS and Linux. Idempotent -- safe to re-run.
 
 set -euo pipefail
-
-BRAVE_DIR="${HOME}/Library/Application Support/BraveSoftware/Brave-Browser"
-PREFS="${BRAVE_DIR}/Default/Preferences"
-LOCAL_STATE="${BRAVE_DIR}/Local State"
 
 # -- helpers ----------------------------------------------------------------
 
@@ -24,11 +20,33 @@ jq_edit() {
   jq "$@" "${file}" > "${tmp}" && mv "${tmp}" "${file}"
 }
 
+# -- platform detection -----------------------------------------------------
+#
+#   macOS:  ~/Library/Application Support/BraveSoftware/Brave-Browser
+#   Linux:  ~/.config/BraveSoftware/Brave-Browser
+#
+case "$(uname -s)" in
+  Darwin)
+    BRAVE_DIR="${HOME}/Library/Application Support/BraveSoftware/Brave-Browser"
+    BRAVE_PGREP="Brave Browser"
+    ;;
+  Linux)
+    BRAVE_DIR="${HOME}/.config/BraveSoftware/Brave-Browser"
+    BRAVE_PGREP="brave"
+    ;;
+  *)
+    die "unsupported OS: $(uname -s)"
+    ;;
+esac
+
+PREFS="${BRAVE_DIR}/Default/Preferences"
+LOCAL_STATE="${BRAVE_DIR}/Local State"
+
 # -- preflight --------------------------------------------------------------
 
 require_cmd jq
 
-if pgrep -x "Brave Browser" >/dev/null 2>&1; then
+if pgrep -x "${BRAVE_PGREP}" >/dev/null 2>&1; then
   die "Brave is running -- quit it first"
 fi
 
