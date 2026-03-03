@@ -64,11 +64,16 @@ def pretty(p: Path) -> str:
 # ── config model ─────────────────────────────────────────────────────
 
 
+def current_host() -> str:
+    return platform.node().lower()
+
+
 @dataclass
 class LinkSpec:
     src: str
     dst: str
     os: str | None = None
+    hosts: list[str] | None = None
     optional: bool = False
 
 
@@ -83,6 +88,7 @@ class RunSpec:
     cmd: str
     cwd: str | None = None
     os: str | None = None
+    hosts: list[str] | None = None
 
 
 @dataclass
@@ -92,6 +98,55 @@ class Config:
     links: list[LinkSpec] = field(default_factory=list)
     dirs: list[DirSpec] = field(default_factory=list)
     runs: list[RunSpec] = field(default_factory=list)
+
+
+def active_links_for(links: list[LinkSpec]) -> list[LinkSpec]:
+    """Filter links for the current OS/host with host-specific priority.
+
+    Host-matched links shadow os-matched and universal links that share
+    the same src — so a host override fully replaces the default for
+    that source path.
+    """
+    host = current_host()
+    os_name = current_os()
+
+    host_matched: list[LinkSpec] = []
+    os_matched: list[LinkSpec] = []
+    universal: list[LinkSpec] = []
+
+    for link in links:
+        if link.hosts:
+            if host in [h.lower() for h in link.hosts]:
+                host_matched.append(link)
+        elif link.os:
+            if link.os == os_name:
+                os_matched.append(link)
+        else:
+            universal.append(link)
+
+    # host-specific links shadow others with the same dst
+    host_dsts = {link.dst for link in host_matched}
+    return (
+        [l for l in universal if l.dst not in host_dsts]
+        + [l for l in os_matched if l.dst not in host_dsts]
+        + host_matched
+    )
+
+
+def active_runs_for(runs: list[RunSpec]) -> list[RunSpec]:
+    """Filter run commands for the current OS/host."""
+    host = current_host()
+    os_name = current_os()
+    result: list[RunSpec] = []
+    for run in runs:
+        if run.hosts:
+            if host not in [h.lower() for h in run.hosts]:
+                continue
+        elif run.os:
+            if run.os != os_name:
+                continue
+        result.append(run)
+    return result
 
 
 def load_config(config_dir: Path) -> Config:
@@ -213,8 +268,8 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
             p.chmod(int(d.mode, 8))
         record_dir(manifest, p)
 
-    # filter links to those applicable on this OS
-    active_links = [l for l in config.links if not l.os or l.os == current_os()]
+    # filter links for current OS/host
+    active_links = active_links_for(config.links)
 
     # whole-directory symlink
     if config.target is not None:
@@ -238,10 +293,7 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
             make_symlink(src, dst, manifest)
 
     # post-install commands
-    for run in config.runs:
-        if run.os and run.os != current_os():
-            continue
-
+    for run in active_runs_for(config.runs):
         cwd = str(config_dir / run.cwd) if run.cwd else str(config_dir)
         print(f"  > {run.cmd}")
         result = subprocess.run(
@@ -288,65 +340,50 @@ def uninstall_from_manifest() -> None:
 
 
 def show_status() -> None:
-    """Check the health of all expected symlinks."""
-    manifest = load_manifest()
+    """Check the health of all expected symlinks, derived from configs."""
     ok = 0
     broken = 0
-
-    if not manifest.get("symlinks"):
-        # no manifest — show what we'd expect based on current configs
-        print("no manifest found; showing expected state\n")
-        for name in discover_dirs(DOTFILES):
-            config = load_config(DOTFILES / name)
-            if config.skip:
-                continue
-            show_expected_status(name, config)
-        return
-
-    for s in manifest["symlinks"]:
-        p = Path(s)
-        if p.is_symlink():
-            target = p.resolve()
-            print(f"  ok  {pretty(p)} -> {pretty(target)}")
-            ok += 1
-        else:
-            print(f"  BAD {pretty(p)} (missing)")
-            broken += 1
-
-    for s in manifest.get("files", []):
-        p = Path(s)
-        if p.exists():
-            print(f"  ok  {pretty(p)}")
-            ok += 1
-        else:
-            print(f"  BAD {pretty(p)} (missing)")
-            broken += 1
+    for name in discover_dirs(DOTFILES):
+        config = load_config(DOTFILES / name)
+        if config.skip:
+            continue
+        o, b = check_expected_status(name, config)
+        ok += o
+        broken += b
 
     print(f"\n{ok} ok, {broken} broken")
 
 
-def show_expected_status(name: str, config: Config) -> None:
-    """Show expected link status when no manifest exists."""
+def check_expected_status(name: str, config: Config) -> tuple[int, int]:
+    """Check symlink status for a config dir. Returns (ok, broken) counts."""
     config_dir = DOTFILES / name
-    active_links = [l for l in config.links if not l.os or l.os == current_os()]
+    active_links = active_links_for(config.links)
+    ok = 0
+    broken = 0
+
+    def check_symlink(dst: Path, expected_target: Path, label: str = "") -> None:
+        nonlocal ok, broken
+        if dst.is_symlink() and dst.resolve() == expected_target.resolve():
+            suffix = f" -> {pretty(expected_target)}"
+            print(f"  ok  {pretty(dst)}{suffix}")
+            ok += 1
+        else:
+            print(f"  BAD {pretty(dst)}{' (missing)' if not dst.exists() else ''}")
+            broken += 1
 
     if config.target is not None:
-        dst = resolve_path(config.target)
-        status = "ok" if (dst.is_symlink() and dst.resolve() == config_dir.resolve()) else "BAD"
-        print(f"  {status:3}  {pretty(dst)} -> {name}/")
-
+        check_symlink(resolve_path(config.target), config_dir)
     elif not active_links:
-        dst = resolve_path(f"~/.config/{name}")
-        status = "ok" if (dst.is_symlink() and dst.resolve() == config_dir.resolve()) else "BAD"
-        print(f"  {status:3}  {pretty(dst)} -> {name}/")
+        check_symlink(resolve_path(f"~/.config/{name}"), config_dir)
 
     for link in active_links:
         pairs = expand_links(link, config_dir)
         for src, dst in pairs:
             if not src.exists() and link.optional:
                 continue
-            status = "ok" if (dst.is_symlink() and dst.resolve() == src.resolve()) else "BAD"
-            print(f"  {status:3}  {pretty(dst)}")
+            check_symlink(dst, src)
+
+    return ok, broken
 
 
 # ── CLI ──────────────────────────────────────────────────────────────
@@ -360,7 +397,7 @@ def main() -> None:
     match command:
         case "install":
             names = rest if rest else discover_dirs(DOTFILES)
-            manifest = load_manifest()
+            manifest = {"symlinks": [], "files": [], "dirs_created": []}
             for name in names:
                 config_dir = DOTFILES / name
                 if not config_dir.is_dir():

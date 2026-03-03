@@ -1,0 +1,8 @@
+[[links]]
+src = "config.omarchy"
+dst = "~/.config/ghostty/config"
+hosts = ["callisto"]
+
+[[links]]
+src = "config"
+dst = "~/.config/ghostty/config"
