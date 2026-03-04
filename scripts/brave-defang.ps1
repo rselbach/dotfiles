@@ -32,9 +32,9 @@ function Ensure-Key {
 # Recursively convert PSCustomObject to hashtable (for PS 5.1 compat)
 function ConvertTo-Hashtable([psobject]$obj) {
   if ($obj -is [System.Collections.IList]) {
-    return @($obj | ForEach-Object { ConvertTo-Hashtable $_ })
+    return , @($obj | ForEach-Object { ConvertTo-Hashtable $_ })
   }
-  if ($obj -isnot [pscustomobject]) { return $obj }
+  if ($null -eq $obj -or $obj.GetType().Name -ne 'PSCustomObject') { return $obj }
   $ht = @{}
   $obj.PSObject.Properties | ForEach-Object { $ht[$_.Name] = ConvertTo-Hashtable $_.Value }
   return $ht
@@ -164,7 +164,11 @@ Write-Host 'patched Default/Preferences'
 
 #  ENS / SNS / Unstoppable Domains resolve_method = 1 (disabled)
 
-$ls    = Read-Json $LocalState
+$lsBak = "$LocalState.bak.$ts"
+Copy-Item -Path $LocalState -Destination $lsBak
+Write-Host "backed up Local State to $lsBak"
+
+$ls     = Read-Json $LocalState
 $lsBrave = Ensure-Key $ls 'brave' @{}
 
 $ens = Ensure-Key $lsBrave 'ens'                @{}
