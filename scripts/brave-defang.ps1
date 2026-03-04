@@ -29,9 +29,21 @@ function Ensure-Key {
   return $obj[$key]
 }
 
+# Recursively convert PSCustomObject to hashtable (for PS 5.1 compat)
+function ConvertTo-Hashtable([psobject]$obj) {
+  if ($obj -is [System.Collections.IList]) {
+    return @($obj | ForEach-Object { ConvertTo-Hashtable $_ })
+  }
+  if ($obj -isnot [pscustomobject]) { return $obj }
+  $ht = @{}
+  $obj.PSObject.Properties | ForEach-Object { $ht[$_.Name] = ConvertTo-Hashtable $_.Value }
+  return $ht
+}
+
 # Read JSON as nested hashtables (not PSCustomObject) so we can mutate freely.
 function Read-Json([string]$path) {
-  Get-Content -Raw -Path $path | ConvertFrom-Json -AsHashtable
+  $obj = Get-Content -Raw -Path $path | ConvertFrom-Json
+  return ConvertTo-Hashtable $obj
 }
 
 function Write-Json([string]$path, [hashtable]$data) {
