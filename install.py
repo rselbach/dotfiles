@@ -218,6 +218,11 @@ def discover_dirs(root: Path) -> list[str]:
 # ── glob + <name> expansion ─────────────────────────────────────────
 
 
+def is_absolute_src(src: str) -> bool:
+    """True when src should be resolved as an absolute path, not relative to config_dir."""
+    return src.startswith(("/", "~/", "$"))
+
+
 def expand_links(link: LinkSpec, config_dir: Path) -> list[tuple[Path, Path]]:
     """Expand a LinkSpec (possibly with globs and <name>) into (src, dst) pairs."""
     results = []
@@ -230,6 +235,10 @@ def expand_links(link: LinkSpec, config_dir: Path) -> list[tuple[Path, Path]]:
                 continue
             dst_str = link.dst.replace("<name>", src_path.name)
             results.append((src_path, resolve_path(dst_str)))
+    elif is_absolute_src(link.src):
+        src_path = resolve_path(link.src)
+        dst_str = link.dst.replace("<name>", src_path.name)
+        results.append((src_path, resolve_path(dst_str)))
     else:
         src_path = config_dir / link.src
         dst_str = link.dst.replace("<name>", src_path.name)
