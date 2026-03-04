@@ -1,0 +1,11 @@
+[[links]]
+src = "settings.json"
+dst = "~/.pi/settings.json"
+
+[[links]]
+src = "extensions"
+dst = "~/.pi/extensions"
+
+[[links]]
+src = "../agents/AGENTS.md"
+dst = "~/.pi/AGENTS.md"
