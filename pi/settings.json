@@ -6,6 +6,9 @@
   "skills": [
     "~/.config/agents/skills"
   ],
+  "prompts": [
+    "~/.pi/prompts"
+  ],
   "extensions": [
     "~/.pi/agent/extensions/editor",
     "~/.pi/agent/extensions/handoff.ts",
@@ -18,7 +21,7 @@
     "enabled": false
   },
   "lastChangelogVersion": "0.55.0",
-  "defaultModel": "kimi-k2.5",
+  "defaultModel": "glm-5",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,
   "steeringMode": "all",

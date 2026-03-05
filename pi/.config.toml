@@ -9,3 +9,7 @@ dst = "~/.pi/extensions"
 [[links]]
 src = "../agents/AGENTS.md"
 dst = "~/.pi/AGENTS.md"
+
+[[links]]
+src = "prompts"
+dst = "~/.pi/prompts"
