@@ -15,6 +15,7 @@ Usage:
 import json
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -75,6 +76,7 @@ class LinkSpec:
     os: str | None = None
     hosts: list[str] | None = None
     optional: bool = False
+    secrets: bool = False
 
 
 @dataclass
@@ -215,6 +217,53 @@ def discover_dirs(root: Path) -> list[str]:
     )
 
 
+# ── secrets ──────────────────────────────────────────────────────────
+
+_secrets_cache: dict | None = None
+
+
+def load_secrets() -> dict:
+    """Decrypt secrets.yaml via sops (cached for the run)."""
+    global _secrets_cache
+    if _secrets_cache is not None:
+        return _secrets_cache
+
+    secrets_path = DOTFILES / "secrets.yaml"
+    if not secrets_path.exists():
+        print("ERROR: secrets.yaml not found but a link has secrets=true")
+        sys.exit(1)
+
+    try:
+        result = subprocess.run(
+            ["sops", "-d", "--output-type", "json", str(secrets_path)],
+            capture_output=True, text=True,
+        )
+    except FileNotFoundError:
+        print("ERROR: sops is not installed")
+        sys.exit(1)
+
+    if result.returncode != 0:
+        print(f"ERROR: failed to decrypt secrets.yaml:\n  {result.stderr.strip()}")
+        sys.exit(1)
+
+    _secrets_cache = json.loads(result.stdout)
+    return _secrets_cache
+
+
+def render_template(src: Path, secrets: dict) -> str:
+    """Replace {{key}} placeholders with values from secrets dict."""
+    template = src.read_text()
+
+    def replacer(match: re.Match) -> str:
+        key = match.group(1).strip()
+        if key not in secrets:
+            print(f"  ERROR: secret '{key}' not found in secrets.yaml")
+            sys.exit(1)
+        return str(secrets[key])
+
+    return re.sub(r"\{\{(\s*\w+\s*)\}\}", replacer, template)
+
+
 # ── glob + <name> expansion ─────────────────────────────────────────
 
 
@@ -264,6 +313,26 @@ def make_symlink(src: Path, dst: Path, manifest: dict) -> None:
     print(f"  + {pretty(dst)} -> {pretty(src)}")
 
 
+def render_file(src: Path, dst: Path, manifest: dict) -> None:
+    """Render a template with secrets and write to dst (mode 0600)."""
+    secrets = load_secrets()
+    rendered = render_template(src, secrets)
+
+    # skip if already up to date
+    if dst.exists() and not dst.is_symlink() and dst.read_text() == rendered:
+        record_file(manifest, dst)
+        return
+
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    backup(dst)
+    if dst.exists() or dst.is_symlink():
+        dst.unlink()
+    dst.write_text(rendered)
+    dst.chmod(0o600)
+    record_file(manifest, dst)
+    print(f"  + {pretty(dst)} (rendered with secrets)")
+
+
 def install_dir(name: str, config: Config, manifest: dict) -> None:
     """Install a single config directory according to its Config."""
     config_dir = DOTFILES / name
@@ -302,7 +371,10 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
             if not src.exists():
                 print(f"  ? {name}: src missing: {link.src}")
                 continue
-            make_symlink(src, dst, manifest)
+            if link.secrets:
+                render_file(src, dst, manifest)
+            else:
+                make_symlink(src, dst, manifest)
 
     # post-install commands
     for run in active_runs_for(config.runs):
