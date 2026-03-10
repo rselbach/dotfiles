@@ -279,6 +279,7 @@ get-token() {
   printf '%s' "$token"
 }
 
+source "$HOME/devel/dotfiles/zsh/rc"
 
 # ============================================================================
 # Machine-specific (keep this last)

@@ -1,0 +1,20 @@
+_rc_dir="${${(%):-%N}:A:h}"
+
+for _rc_file in envs shell aliases functions init; do
+  source "${_rc_dir}/${_rc_file}"
+done
+
+if [[ $- == *i* ]]; then
+  autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+
+  bindkey '^[[A' up-line-or-beginning-search
+  bindkey '^[[B' down-line-or-beginning-search
+  bindkey '^[[C' forward-char
+  bindkey '^[[D' backward-char
+  bindkey '^I' menu-complete
+  bindkey '^[[Z' reverse-menu-complete
+fi
+
+unset _rc_dir _rc_file
