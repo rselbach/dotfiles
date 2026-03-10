@@ -138,7 +138,7 @@ fi
 
 autoload -Uz compinit && compinit -i
 
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu false
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
