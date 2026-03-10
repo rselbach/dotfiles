@@ -7,8 +7,14 @@ src = "gpg.conf"
 dst = "~/.gnupg/gpg.conf"
 
 [[links]]
-src = "gpg-agent.conf"
+src = "gpg-agent.mac"
 dst = "~/.gnupg/gpg-agent.conf"
+os = "darwin"
+
+[[links]]
+src = "gpg-agent.linux"
+dst = "~/.gnupg/gpg-agent.conf"
+os = "linux"
 
 [[links]]
 src = "scdaemon.conf"

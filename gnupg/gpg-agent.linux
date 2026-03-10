@@ -1,0 +1,9 @@
+# Enable SSH support
+enable-ssh-support
+
+# Cache TTL (seconds)
+default-cache-ttl 86400
+max-cache-ttl 86400
+
+# Pinentry program (linux)
+pinentry-program /usr/bin/pinentry-gnome3
