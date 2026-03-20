@@ -6,4 +6,4 @@ default-cache-ttl 86400
 max-cache-ttl 86400
 
 # Pinentry program (linux)
-pinentry-program /usr/bin/pinentry-gnome3
+pinentry-program /usr/bin/pinentry-curses
