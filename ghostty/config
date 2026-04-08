@@ -2,7 +2,7 @@
 font-family = "JetBrainsMono Nerd Font"
 font-style = Regular
 font-size = 16
-theme = Selenized Light
+theme = TokyoNight Night
 
 # Window
 window-theme = ghostty
@@ -33,4 +33,3 @@ keybind = shift+enter=text:\n
 
 # Slowdown mouse scrolling
 mouse-scroll-multiplier = 0.95
-
