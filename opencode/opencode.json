@@ -1,6 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
+    "fireworks-ai": {
+      "models": {
+        "accounts/fireworks/models/qwen3p6-plus": {
+          "name": "Qwen3.6 Plus"
+        }
+      }
+    },
     "ollama": {
       "models": {
         "glm-4.7-flash:latest": {
