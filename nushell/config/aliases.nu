@@ -11,7 +11,7 @@ alias v = nvim
 alias vim = nvim
 
 # System management
-alias hms = /nix/store/6kc5srg83nkyg21am089xx7pvq44kn2c-home-manager/bin/home-manager switch
+alias hms = home-manager switch
 alias as = aerospace
 
 # Git aliases

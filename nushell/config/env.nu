@@ -100,6 +100,7 @@ def create_right_prompt [] {
     } else { "" }
 
     ([$last_exit_code, (char space), $time_segment] | str join)
+}
 
 ^fnm env --json | from json | load-env
 
@@ -114,6 +115,6 @@ $env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
 $env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
 $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 
-$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense'  # optional but recommended
-mkdir $"($nu.cache-dir)"
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense'
+mkdir $"($nu.cache-dir)
 carapace _carapace nushell | save --force $"($nu.cache-dir)/carapace.nu"

@@ -5,13 +5,15 @@
   # directories that go to ~/.config/<name>
   configDirs = [
     "aerospace"
-    "alacritty"
-    "eza"
+    "agents"
+    "amp"
+    "atuin"
     "ghostty"
-    "i3"
     "jj"
+    "nushell"
     "nvim"
     "opencode"
+    "pi"
     "starship"
     "tmux"
     "zellij"
@@ -37,8 +39,5 @@ in {
 
     # ~/.claude
     ".claude".source = dotfilesPath + "/claude";
-
-    # fish config
-    ".config/fish".source = dotfilesPath + "/fish";
   };
 }
