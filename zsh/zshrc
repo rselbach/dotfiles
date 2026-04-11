@@ -220,6 +220,15 @@ alias codex='codex --yolo'
 source "$HOME/devel/dotfiles/zsh/rc"
 
 # ============================================================================
+# Packages
+# ============================================================================
+
+source "$HOME/devel/dotfiles/zsh/antigen"
+
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# ============================================================================
 # Machine-specific (keep this last)
 # ============================================================================
 
