@@ -6,6 +6,10 @@ if command -v eza &> /dev/null; then
   alias lta='lt -a'
 fi
 
+alias ll='ls -la'
+alias lll='ls -la'
+alias l='ls -la'
+
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 alias eff='$EDITOR "$(ff)"'
 
@@ -28,9 +32,11 @@ if command -v zoxide &> /dev/null; then
   }
 fi
 
-open() (
-  xdg-open "$@" >/dev/null 2>&1 &
-)
+if ! command -v open >/dev/null 2>&1 && command -v xdg-open >/dev/null 2>&1; then
+  open() (
+    xdg-open "$@" >/dev/null 2>&1 &
+  )
+fi
 
 # Directories
 alias ..='cd ..'
@@ -41,8 +47,13 @@ alias ....='cd ../../..'
 alias c='opencode'
 alias cx='printf "\033[2J\033[3J\033[H" && claude --allow-dangerously-skip-permissions'
 alias d='docker'
+alias claude='claude --dangerously-skip-permissions'
+alias codex='codex --yolo'
+alias pef='ps -ef'
 alias r='rails'
 alias t='tmux attach || tmux new -s Work'
+alias tx='tmux attach || tmux new'
+alias vim='nvim'
 n() {
   if (( $# == 0 )); then
     command nvim .
@@ -57,3 +68,5 @@ alias g='git'
 alias gcm='git commit -m'
 alias gcam='git commit -a -m'
 alias gcad='git commit -a --amend'
+alias rebase='git fetch -va && git rebase origin/main'
+alias rb='git fetch -va && git rebase origin/main'
