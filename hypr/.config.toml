@@ -1,0 +1,4 @@
+[[links]]
+src = "callisto"
+dst = "~/.config/hypr"
+hosts = ["callisto"]
