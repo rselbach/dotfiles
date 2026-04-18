@@ -3,6 +3,10 @@ get-github-token() {
   export HOMEBREW_GITHUB_API_TOKEN=$GITHUB_TOKEN
 }
 
+print-gpg-keys() {
+  op item get "GPG keys (GnuPG)" --account my.1password.ca --field notesPlain --reveal
+}
+
 get-token() {
   local item_name="${1:?Usage: get-token <item-name>}"
   local account="my.1password.ca"
