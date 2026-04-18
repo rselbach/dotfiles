@@ -1,4 +1,4 @@
-# SSH Port Forwarding Functions
+# SSH port forwarding helpers.
 fip() {
   (( $# < 2 )) && echo "Usage: fip <host> <port1> [port2] ..." && return 1
   local host="$1"

@@ -1,3 +1,12 @@
+export GOLANG_PROTOBUF_REGISTRATION_CONFLICT='ignore'
+export GOPRIVATE='github.com/hashicorp'
+
+path+=(
+  "${HOME}/.govm/current/bin"
+  "${HOME}/devel/go/bin"
+  "${HOME}/go/bin"
+)
+
 coverhtml() {
   go test -coverprofile=/tmp/c.out "$@" || return 1
   go tool cover -html=/tmp/c.out -o /tmp/coverage.html || return 2
@@ -8,5 +17,3 @@ coverhtml() {
     xdg-open /tmp/coverage.html
   fi
 }
-
-

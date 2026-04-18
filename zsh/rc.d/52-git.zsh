@@ -1,3 +1,10 @@
+alias g='git'
+alias gcm='git commit -m'
+alias gcam='git commit -a -m'
+alias gcad='git commit -a --amend'
+alias rebase='git fetch -va && git rebase origin/main'
+alias rb='git fetch -va && git rebase origin/main'
+
 # Create a new worktree and branch from within current git directory.
 ga() {
   if [[ -z "$1" ]]; then

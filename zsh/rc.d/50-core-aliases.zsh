@@ -1,0 +1,15 @@
+alias ll='ls -la'
+alias lll='ls -la'
+alias l='ls -la'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+alias cx='printf "\033[2J\033[3J\033[H" && claude --allow-dangerously-skip-permissions'
+alias d='docker'
+alias claude='claude --dangerously-skip-permissions'
+alias codex='codex --yolo'
+alias pef='ps -ef'
+alias r='rails'
+alias vim='nvim'
