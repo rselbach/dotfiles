@@ -1,0 +1,7 @@
+// Custom symbol override for keycode 94 (AB01) → grave
+partial modifier_keys
+xkb_symbols "remap_ab01_to_grave" {
+    key <LSGT> { [ grave, asciitilde ] };
+    include "level3(ralt_switch)"
+    include "compose(caps)"
+};

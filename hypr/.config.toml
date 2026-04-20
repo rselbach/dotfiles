@@ -1,4 +1,9 @@
 [[links]]
-src = "callisto"
+src = "callisto/"
 dst = "~/.config/hypr"
 hosts = ["callisto"]
+
+[[links]]
+src = "parallels/"
+dst = "~/.config/hypr"
+hosts = ["rhea-vm"]
