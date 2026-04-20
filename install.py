@@ -356,8 +356,10 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
     if config.target is not None:
         dst = resolve_path(config.target)
         make_symlink(config_dir, dst, manifest)
-    elif not active_links:
+    elif not config.links:
         # default: symlink to ~/.config/<name>
+        # only applies when no links were defined at all. if links were
+        # defined but all filtered out for this host/os, skip the default.
         dst = resolve_path(f"~/.config/{name}")
         dst.parent.mkdir(parents=True, exist_ok=True)
         make_symlink(config_dir, dst, manifest)
@@ -457,7 +459,7 @@ def check_expected_status(name: str, config: Config) -> tuple[int, int]:
 
     if config.target is not None:
         check_symlink(resolve_path(config.target), config_dir)
-    elif not active_links:
+    elif not config.links:
         check_symlink(resolve_path(f"~/.config/{name}"), config_dir)
 
     for link in active_links:
