@@ -7,3 +7,6 @@ source "${_zshrc_dir}/rc"
 [[ -f "${HOME}/.zsh.local" ]] && source "${HOME}/.zsh.local"
 
 unset _zshrc_dir
+
+# opencode
+export PATH=/home/rselbach/.opencode/bin:$PATH
