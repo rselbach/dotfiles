@@ -10,13 +10,28 @@ set-claude-deepseek() {
   export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 }
 
-set-claude-kimi() {
-  export ANTHROPIC_BASE_URL=https://api.kimi.com/coding
-  export ANTHROPIC_AUTH_TOKEN=$(get-token kimi)
-  export ANTHROPIC_MODEL=kimi-k2.6
-  export ANTHROPIC_DEFAULT_OPUS_MODEL=kimi-k2.6
-  export ANTHROPIC_DEFAULT_SONNET_MODEL=kimi-k2.6
-  export ANTHROPIC_DEFAULT_HAIKU_MODEL=kimi-k2.6
-  export CLAUDE_CODE_SUBAGENT_MODEL=kimi-k2.6
+__claude-via-fireworks() {
+  local model="$1"
+  local haiku_model="${2:-$model}"
+
+  export ANTHROPIC_BASE_URL=https://api.fireworks.ai/inference
+  export ANTHROPIC_AUTH_TOKEN=$(get-token fireworks)
+  export ANTHROPIC_MODEL="$model"
+  export ANTHROPIC_DEFAULT_OPUS_MODEL="$model"
+  export ANTHROPIC_DEFAULT_SONNET_MODEL="$model"
+  export ANTHROPIC_DEFAULT_HAIKU_MODEL="$haiku_model"
+  export CLAUDE_CODE_SUBAGENT_MODEL="$model"
   export ENABLE_TOOL_SEARCH=false
+}
+
+set-claude-qwen() {
+  __claude-via-fireworks accounts/fireworks/models/qwen3p6-plus
+}
+
+set-claude-glm() {
+  __claude-via-fireworks accounts/fireworks/models/glm-5p1
+}
+
+set-claude-kimi() {
+  __claude-via-fireworks accounts/fireworks/models/glm-5p1
 }
