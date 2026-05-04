@@ -4,3 +4,4 @@ export DEFAULT_USER='rselbach'
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export SUDO_EDITOR="${SUDO_EDITOR:-$EDITOR}"
 export BAT_THEME='ansi'
+export PROMPT_EOL_MARK=''
