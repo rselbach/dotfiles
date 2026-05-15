@@ -1,15 +1,15 @@
 [[links]]
 src = "settings.json"
-dst = "~/.pi/settings.json"
+dst = "~/.pi/agent/settings.json"
 
 [[links]]
 src = "extensions"
-dst = "~/.pi/extensions"
+dst = "~/.pi/agent/extensions"
 
 [[links]]
 src = "../agents/AGENTS.md"
-dst = "~/.pi/AGENTS.md"
+dst = "~/.pi/agent/AGENTS.md"
 
 [[links]]
 src = "prompts"
-dst = "~/.pi/prompts"
+dst = "~/.pi/agent/prompts"

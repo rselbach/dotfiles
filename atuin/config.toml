@@ -356,3 +356,17 @@ records = true
 ##
 ## Make directory expand instead of command:
 # columns = ["duration", "time", { type = "directory", expand = true }, { type = "command", expand = false }]
+
+[keymap]
+"left" = [
+  { when = "cursor-at-start", action = "exit" },
+  { action = "return-selection" }
+]
+"right" = [
+  { when = "cursor-at-end", action = "accept" },
+  { action = "cursor-right" },
+]
+"backspace" = [
+  { when = "cursor-at-start", action = "accept" },
+  { action = "delete-char-before" },
+]
