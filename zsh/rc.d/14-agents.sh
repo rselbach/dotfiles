@@ -1,5 +1,8 @@
 path+=("${HOME}/.opencode/bin")
 
+# speed up pi if launched outside a project dir
+export PI_LENS_STARTUP_MODE=quick
+
 alias c='opencode'
 
 set-claude-default() {
@@ -66,4 +69,3 @@ __claude-via-openrouter() {
   export CLAUDE_CODE_SUBAGENT_MODEL="$model"
   export ENABLE_TOOL_SEARCH=true
 }
-
