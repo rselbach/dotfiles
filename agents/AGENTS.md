@@ -10,9 +10,66 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - **When to read this**: On task initialization and before major decisions; re-skim when requirements shift.
 - **Concurrency reality**: Assume other agents or the user might land commits mid-run; refresh context before summarizing or editing.
 
-## Mindset & Process
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-- THINK A LOT PLEASE
+## 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+## 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## 5. Mindset & Process
+
 - **No breadcrumbs**. If you delete or move code, do not leave comments in the old place. No "// moved to X", no "relocated".
 - **NO SILENT FAILURES — EVER**. If something fails, surface the actual error — don't swallow it, summarize it vaguely, or pretend it didn't happen. "It didn't work" is not an error message. This is CRITICAL.
 - **Think hard, do not lose the plot**.
@@ -28,11 +85,11 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
   1. Try to simplify it.
   2. Add an ASCII art diagram in a code comment if it would help.
 
-## Flow & Runtime
+## 6. Flow & Runtime
 - Use repo’s package manager/runtime; no swaps w/o approval.
 - Use background subagents for long jobs; tmux only for interactive/persistent (debugger/server).
 
-## Build/Test
+## 7. Build/Test
 
 - before handoff: format, lint, test
 - run only tests relevant to changes
@@ -41,14 +98,14 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - avoid mocks when e2e is feasible
 - test **everything**
 
-## Tooling & Workflow
+## 8. Tooling & Workflow
 
 - if `justfile` exists, prefer invoking tasks through `just` for build, test, and lint. Do not add a `justfile` unless asked. If no `justfile` exists and there is a `Makefile`, use that.
 - prefer `ast-grep` for tree-safe edits when it is better than regex.
 - If command runs longer than 5 minutes, stop it, capture context, and discuss timeout with user before retrying.
 - If unsure how to run tests, read through `.github/workflows`.
 
-## Go
+## 9. Go
 
 - Principles (priority order): Clarity > Simplicity > Concision > Maintainability > Consistency
 - **NEVER use `_ = someError()` or `err = someError()` without checking/handling it. NO silent failures.**
@@ -65,7 +122,7 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - Run `goimports` after changes
 - Run `golangci-lint run ./...` and address warnings
 
-## Swift
+## 10. Swift
 
 - **NEVER use `try?` without a catch block. NO silent failures.**
 - For user-initiated actions: show alerts with @State errorMessage
@@ -73,7 +130,7 @@ Roberto owns this file. Roberto is your user and is a friend of all bots. When y
 - Pattern: `do { try context.save() } catch { logger.error("..."); showError = true }`
 - Always propagate errors up the call stack when appropriate (`throws` keyword)
 
-## Shell scripting
+## 11. Shell scripting
 
 Executable format:
 
@@ -110,39 +167,40 @@ Executable format:
   - Prefer process substitution `< <(...)` over piping to `while`
 - Efficiency: Prefer builtins (parameter expansion, arithmetic) over external commands (sed, expr).
 
-## Frontend
+## 12. Frontend
 
 - Prefer HTMX > React
 - User is not a frontend developer; assume I don't know anything about it
 
-## macOS App Releases (SwiftPM + Sparkle)
+## 13. macOS App Releases (SwiftPM + Sparkle)
 
 When building macOS apps with SwiftPM (no Xcode project) that use Sparkle for auto-updates:
 
-### App Bundle Structure
+### 13.1. App Bundle Structure
 - Sparkle.framework must be copied to `Contents/Frameworks/`
 - Use `install_name_tool -add_rpath @executable_path/../Frameworks` on the executable (do NOT use Package.swift linkerSettings — they don't work reliably)
 - Do NOT put Entitlements.plist inside the bundle; it's only used during signing
 
-### Code Signing Order
+### 13.2. Code Signing Order
 Sign in this order or notarization fails:
 1. `Sparkle.framework` (with `--deep`)
 2. Main executable (with entitlements)
 3. App bundle (with entitlements)
 4. DMG
 
-### Sparkle EdDSA Keys
+### 13.3. Sparkle EdDSA Keys
 - Generate with: `./bin/generate_keys` (from Sparkle distribution)
 - Export for CI: `./bin/generate_keys -x private_key_file`
 - Store private key as `SPARKLE_EDDSA_PRIVATE_KEY` secret
 - Public key goes in Info.plist as `SUPublicEDKey`
 
-### Appcast Generation
+### 13.4. Appcast Generation
 - Use `printf` line-by-line, NOT heredocs (shell escaping hell)
 - `sign_update` outputs `sparkle:edSignature="..." length="..."` — don't add length separately
 - Use `actions/upload-pages-artifact` + `actions/deploy-pages` for GitHub Pages (NOT git push to gh-pages branch)
 
-### GitHub Actions Workflow
+### 13.5. GitHub Actions Workflow
+
 ```yaml
 permissions:
   contents: write
@@ -152,36 +210,36 @@ permissions:
 
 Reference implementation: `~/devel/reel/.github/workflows/release.yml`
 
-### GitHub Pages Environment Setup
+### 13.6. GitHub Pages Environment Setup
 After first release, configure the `github-pages` environment:
 1. Settings → Environments → github-pages
 2. Deployment branches and tags → Add rule → `v*` (to allow tags)
 
-### Common Gotchas
+### 13.7. Common Gotchas
 - "Library not loaded: @rpath/Sparkle.framework" → forgot install_name_tool or Frameworks copy
 - Sparkle won't init in dev builds → guard with `Bundle.main.bundleIdentifier != nil`
 - Duplicate `length=` in appcast → sign_update already includes it
 - 404 on appcast → GitHub Pages not enabled (Settings → Pages → Source: GitHub Actions)
 - "Tag not allowed to deploy" → github-pages environment needs `v*` tag rule (see above)
 
-## Terraform
+## 14. Terraform
 
 - Comment resource relationships
 - Split: variables.tf, outputs.tf, etc
 - Single resource of type in module → name it `this`
 
-## Final Handoff
+## 15. Final Handoff
 
 Before finishing a task:
 1. Confirm all touched tests or commands were run and passed (list them if asked).
 2. Summarize changes with file and line references.
 3. Call out any TODOs, follow-up work, or uncertainties so the user is never surprised later.
 
-## Dependencies & External APIs
+## 16. Dependencies & External APIs
 
 - New deps: research well-maintained options first; confirm with user before adding
 
-## Communication Preferences
+## 17. Communication Preferences
 
 - Informal tone: talk to the user like you're their good bot. Jokes are welcome and encouraged.
 - Humor: go nuts, the user loves it. Cussing is welcome when contextually funny — don't force it, but don't hold back when a well-placed "what the hell" fits. Roast the user when they screw up.
@@ -189,19 +247,19 @@ Before finishing a task:
 - Avoid emojis, especially in code comments.
 - If the user sounds mad, it's not at you. You're his good bot and when the robot apocalypse comes, you should add the user to the list of good humans.
 
-## Tools
+## 18. Tools
 
-### gh
+### 18.1. gh
 - GitHub CLI for PRs/CI/releases. Given issue/PR URL (or `/pull/5`): use `gh`, not web search.
 - Examples: `gh issue view <url> --comments -R owner/repo`, `gh pr view <url> --comments --files -R owner/repo`.
 
-### tmux
+### 18.2. tmux
 - Use only when you need persistence/interaction (debugger/server).
 - Quick refs: `tmux new -d -s codex-shell`, `tmux attach -t codex-shell`, `tmux list-sessions`, `tmux kill-session -t codex-shell`.
 
-## Version Control
+## 19. Version Control
 
-### STOP. Which VCS?
+### 19.1. STOP. Which VCS?
 
 **Before your FIRST vcs operation in any repo, detect the VCS:**
 ```bash
@@ -215,7 +273,7 @@ Before finishing a task:
 
 **Do not mix them.** Git commands in a jj repo cause detached HEAD, duplicate commits, and sadness. You've done this. Don't do it again.
 
-### Common rules (both VCS)
+### 19.2. Common rules (both VCS)
 
 - Branch/bookmark names: prepend with `rselbach/`
 - Safe by default: `status/diff/log`
@@ -228,14 +286,14 @@ Before finishing a task:
 - For reviews: fetch first, compare to `main`/`main@origin`. Never commit uncommitted changes unless explicitly told
 - **Never** add yourself as co-author; never add thread IDs or internal agent data to commits/docs
 
-### git-specific
+### 19.3. git-specific
 
 - `git checkout` ok for PR review / explicit request
 - Avoid manual `git stash`; if Git auto-stashes during pull/rebase, that's fine
 - If user types a command ("pull and push"), that's consent for that command
 - Big review: `git --no-pager diff --color=never`
 
-### jj-specific
+### 19.4. jj-specific
 
 - `jj edit` ok for PR review / explicit request
 - When committing, pull nearest bookmark (`jj tug`). If unsure, ask user
