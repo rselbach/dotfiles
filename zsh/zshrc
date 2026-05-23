@@ -10,3 +10,7 @@ unset _zshrc_dir
 
 # opencode
 export PATH=/home/rselbach/.opencode/bin:$PATH
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/rselbach/.local/bin:$PATH"

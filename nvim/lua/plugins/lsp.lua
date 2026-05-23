@@ -1,9 +1,9 @@
 return {
-  -- Disable LSP inlay hints by default (LazyVim enables them unless overridden)
+  -- Enable LSP inlay hints for VS Code-style parameter/type context
   {
     "neovim/nvim-lspconfig",
     opts = {
-      inlay_hints = { enabled = false },
+      inlay_hints = { enabled = true },
       servers = {
         gopls = {
           settings = {

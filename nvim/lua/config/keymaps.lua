@@ -5,6 +5,12 @@
 local map = vim.keymap.set
 -- jump backwards in jump list (alternative to <C-o>)
 map("n", "<C-->", "<C-o>", { desc = "Jump backwards in jump list" })
+-- gui-style buffer navigation
+map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+map("n", "<C-w>", "<cmd>bd<cr>", { desc = "Close buffer" })
+-- command palette
+map("n", "<C-S-p>", "<cmd>lua Snacks.picker.commands()<cr>", { desc = "Command palette" })
 -- start visual selection with shift+arrows (normal mode)
 map("n", "<S-Left>", "v<Left>")
 map("n", "<S-Right>", "v<Right>")

@@ -4,6 +4,7 @@
 --
 vim.opt.wrap = true
 vim.opt.scrolloff = 8
+vim.opt.mouse = "a"
 -- vim.g.codeium_os = "Darwin"
 -- vim.g.codeium_arch = "arm64"
 vim.g.codeium_enabled = false
