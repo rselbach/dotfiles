@@ -1,11 +1,11 @@
 {
-  "lastChangelogVersion": "0.75.3",
+  "lastChangelogVersion": "0.75.5",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "npm:pi-web-access",
-    "npm:@alexgorbatchev/pi-cmux-notify"
+    "npm:pi-mcp-adapter"
   ]
 }
