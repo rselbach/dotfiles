@@ -3,6 +3,12 @@
 -- Add any additional keymaps here
 
 local map = vim.keymap.set
+
+if vim.fn.has("macunix") == 1 then
+  map("n", "<D-c>", '"+yy', { desc = "Copy line to system clipboard" })
+  map("x", "<D-c>", '"+y', { desc = "Copy selection to system clipboard" })
+end
+
 -- jump backwards in jump list (alternative to <C-o>)
 map("n", "<C-->", "<C-o>", { desc = "Jump backwards in jump list" })
 -- gui-style buffer navigation
