@@ -1,11 +1,12 @@
 {
-  "lastChangelogVersion": "0.75.5",
-  "defaultProvider": "openai-codex",
+  "lastChangelogVersion": "0.78.1",
+  "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "npm:pi-web-access",
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-dynamic-workflows"
   ]
 }
