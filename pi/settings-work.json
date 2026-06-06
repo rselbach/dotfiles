@@ -1,6 +1,6 @@
 {
   "lastChangelogVersion": "0.78.1",
-  "defaultProvider": "openai-codex",
+  "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,

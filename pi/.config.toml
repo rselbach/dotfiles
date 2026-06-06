@@ -3,6 +3,11 @@ src = "settings.json"
 dst = "~/.pi/agent/settings.json"
 
 [[links]]
+src = "settings-work.json"
+dst = "~/.pi/agent/settings.json"
+hosts = ["rselbach-work"]
+
+[[links]]
 src = "extensions"
 dst = "~/.pi/agent/extensions"
 
