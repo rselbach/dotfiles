@@ -1,12 +1,13 @@
 {
-  "lastChangelogVersion": "0.78.1",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.5",
+  "lastChangelogVersion": "0.79.4",
+  "defaultProvider": "kimi-coding",
+  "defaultModel": "k2p7",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "npm:pi-web-access",
     "npm:pi-mcp-adapter",
     "npm:pi-dynamic-workflows"
-  ]
+  ],
+  "theme": "dark"
 }
