@@ -10,5 +10,6 @@
         "--isolated"
       ]
     }
-  }
+  },
+  "amp.gauge": "cost"
 }

@@ -49,11 +49,11 @@ set-claude-qwen-max() {
 }
 
 set-claude-glm() {
-  __claude-via-fireworks accounts/fireworks/models/glm-5p1
+  __claude-via-fireworks accounts/fireworks/models/glm-5p2
 }
 
 set-claude-kimi() {
-  __claude-via-fireworks accounts/fireworks/models/glm-5p1
+  __claude-via-fireworks accounts/fireworks/models/kimi-2p7
 }
 
 __claude-via-openrouter() {

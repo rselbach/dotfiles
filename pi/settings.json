@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.79.4",
-  "defaultProvider": "kimi-coding",
-  "defaultModel": "k2p7",
+  "lastChangelogVersion": "0.79.8",
+  "defaultProvider": "zai-coding-cn",
+  "defaultModel": "glm-5.2",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
