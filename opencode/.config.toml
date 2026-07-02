@@ -5,3 +5,7 @@ dst = "~/.config/opencode/opencode.json"
 [[links]]
 src = "../agents/AGENTS.md"
 dst = "~/.config/opencode/AGENTS.md"
+
+[[links]]
+src = "agent"
+dst = "~/.config/opencode/agent"

@@ -1,11 +1,10 @@
 {
-  "lastChangelogVersion": "0.79.8",
-  "defaultProvider": "zai-coding-cn",
-  "defaultModel": "glm-5.2",
-  "defaultThinkingLevel": "high",
-  "hideThinkingBlock": true,
+  "lastChangelogVersion": "0.80.2",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "xhigh",
+  "hideThinkingBlock": false,
   "packages": [
-    "npm:pi-web-access",
     "npm:pi-mcp-adapter",
     "npm:pi-dynamic-workflows"
   ],

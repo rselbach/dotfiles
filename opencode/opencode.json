@@ -5,27 +5,15 @@
       "options": {
         "baseURL": "https://api.kimi.com/coding/v1"
       }
-    },
-    "fireworks-ai": {
-      "models": {
-        "accounts/fireworks/models/qwen3p6-plus": {
-          "name": "Qwen3.6 Plus"
-        },
-        "accounts/fireworks/models/deepseek-v4-pro": {
-          "name": "DeepSeek V4 Pro"
-        }
-      }
-    },
-    "ollama": {
-      "models": {
-        "glm-4.7-flash:latest": {
-          "name": "glm-4.7-flash:latest [Ollama]"
-        }
-      },
-      "name": "Ollama (local)",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
+    }
+  },
+  "mcp": {
+    "excalidraw": {
+      "type": "remote",
+      "url": "https://api.excalidraw.com/api/v1/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
       }
     }
   },
