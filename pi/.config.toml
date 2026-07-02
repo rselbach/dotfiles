@@ -1,3 +1,9 @@
+[[dirs]]
+path = "~/.pi/agent/extensions"
+
+[[dirs]]
+path = "~/.pi/agent/skills"
+
 [[links]]
 src = "settings.json"
 dst = "~/.pi/agent/settings.json"
@@ -8,8 +14,13 @@ dst = "~/.pi/agent/settings.json"
 hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
-src = "extensions"
-dst = "~/.pi/agent/extensions"
+src = "extensions/common/*"
+dst = "~/.pi/agent/extensions/<name>"
+
+[[links]]
+src = "extensions/hosts/rselbach-KJG3M7PY7D/*"
+dst = "~/.pi/agent/extensions/<name>"
+hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
 src = "../agents/AGENTS.md"
@@ -18,3 +29,12 @@ dst = "~/.pi/agent/AGENTS.md"
 [[links]]
 src = "prompts"
 dst = "~/.pi/agent/prompts"
+
+[[links]]
+src = "skills/common/*"
+dst = "~/.pi/agent/skills/<name>"
+
+[[links]]
+src = "skills/hosts/rselbach-KJG3M7PY7D/*"
+dst = "~/.pi/agent/skills/<name>"
+hosts = ["rselbach-KJG3M7PY7D"]

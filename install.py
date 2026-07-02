@@ -102,37 +102,29 @@ class Config:
     runs: list[RunSpec] = field(default_factory=list)
 
 
-def active_links_for(links: list[LinkSpec]) -> list[LinkSpec]:
-    """Filter links for the current OS/host with host-specific priority.
+@dataclass
+class ActiveLink:
+    link: LinkSpec
+    src: Path
+    dst: Path
+    specificity: int
+    index: int
 
-    Host-matched links shadow os-matched and universal links that share
-    the same src — so a host override fully replaces the default for
-    that source path.
-    """
+
+def active_link_specificity(link: LinkSpec) -> int | None:
+    """Return link priority for this host, or None when inactive."""
     host = current_host()
     os_name = current_os()
 
-    host_matched: list[LinkSpec] = []
-    os_matched: list[LinkSpec] = []
-    universal: list[LinkSpec] = []
-
-    for link in links:
-        if link.hosts:
-            if host in [h.lower() for h in link.hosts]:
-                host_matched.append(link)
-        elif link.os:
-            if link.os == os_name:
-                os_matched.append(link)
-        else:
-            universal.append(link)
-
-    # host-specific links shadow others with the same dst
-    host_dsts = {link.dst for link in host_matched}
-    return (
-        [l for l in universal if l.dst not in host_dsts]
-        + [l for l in os_matched if l.dst not in host_dsts]
-        + host_matched
-    )
+    if link.hosts:
+        if host in [h.lower() for h in link.hosts]:
+            return 2
+        return None
+    if link.os:
+        if link.os == os_name:
+            return 1
+        return None
+    return 0
 
 
 def active_runs_for(runs: list[RunSpec]) -> list[RunSpec]:
@@ -296,7 +288,49 @@ def expand_links(link: LinkSpec, config_dir: Path) -> list[tuple[Path, Path]]:
     return results
 
 
+def active_link_entries_for(
+    links: list[LinkSpec],
+    config_dir: Path,
+) -> list[ActiveLink]:
+    """Return active expanded links, with host/os entries overriding defaults."""
+    entries: list[ActiveLink] = []
+
+    for index, link in enumerate(links):
+        specificity = active_link_specificity(link)
+        if specificity is None:
+            continue
+
+        for src, dst in expand_links(link, config_dir):
+            if link.optional and not src.exists():
+                continue
+            entries.append(ActiveLink(link, src, dst, specificity, index))
+
+    winners: dict[str, ActiveLink] = {}
+    for entry in entries:
+        key = str(entry.dst)
+        previous = winners.get(key)
+        if previous is None:
+            winners[key] = entry
+            continue
+        if (entry.specificity, entry.index) >= (
+            previous.specificity,
+            previous.index,
+        ):
+            winners[key] = entry
+
+    return [entry for entry in entries if winners[str(entry.dst)] is entry]
+
+
 # ── install logic ────────────────────────────────────────────────────
+
+
+def ensure_dir(path: Path, manifest: dict) -> None:
+    """Create a real directory, replacing an existing symlink if needed."""
+    if path.is_symlink():
+        path.unlink()
+        print(f"  ! replaced {pretty(path)} symlink with directory")
+    path.mkdir(parents=True, exist_ok=True)
+    record_dir(manifest, path)
 
 
 def make_symlink(src: Path, dst: Path, manifest: dict) -> None:
@@ -344,13 +378,9 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
     # pre-create directories
     for d in config.dirs:
         p = resolve_path(d.path)
-        p.mkdir(parents=True, exist_ok=True)
+        ensure_dir(p, manifest)
         if d.mode:
             p.chmod(int(d.mode, 8))
-        record_dir(manifest, p)
-
-    # filter links for current OS/host
-    active_links = active_links_for(config.links)
 
     # whole-directory symlink
     if config.target is not None:
@@ -365,18 +395,17 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
         make_symlink(config_dir, dst, manifest)
 
     # explicit links
-    for link in active_links:
-        pairs = expand_links(link, config_dir)
-        for src, dst in pairs:
-            if not src.exists() and link.optional:
-                continue
-            if not src.exists():
-                print(f"  ? {name}: src missing: {link.src}")
-                continue
-            if link.secrets:
-                render_file(src, dst, manifest)
-            else:
-                make_symlink(src, dst, manifest)
+    for entry in active_link_entries_for(config.links, config_dir):
+        link = entry.link
+        src = entry.src
+        dst = entry.dst
+        if not src.exists():
+            print(f"  ? {name}: src missing: {link.src}")
+            continue
+        if link.secrets:
+            render_file(src, dst, manifest)
+        else:
+            make_symlink(src, dst, manifest)
 
     # post-install commands
     for run in active_runs_for(config.runs):
@@ -443,7 +472,6 @@ def show_status() -> None:
 def check_expected_status(name: str, config: Config) -> tuple[int, int]:
     """Check symlink status for a config dir. Returns (ok, broken) counts."""
     config_dir = DOTFILES / name
-    active_links = active_links_for(config.links)
     ok = 0
     broken = 0
 
@@ -462,12 +490,8 @@ def check_expected_status(name: str, config: Config) -> tuple[int, int]:
     elif not config.links:
         check_symlink(resolve_path(f"~/.config/{name}"), config_dir)
 
-    for link in active_links:
-        pairs = expand_links(link, config_dir)
-        for src, dst in pairs:
-            if not src.exists() and link.optional:
-                continue
-            check_symlink(dst, src)
+    for entry in active_link_entries_for(config.links, config_dir):
+        check_symlink(entry.dst, entry.src)
 
     return ok, broken
 
