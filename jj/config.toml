@@ -53,6 +53,8 @@ n = ["new"]
 tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
 # rebase current branch onto trunk
 retrunk = ["rebase", "-d", "trunk()"]
+# new-branch
+nb = ["util", "exec", "--", "sh", "-c", "jj bookmark set \"$1\" -r @", ""]
 
 # git alias ports
 # view the current working tree status
