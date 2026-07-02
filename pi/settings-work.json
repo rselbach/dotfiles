@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.78.1",
+  "lastChangelogVersion": "0.80.3",
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
@@ -7,6 +7,8 @@
   "packages": [
     "npm:pi-web-access",
     "npm:pi-mcp-adapter",
-    "npm:pi-dynamic-workflows"
-  ]
+    "npm:pi-dynamic-workflows",
+    "npm:@ff-labs/pi-fff"
+  ],
+  "theme": "dark"
 }
