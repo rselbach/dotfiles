@@ -1,8 +1,12 @@
 ---
 description: Focused execution subagent that carries out the specific task delegated to it by Orchestrator. Cannot spawn further subagents.
 mode: subagent
-model: fireworks-ai/accounts/fireworks/models/kimi-k2p7-code
-# zai-coding-plan/glm-5.2
+#model: fireworks-ai/accounts/fireworks/models/kimi-k2p7-code
+#model: zai-coding-plan/glm-5.2
+#model: fireworks-ai/accounts/fireworks/models/glm-5p2
+model: opencode-go/glm-5.2
+#model: openai/gpt-5.5
+#reasoningEffort: medium
 permission:
   task: deny
 ---
