@@ -14,6 +14,10 @@ dst = "~/.pi/agent/settings.json"
 hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
+src = "models.json"
+dst = "~/.pi/agent/models.json"
+
+[[links]]
 src = "extensions/common/*"
 dst = "~/.pi/agent/extensions/<name>"
 
