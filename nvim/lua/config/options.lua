@@ -3,6 +3,7 @@
 -- Add any additional options here
 --
 vim.opt.wrap = true
+vim.opt.textwidth = 80
 vim.opt.scrolloff = 8
 vim.opt.mouse = "a"
 -- vim.g.codeium_os = "Darwin"

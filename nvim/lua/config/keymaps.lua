@@ -17,6 +17,9 @@ map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 map("n", "<C-w>", "<cmd>bd<cr>", { desc = "Close buffer" })
 -- command palette
 map("n", "<C-S-p>", "<cmd>lua Snacks.picker.commands()<cr>", { desc = "Command palette" })
+-- fill text using textwidth
+map("n", "<leader>gq", "gww", { desc = "Fill line" })
+map("x", "<leader>gq", "gw", { desc = "Fill selection" })
 -- start visual selection with shift+arrows (normal mode)
 map("n", "<S-Left>", "v<Left>")
 map("n", "<S-Right>", "v<Right>")
