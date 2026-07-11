@@ -17,6 +17,9 @@
       }
     }
   },
+  "plugin": [
+    "./plugins/opencode-codex-identity-plugin.ts"
+  ],
   "permission": {
     "*": "allow"
   }
