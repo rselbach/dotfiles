@@ -1,6 +1,6 @@
 ---
 name: adversarial-code-review
-description: Perform exhaustive, adversarial code reviews that try to falsify a change's correctness and prove concrete defects with evidence. Use when the user asks to red-team, attack, disprove, or conduct an adversarial review of a pull request, branch, commit, diff, staged changes, or uncommitted changes.
+description: Perform exhaustive adversarial code reviews that try to falsify changes and prove concrete correctness, resilience, security, or operability defects with evidence. Use when the user asks for an adversarial, hostile, skeptical, red-team, break-it, or failure-mode review of a pull request, branch/ref, commit, diff or patch, staged changes, uncommitted changes, or selected code. Do not use for implementation or style-only reviews.
 ---
 
 # Adversarial Code Review
@@ -47,17 +47,28 @@ them before reporting so the review does not silently target stale code.
 Determine the target precisely:
 
 - **Pull request:** use `gh`, not web search. Read its description, linked issue,
-  commits, changed files, existing discussion, base, and head. Fetch before
-  comparing. Do not check out the PR without consent.
-- **Uncommitted changes:** inspect status, staged changes, unstaged changes, and
-  untracked files. An ordinary diff may omit some of these.
+  commits, checks, complete changed-file list, full patch, existing discussion,
+  base/head refs, and revisions. Fetch before comparing. Do not check out the PR
+  without consent.
+- **Uncommitted Git changes:** inspect status, staged and unstaged diffs, and
+  untracked non-ignored files. An ordinary diff may omit some of these.
+- **Uncommitted jj changes:** inspect `jj status` and the working-copy diff.
+- **Staged changes:** review only the Git index. Confirm the intended scope in a
+  jj repository because jj has no staging area.
 - **Branch or commit:** compare against the base named by the user. If none was
   named, resolve the remote default branch; ask if the intended base remains
-  ambiguous. Use merge-base semantics for a branch review.
-- **Provided diff or files:** state that history, call sites, and runtime
-  verification may be unavailable.
+  ambiguous. Use merge-base semantics for a branch review and exclude unrelated
+  working-copy changes.
+- **Provided patch, files, or directories:** use exactly the supplied scope and
+  state that history, call sites, or runtime verification may be unavailable.
 
-Do not silently expand or narrow the scope.
+If no target is explicit, inspect status without changing it. Use the only
+plausible scope if there is one; ask if branch commits and local changes are both
+plausible or the base remains ambiguous.
+
+Surface the exact error if fetching, authentication, or target resolution fails.
+Never quietly review stale or partial data. Do not silently expand or narrow the
+scope.
 
 ## 2. Establish the Claims
 
@@ -83,6 +94,12 @@ An assumption repeated throughout the codebase is still an assumption.
 
 For each meaningful changed behavior, vary inputs, state, timing, dependency
 behavior, and deployment conditions. Try to make the claim false.
+
+For every changed flow, internally track:
+
+```text
+assumption -> enforcing guarantee -> adversarial probe -> observed result
+```
 
 ### Assumption Audit
 
@@ -121,8 +138,9 @@ an overall budget, and compatible with side-effect and cleanup semantics.
 ### Control Flow and State
 
 - Exercise every branch, early return, default, fallback, and state transition.
-- Attack zero, empty, nil/null, missing, duplicate, malformed, maximum,
-  overflow, and boundary values.
+- Attack zero, empty, nil/null, missing, duplicate, malformed, oversized,
+  Unicode, maximum, overflow, and boundary values.
+- Test precision loss, time zones, DST, clock skew, and expiration boundaries.
 - Look for stale state, partial initialization, shadowed values, wrong ownership,
   invalid transitions, and behavior that depends on call order.
 - Scrutinize deleted checks and changed failure semantics as aggressively as
@@ -135,6 +153,8 @@ an overall budget, and compatible with side-effect and cleanup semantics.
   classification, double handling, and success reported after failure.
 - Verify cleanup on every exit: locks, files, goroutines/tasks, transactions,
   temporary state, and external resources.
+- Crash or restart between related writes and verify transaction, rollback, and
+  recovery semantics.
 - Attack rollback and retry paths, not only the happy path.
 
 ### Concurrency and Time
@@ -173,8 +193,11 @@ an overall budget, and compatible with side-effect and cleanup semantics.
 
 - Attack realistic production cardinality, latency, retries, and dependency
   degradation.
-- Look for unbounded work, leaks, hot loops, fan-out, lock contention, and
-  startup or shutdown failures.
+- Look for unbounded work, leaks, hot loops, fan-out, lock contention, missing
+  backpressure, resource-pool exhaustion, and startup or shutdown failures.
+- Test missing or invalid configuration, permission failures, read-only or full
+  disks, unsupported platforms, and health checks that pass while required
+  dependencies remain unusable.
 - Verify that failures are observable and that logs/metrics do not falsely
   report success or expose sensitive data.
 
@@ -197,11 +220,15 @@ For each candidate defect:
 2. Identify the violated contract or invariant.
 3. Search all relevant call sites, guards, types, and tests for evidence that
    prevents the failure.
-4. Run the smallest relevant test, build, lint, static analysis, or reproduction
+4. Verify uncertain library or API semantics against authoritative documentation
+   or source instead of relying on memory.
+5. Run the smallest relevant test, build, lint, static analysis, or reproduction
    when feasible.
-5. Prefer a minimal temporary reproducer that does not alter the worktree. Do
+6. Do not execute untrusted reviewed code, install dependencies, or contact
+   writable production services without explicit permission.
+7. Prefer a minimal temporary reproducer that does not alter the worktree. Do
    not add a test or patch during a review unless asked.
-6. Compare with the base revision when necessary to show the change introduced
+8. Compare with the base revision when necessary to show the change introduced
    or worsened the behavior.
 
 A finding must have all of these:
