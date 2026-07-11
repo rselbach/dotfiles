@@ -370,3 +370,7 @@ records = true
   { when = "cursor-at-start", action = "accept" },
   { action = "delete-char-before" },
 ]
+
+[ai]
+enabled = true
+model = "fast"
