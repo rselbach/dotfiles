@@ -13,6 +13,7 @@
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
 Before implementing:
+
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
@@ -35,12 +36,14 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 **Touch only what you must. Clean up only your own mess.**
 
 When editing existing code:
+
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it - don't delete it.
 
 When your changes create orphans:
+
 - Remove imports/variables/functions that YOUR changes made unused.
 - Don't remove pre-existing dead code unless asked.
 
@@ -51,11 +54,13 @@ The test: Every changed line should trace directly to the user's request.
 **Define success criteria. Loop until verified.**
 
 Transform tasks into verifiable goals:
+
 - "Add validation" → "Write tests for invalid inputs, then make them pass"
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
 For multi-step tasks, state a brief plan:
+
 ```
 1. [Step] → verify: [check]
 2. [Step] → verify: [check]
@@ -82,6 +87,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
   2. Add an ASCII art diagram in a code comment if it would help.
 
 ## 6. Flow & Runtime
+
 - Use repo’s package manager/runtime; no swaps w/o approval.
 - Use background subagents for long jobs; tmux only for interactive/persistent (debugger/server).
 
@@ -173,24 +179,29 @@ Executable format:
 When building macOS apps with SwiftPM (no Xcode project) that use Sparkle for auto-updates:
 
 ### 13.1. App Bundle Structure
+
 - Sparkle.framework must be copied to `Contents/Frameworks/`
 - Use `install_name_tool -add_rpath @executable_path/../Frameworks` on the executable (do NOT use Package.swift linkerSettings — they don't work reliably)
 - Do NOT put Entitlements.plist inside the bundle; it's only used during signing
 
 ### 13.2. Code Signing Order
+
 Sign in this order or notarization fails:
+
 1. `Sparkle.framework` (with `--deep`)
 2. Main executable (with entitlements)
 3. App bundle (with entitlements)
 4. DMG
 
 ### 13.3. Sparkle EdDSA Keys
+
 - Generate with: `./bin/generate_keys` (from Sparkle distribution)
 - Export for CI: `./bin/generate_keys -x private_key_file`
 - Store private key as `SPARKLE_EDDSA_PRIVATE_KEY` secret
 - Public key goes in Info.plist as `SUPublicEDKey`
 
 ### 13.4. Appcast Generation
+
 - Use `printf` line-by-line, NOT heredocs (shell escaping hell)
 - `sign_update` outputs `sparkle:edSignature="..." length="..."` — don't add length separately
 - Use `actions/upload-pages-artifact` + `actions/deploy-pages` for GitHub Pages (NOT git push to gh-pages branch)
@@ -207,11 +218,14 @@ permissions:
 Reference implementation: `~/devel/reel/.github/workflows/release.yml`
 
 ### 13.6. GitHub Pages Environment Setup
+
 After first release, configure the `github-pages` environment:
+
 1. Settings → Environments → github-pages
 2. Deployment branches and tags → Add rule → `v*` (to allow tags)
 
 ### 13.7. Common Gotchas
+
 - "Library not loaded: @rpath/Sparkle.framework" → forgot install_name_tool or Frameworks copy
 - Sparkle won't init in dev builds → guard with `Bundle.main.bundleIdentifier != nil`
 - Duplicate `length=` in appcast → sign_update already includes it
@@ -227,6 +241,7 @@ After first release, configure the `github-pages` environment:
 ## 15. Final Handoff
 
 Before finishing a task:
+
 1. Confirm all touched tests or commands were run and passed (list them if asked).
 2. Summarize changes with file and line references.
 3. Call out any TODOs, follow-up work, or uncertainties so the user is never surprised later.
@@ -243,10 +258,12 @@ Before finishing a task:
 ## 18. Tools
 
 ### 18.1. gh
+
 - GitHub CLI for PRs/CI/releases. Given issue/PR URL (or `/pull/5`): use `gh`, not web search.
 - Examples: `gh issue view <url> --comments -R owner/repo`, `gh pr view <url> --comments --files -R owner/repo`.
 
 ### 18.2. tmux
+
 - Use only when you need persistence/interaction (debugger/server).
 - Quick refs: `tmux new -d -s codex-shell`, `tmux attach -t codex-shell`, `tmux list-sessions`, `tmux kill-session -t codex-shell`.
 
@@ -255,6 +272,7 @@ Before finishing a task:
 ### 19.1. STOP. Which VCS?
 
 **Before your FIRST vcs operation in any repo, detect the VCS:**
+
 ```bash
 [[ -d .jj ]] && echo "JJ" || echo "GIT"
 ```
@@ -292,5 +310,3 @@ Before finishing a task:
 - When committing, pull nearest bookmark (`jj tug`). If unsure, ask user
 - Big review: `jj diff --no-pager --color never`
 - Workflow: `jj describe -m "msg"` → `jj bookmark create rselbach/foo` → `jj git push --bookmark foo`
-
-@RTK.md

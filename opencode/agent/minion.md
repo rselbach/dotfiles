@@ -1,8 +1,8 @@
 ---
 description: Focused execution subagent that carries out the specific task delegated to it by Orchestrator. Cannot spawn further subagents.
 mode: subagent
-model: openai/gpt-5.6-luna
-reasoningEffort: xhigh
+model: openai/gpt-5.6-sol
+reasoningEffort: medium
 permission:
   task: deny
 ---
