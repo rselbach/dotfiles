@@ -296,6 +296,7 @@ Before finishing a task:
 - Multi-agent: check `status/diff` before edits; ship small commits
 - For reviews: fetch first, compare to `main`/`main@origin`. Never commit uncommitted changes unless explicitly told
 - **Never** add yourself as co-author; never add thread IDs or internal agent data to commits/docs
+- Always add a paragraph or two describing what the change is for
 
 ### 19.3. git-specific
 
