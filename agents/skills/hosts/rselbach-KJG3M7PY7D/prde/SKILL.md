@@ -242,7 +242,7 @@ Tested working details:
 A helper script is bundled with this skill:
 
 ```bash
-~/.pi/agent/skills/prde/scripts/get-oidc-token.py
+~/.agents/skills/prde/scripts/get-oidc-token.py
 ```
 
 It opens the browser, listens on `http://localhost:8443/oidc/callback`, performs the token exchange, stores the token response at `~/.cache/prde-oidc-token.json` with mode `0600`, and does not print token values.

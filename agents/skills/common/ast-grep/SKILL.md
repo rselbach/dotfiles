@@ -476,4 +476,3 @@ Contains detailed documentation for ast-grep rule syntax:
 - `rule_reference.md`: Comprehensive ast-grep rule documentation covering atomic rules, relational rules, composite rules, and metavariables
 
 Load these references when detailed rule syntax information is needed.
-

@@ -86,4 +86,3 @@ jj config set --user 'remotes.origin.auto-track-bookmarks' 'glob:*'
 | `git reset --hard`        | `jj op restore`                          |
 | `git branch`              | `jj bookmark`                            |
 | `git push`                | `jj bookmark set X -r @- && jj git push` |
-

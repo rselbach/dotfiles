@@ -1,1 +1,11 @@
-skip = true
+[[dirs]]
+path = "~/.agents/skills"
+
+[[links]]
+src = "skills/common/*"
+dst = "~/.agents/skills/<name>"
+
+[[links]]
+src = "skills/hosts/rselbach-KJG3M7PY7D/*"
+dst = "~/.agents/skills/<name>"
+hosts = ["rselbach-KJG3M7PY7D"]

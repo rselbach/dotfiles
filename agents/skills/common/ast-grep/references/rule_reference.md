@@ -296,4 +296,3 @@ rule:
 3. **Wrong node kind**: Check the language's Tree-sitter grammar for correct kind names
 4. **Metavariable not working**: Ensure it's the only content in its AST node
 5. **Pattern too complex**: Break it down into simpler sub-rules using `all`
-
