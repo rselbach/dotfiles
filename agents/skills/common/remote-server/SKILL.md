@@ -5,7 +5,7 @@ description: Use ONLY when the user asks to run, inspect, diagnose, deploy, or m
 
 # Remote Server
 
-Use this skill when Roberto asks to run something on the remote server.
+Use this skill when the user asks to run something on the remote server.
 
 ## Connection
 
