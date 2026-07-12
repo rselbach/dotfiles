@@ -5,6 +5,13 @@
       "options": {
         "baseURL": "https://api.kimi.com/coding/v1"
       }
+    },
+    "openai": {
+      "options": {
+        "text": {
+          "verbosity": "low"
+        }
+      }
     }
   },
   "mcp": {
