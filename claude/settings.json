@@ -1,10 +1,14 @@
 {
-  "model": "claude-fable-5[1m]",
-  "tui": "fullscreen",
-  "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
   "attribution": {
     "commit": "",
     "pr": ""
-  }
+  },
+  "model": "claude-fable-5[1m]",
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
+  },
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "agentPushNotifEnabled": true
 }
