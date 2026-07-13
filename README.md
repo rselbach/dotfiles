@@ -69,6 +69,17 @@ path = "~/.gnupg"
 mode = "0700"
 ```
 
+**Watch directories** -- warn about files in a destination directory that are
+not managed by this repo (checked during `install` and `status`). Useful for
+directories whose contents are linked individually, where a file created
+directly in the destination would silently escape management:
+
+```toml
+[[watch]]
+path = "~/.pi/agent/extensions"
+ignore = ["*.local.*"]  # optional globs to tolerate
+```
+
 **Post-install commands:**
 
 ```toml

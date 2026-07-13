@@ -1,6 +1,3 @@
-[[dirs]]
-path = "~/.pi/agent/extensions"
-
 [[links]]
 src = "settings.json"
 dst = "~/.pi/agent/settings.json"
@@ -22,6 +19,9 @@ dst = "~/.pi/agent/extensions/<name>"
 src = "extensions/hosts/rselbach-KJG3M7PY7D/*"
 dst = "~/.pi/agent/extensions/<name>"
 hosts = ["rselbach-KJG3M7PY7D"]
+
+[[watch]]
+path = "~/.pi/agent/extensions"
 
 [[links]]
 src = "../agents/AGENTS.md"

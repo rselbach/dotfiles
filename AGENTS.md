@@ -18,6 +18,7 @@ that file over inferring behavior from existing symlinks.
   - `[[links]]`: explicit per-file/per-directory links.
   - `[[dirs]]`: directories to pre-create before linking.
   - `[[run]]`: post-install commands.
+  - `[[watch]]`: destination directories to check for unmanaged files.
 - Important: if any `[[links]]` are defined, the default whole-directory link is
   disabled. If all links are filtered out by OS/host, nothing is linked for that
   config unit.
@@ -55,6 +56,17 @@ Expansion/filtering rules:
 - `cmd`: shell command run after links are created.
 - `cwd`: optional working directory relative to the config unit.
 - `os` / `hosts`: same filtering behavior as links.
+
+`[[watch]]` fields:
+
+- `path`: destination directory to scan during `install` and `status`.
+- `ignore`: optional list of filename globs to tolerate.
+
+An entry in a watched directory is considered managed when it is a symlink
+resolving into this repo or it is the destination of an active link (covers
+`secrets = true` rendered files). Anything else prints an `! unmanaged`
+warning; when the directory is the target of a glob link, the warning suggests
+the repo directory the file should move to.
 
 ## Install behavior to preserve
 

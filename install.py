@@ -12,6 +12,7 @@ Usage:
     python3 install.py status       # check symlink health
 """
 
+import fnmatch
 import json
 import os
 import platform
@@ -86,6 +87,12 @@ class DirSpec:
 
 
 @dataclass
+class WatchSpec:
+    path: str
+    ignore: list[str] = field(default_factory=list)
+
+
+@dataclass
 class RunSpec:
     cmd: str
     cwd: str | None = None
@@ -100,6 +107,7 @@ class Config:
     links: list[LinkSpec] = field(default_factory=list)
     dirs: list[DirSpec] = field(default_factory=list)
     runs: list[RunSpec] = field(default_factory=list)
+    watches: list[WatchSpec] = field(default_factory=list)
 
 
 @dataclass
@@ -158,6 +166,7 @@ def load_config(config_dir: Path) -> Config:
         links=[LinkSpec(**l) for l in raw.get("links", [])],
         dirs=[DirSpec(**d) for d in raw.get("dirs", [])],
         runs=[RunSpec(**r) for r in raw.get("run", [])],
+        watches=[WatchSpec(**w) for w in raw.get("watch", [])],
     )
 
 
@@ -425,6 +434,55 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
                     print(f"    {line}")
 
 
+# ── watch ────────────────────────────────────────────────────────────
+
+
+def glob_link_dirs(config: Config, config_dir: Path) -> list[tuple[Path, Path]]:
+    """(dst_dir, src_dir) pairs for active glob links, used for move hints."""
+    pairs = []
+    for link in config.links:
+        if active_link_specificity(link) is None:
+            continue
+        if "*" not in link.src or "<name>" not in link.dst:
+            continue
+        dst_dir = resolve_path(link.dst.replace("<name>", "x")).parent
+        src_dir = (config_dir / link.src).parent
+        pairs.append((dst_dir, src_dir))
+    return pairs
+
+
+def check_watches(name: str, config: Config) -> int:
+    """Warn about unmanaged entries in watched directories. Returns count."""
+    config_dir = DOTFILES / name
+    expected_dsts = {
+        entry.dst for entry in active_link_entries_for(config.links, config_dir)
+    }
+    hint_dirs = glob_link_dirs(config, config_dir)
+    warnings = 0
+
+    for watch in config.watches:
+        root = resolve_path(watch.path)
+        if not root.is_dir():
+            continue
+        for entry in sorted(root.iterdir()):
+            if entry.is_symlink() and entry.resolve().is_relative_to(DOTFILES):
+                continue
+            if entry in expected_dsts:
+                continue
+            if any(fnmatch.fnmatch(entry.name, pat) for pat in watch.ignore):
+                continue
+            hints = [
+                str(src.relative_to(DOTFILES)) + "/"
+                for dst_dir, src in hint_dirs
+                if dst_dir == root
+            ]
+            hint = f" (move to {' or '.join(hints)}?)" if hints else ""
+            print(f"  ! unmanaged: {pretty(entry)}{hint}")
+            warnings += 1
+
+    return warnings
+
+
 # ── uninstall ────────────────────────────────────────────────────────
 
 
@@ -458,6 +516,7 @@ def show_status() -> None:
     """Check the health of all expected symlinks, derived from configs."""
     ok = 0
     broken = 0
+    unmanaged = 0
     for name in discover_dirs(DOTFILES):
         config = load_config(DOTFILES / name)
         if config.skip:
@@ -465,8 +524,12 @@ def show_status() -> None:
         o, b = check_expected_status(name, config)
         ok += o
         broken += b
+        unmanaged += check_watches(name, config)
 
-    print(f"\n{ok} ok, {broken} broken")
+    summary = f"\n{ok} ok, {broken} broken"
+    if unmanaged:
+        summary += f", {unmanaged} unmanaged"
+    print(summary)
 
 
 def check_expected_status(name: str, config: Config) -> tuple[int, int]:
@@ -516,6 +579,8 @@ def main() -> None:
                 config = load_config(config_dir)
                 print(f"[{name}]")
                 install_dir(name, config, manifest)
+                if not config.skip:
+                    check_watches(name, config)
             save_manifest(manifest)
             print("\ndone")
 
