@@ -28,5 +28,9 @@ src = "../agents/AGENTS.md"
 dst = "~/.pi/agent/AGENTS.md"
 
 [[links]]
+src = "agents"
+dst = "~/.pi/agent/agents"
+
+[[links]]
 src = "prompts"
 dst = "~/.pi/agent/prompts"

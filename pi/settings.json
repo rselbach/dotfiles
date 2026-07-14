@@ -6,7 +6,8 @@
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-mcp-adapter",
-    "npm:pi-dynamic-workflows"
+    "npm:pi-dynamic-workflows",
+    "extensions/orchestrator.ts"
   ],
   "theme": "dark"
 }
