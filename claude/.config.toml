@@ -5,3 +5,7 @@ dst = "~/.claude/settings.json"
 [[links]]
 src = "../agents/AGENTS.md"
 dst = "~/.claude/CLAUDE.md"
+
+[[links]]
+src = "../agents/skills/common"
+dst = "~/.claude/skills"
