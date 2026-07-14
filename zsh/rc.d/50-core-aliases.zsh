@@ -7,7 +7,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 alias d='docker'
-alias claude='claude --dangerously-skip-permissions'
+#alias claude='claude --dangerously-skip-permissions'
 alias codex='codex --yolo'
 alias pef='ps -ef'
 alias r='rails'
