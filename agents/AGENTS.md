@@ -1,6 +1,8 @@
 # Agent Instructions
 
 - Workspace: `~/devel` (dotfiles symlinked from `~/devel/dotfiles`)
+- Personal machine and tool config lives in `~/devel/dotfiles`; when asked to change shell/editor/terminal/app config, prefer editing that repo over live files under `$HOME`.
+- Load the `dotfiles-repo` skill for dotfiles tasks.
 - noun-phrases are ok
 - min tokens
 - **When to read this**: On task initialization and before major decisions; re-skim when requirements shift.
