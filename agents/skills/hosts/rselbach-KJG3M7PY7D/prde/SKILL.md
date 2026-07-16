@@ -140,7 +140,7 @@ curl -H "Authorization: Bearer ${TOKEN}" http://localhost:<port>/<path>
 
 ## Deploying Current Repo with `hcloud prde run`
 
-Use only from the root of a service repo when the user wants to deploy that local code to PRDE.
+`hcloud prde run` is the standard command for deploying local repository changes to PRDE. Use it only from the root of a service repo when the user wants to deploy that local code.
 
 What it does:
 
@@ -156,7 +156,7 @@ Before running:
 3. Confirm the proxy is healthy.
 4. Run the deploy:
    ```bash
-   hcloud prde run --wait-until-running
+   hcloud prde run
    ```
 5. Watch Nomad status/logs for the affected job.
 

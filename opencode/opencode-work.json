@@ -1,6 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
+    "ibm-bob": {
+      "options": {
+        "instanceID": "37f54b01-2dec-4737-bf93-c094a5f95e7c",
+        "teamID": "019ddffb-8c71-79f6-bd0a-feb1a597b638"
+      }
+    },
     "ollama-local": {
       "npm": "@ai-sdk/openai",
       "name": "Ollama on rhea",
@@ -43,7 +49,7 @@
   },
   "plugin": [
     "./plugins/opencode-codex-identity-plugin.ts",
-    "@hashicorp/opencode-bob-gateway-plugin"
+    "@hashicorp/opencode-bob-gateway-plugin",
   ],
   "permission": {
     "*": "allow"
