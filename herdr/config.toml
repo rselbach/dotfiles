@@ -1,0 +1,7 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+a"
+
+[ui]
+show_agent_labels_on_pane_borders = false
