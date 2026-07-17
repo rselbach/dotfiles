@@ -80,13 +80,13 @@ the repo directory the file should move to.
 
 ## Common commands
 
-Use the repo `justfile` when possible:
+Use the repo `Makefile` when possible:
 
 ```sh
-just status
-just install
-just install nvim
-just uninstall
+make status
+make install
+make install DIRS=nvim
+make uninstall
 ```
 
 Equivalent direct commands:

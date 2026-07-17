@@ -1,6 +1,6 @@
 ---
 name: dotfiles-repo
-description: Dotfiles repo, install.py, .config.toml, symlinked config, ~/.config, and files under $HOME managed from ~/devel/dotfiles. Use when the user asks to change personal shell/editor/terminal/tool configuration or another machine-level config that may live in the dotfiles repo. Prefer editing the repo source instead of the live installed file. Do not use for project-local app config.
+description: Dotfiles repo, Makefile, install.py, .config.toml, symlinked config, ~/.config, and files under $HOME managed from ~/devel/dotfiles. Use when the user asks to change personal shell/editor/terminal/tool configuration or another machine-level config that may live in the dotfiles repo. Prefer editing the repo source instead of the live installed file. Do not use for project-local app config.
 ---
 
 # Dotfiles Repo
@@ -37,14 +37,16 @@ Rules to remember:
 
 ## Verification
 
-Prefer the repo `justfile`:
+Prefer the repo `Makefile`:
 
-- `just status`
-- `just install`
-- `just install <unit>`
-- `just uninstall`
+- `make status`
+- `make install`
+- `make install DIRS=<unit>`
+- `make uninstall`
+- `make macos`
+- `make brew`
 
-Use `just install <unit>` after changing one config unit when the user wants the change applied.
+Use `make install DIRS=<unit>` after changing one config unit when the user wants the change applied.
 
 ## Watchouts
 

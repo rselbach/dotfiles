@@ -6,11 +6,21 @@ and it gets symlinked to `~/.config/<name>`. Need different behavior? Add a
 
 ## Usage
 
+```sh
+make install                    # install all
+make install DIRS=nvim          # install one config unit
+make status                     # check symlink health
+make uninstall                  # remove all managed symlinks
+make macos                      # apply macOS defaults
+make brew                       # install packages from Brewfile
 ```
-python3 install.py              # install all
-python3 install.py install nvim # install one dir
-python3 install.py status       # check symlink health
-python3 install.py uninstall    # remove all managed symlinks
+
+The installer can also be run directly:
+
+```sh
+python3 install.py install [dir...]
+python3 install.py status
+python3 install.py uninstall
 ```
 
 ## How it works
