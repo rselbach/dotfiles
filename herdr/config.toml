@@ -5,3 +5,4 @@ prefix = "ctrl+a"
 
 [ui]
 show_agent_labels_on_pane_borders = false
+copy_on_select = false
