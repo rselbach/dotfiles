@@ -39,6 +39,10 @@
       "headers": {
         "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
       }
+    },
+    "cloudflare": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp"
     }
   },
   "plugin": [
