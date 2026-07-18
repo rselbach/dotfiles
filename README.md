@@ -49,6 +49,15 @@ target = "~/.claude"
 skip = true
 ```
 
+**Dependencies** -- install other config units first:
+
+```toml
+depends = ["jj-git-prompt"]
+```
+
+Dependencies are transitive, installed only once, and checked for missing units
+and cycles before installation starts.
+
 **Explicit links** -- symlink individual files instead of the whole directory:
 
 ```toml
@@ -79,6 +88,21 @@ path = "~/.gnupg"
 mode = "0700"
 ```
 
+**Download files if missing:**
+
+```toml
+[[downloads]]
+url = "https://example.com/tool-<os>-<arch>"
+dst = "~/.local/bin/tool"
+mode = "0755"  # optional; defaults to 0755
+os = "darwin"  # optional
+```
+
+`<os>` expands to `darwin`, `linux`, or `windows`; `<arch>` expands to
+`amd64` or `arm64`. Existing destination files are left unchanged. Downloads
+are checked by `status` but are not recorded in the manifest or removed by
+`uninstall`; delete a destination file to download it again.
+
 **Watch directories** -- warn about files in a destination directory that are
 not managed by this repo (checked during `install` and `status`). Useful for
 directories whose contents are linked individually, where a file created
@@ -100,9 +124,9 @@ cwd = "startnu"
 
 ### OS filtering
 
-Links and run commands can be restricted to an OS (`linux`, `darwin`,
-`windows`). Unmatched entries are skipped; if no links match the current OS,
-the default `~/.config/<name>` symlink applies.
+Links, downloads, and run commands can be restricted to an OS (`linux`,
+`darwin`, `windows`). Unmatched entries are skipped. Defining links or downloads
+disables the default `~/.config/<name>` symlink even if none are active.
 
 ```toml
 [[links]]

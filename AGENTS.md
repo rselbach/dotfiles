@@ -13,15 +13,17 @@ that file over inferring behavior from existing symlinks.
   `./<name>` -> `~/.config/<name>`.
 - A `.config.toml` changes that behavior. Supported top-level keys/tables:
   - `skip = true`: do not install that directory.
+  - `depends = ["..."]`: install other config units first.
   - `target = "..."`: symlink the whole directory to this destination instead
     of `~/.config/<name>`.
   - `[[links]]`: explicit per-file/per-directory links.
   - `[[dirs]]`: directories to pre-create before linking.
+  - `[[downloads]]`: files to download when their destinations are missing.
   - `[[run]]`: post-install commands.
   - `[[watch]]`: destination directories to check for unmanaged files.
 - Important: if any `[[links]]` are defined, the default whole-directory link is
   disabled. If all links are filtered out by OS/host, nothing is linked for that
-  config unit.
+  config unit. Defining `[[downloads]]` also disables the default link.
 
 ## `.config.toml` details
 
@@ -50,6 +52,15 @@ Expansion/filtering rules:
 
 - `path`: directory to create.
 - `mode`: optional octal string, for example `"0700"`.
+
+`[[downloads]]` fields:
+
+- `url`: source URL. `<os>` expands to `darwin`, `linux`, or `windows`; `<arch>`
+  expands to `amd64` or `arm64`.
+- `dst`: destination path. Existing files are left unchanged.
+- `mode`: optional octal string; defaults to `"0755"`.
+- `os`: optional platform filter.
+- Downloads are not recorded in the manifest or removed during uninstall.
 
 `[[run]]` fields:
 

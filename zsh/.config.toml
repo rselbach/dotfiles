@@ -1,3 +1,5 @@
+depends = ["jj-git-prompt"]
+
 [[links]]
 src = "zshrc"
 dst = "~/.zshrc"

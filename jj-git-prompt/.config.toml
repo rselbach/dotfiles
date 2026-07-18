@@ -1,0 +1,11 @@
+[[downloads]]
+url = "https://github.com/rselbach/jj-git-prompt/releases/latest/download/jj-git-prompt-<os>-<arch>"
+dst = "~/.local/bin/jj-git-prompt"
+mode = "0755"
+os = "darwin"
+
+[[downloads]]
+url = "https://github.com/rselbach/jj-git-prompt/releases/latest/download/jj-git-prompt-<os>-<arch>"
+dst = "~/.local/bin/jj-git-prompt"
+mode = "0755"
+os = "linux"

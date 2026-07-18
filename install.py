@@ -20,7 +20,9 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import tomllib
+import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -34,6 +36,20 @@ MANIFEST_PATH = DOTFILES / ".install-manifest.json"
 def current_os() -> str:
     """Return normalized OS name: linux, darwin, or windows."""
     return platform.system().lower()
+
+
+def current_arch() -> str:
+    """Return a normalized release architecture name."""
+    machine = platform.machine().lower()
+    aliases = {
+        "aarch64": "arm64",
+        "arm64": "arm64",
+        "amd64": "amd64",
+        "x86_64": "amd64",
+    }
+    if machine not in aliases:
+        raise InstallError(f"unsupported architecture: {machine}")
+    return aliases[machine]
 
 
 def resolve_path(s: str) -> Path:
@@ -64,6 +80,10 @@ def pretty(p: Path) -> str:
 
 
 # ── config model ─────────────────────────────────────────────────────
+
+
+class InstallError(Exception):
+    """A configuration or installation error safe to show to the user."""
 
 
 def current_host() -> str:
@@ -101,11 +121,21 @@ class RunSpec:
 
 
 @dataclass
+class DownloadSpec:
+    url: str
+    dst: str
+    mode: str = "0755"
+    os: str | None = None
+
+
+@dataclass
 class Config:
     target: str | None = None
     skip: bool = False
+    depends: list[str] = field(default_factory=list)
     links: list[LinkSpec] = field(default_factory=list)
     dirs: list[DirSpec] = field(default_factory=list)
+    downloads: list[DownloadSpec] = field(default_factory=list)
     runs: list[RunSpec] = field(default_factory=list)
     watches: list[WatchSpec] = field(default_factory=list)
 
@@ -151,6 +181,12 @@ def active_runs_for(runs: list[RunSpec]) -> list[RunSpec]:
     return result
 
 
+def active_downloads_for(downloads: list[DownloadSpec]) -> list[DownloadSpec]:
+    """Filter downloads for the current OS."""
+    os_name = current_os()
+    return [download for download in downloads if download.os in (None, os_name)]
+
+
 def load_config(config_dir: Path) -> Config:
     """Parse .config.toml from a directory, or return default Config."""
     toml_path = config_dir / ".config.toml"
@@ -163,8 +199,10 @@ def load_config(config_dir: Path) -> Config:
     return Config(
         target=raw.get("target"),
         skip=raw.get("skip", False),
+        depends=raw.get("depends", []),
         links=[LinkSpec(**l) for l in raw.get("links", [])],
         dirs=[DirSpec(**d) for d in raw.get("dirs", [])],
+        downloads=[DownloadSpec(**d) for d in raw.get("downloads", [])],
         runs=[RunSpec(**r) for r in raw.get("run", [])],
         watches=[WatchSpec(**w) for w in raw.get("watch", [])],
     )
@@ -216,6 +254,38 @@ def discover_dirs(root: Path) -> list[str]:
         and not p.name.startswith(".")
         and not p.name.startswith("__")
     )
+
+
+def resolve_install_names(names: list[str]) -> list[str]:
+    """Return config units in dependency-first order."""
+    resolved: list[str] = []
+    visited: set[str] = set()
+    visiting: list[str] = []
+
+    def visit(name: str) -> None:
+        if name in visited:
+            return
+        if name in visiting:
+            start = visiting.index(name)
+            cycle = visiting[start:] + [name]
+            raise InstallError(f"dependency cycle: {' -> '.join(cycle)}")
+
+        config_dir = DOTFILES / name
+        if not config_dir.is_dir():
+            raise InstallError(f"config unit not found: {name}")
+
+        visiting.append(name)
+        config = load_config(config_dir)
+        if not config.skip:
+            for dependency in config.depends:
+                visit(dependency)
+        visiting.pop()
+        visited.add(name)
+        resolved.append(name)
+
+    for name in names:
+        visit(name)
+    return resolved
 
 
 # ── secrets ──────────────────────────────────────────────────────────
@@ -376,6 +446,68 @@ def render_file(src: Path, dst: Path, manifest: dict) -> None:
     print(f"  + {pretty(dst)} (rendered with secrets)")
 
 
+def expand_download_url(url: str) -> str:
+    """Substitute normalized platform placeholders in a download URL."""
+    return url.replace("<os>", current_os()).replace("<arch>", current_arch())
+
+
+def install_download(download: DownloadSpec) -> None:
+    """Download a missing file and atomically install it at its destination."""
+    dst = resolve_path(download.dst)
+    if dst.is_file():
+        return
+    if dst.exists() or dst.is_symlink():
+        raise InstallError(f"download destination is not a file: {pretty(dst)}")
+
+    try:
+        mode = int(download.mode, 8)
+    except ValueError as err:
+        raise InstallError(f"invalid download mode: {download.mode}") from err
+
+    url = expand_download_url(download.url)
+    temp_path: Path | None = None
+    try:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            prefix=f".{dst.name}.",
+            dir=dst.parent,
+            delete=False,
+        ) as output:
+            temp_path = Path(output.name)
+            with urllib.request.urlopen(url, timeout=60) as response:
+                content_length = response.headers.get("Content-Length")
+                bytes_written = 0
+                while chunk := response.read(1024 * 1024):
+                    output.write(chunk)
+                    bytes_written += len(chunk)
+                if (
+                    content_length is not None
+                    and bytes_written != int(content_length)
+                ):
+                    raise InstallError(
+                        f"incomplete download: received {bytes_written} of "
+                        f"{content_length} bytes"
+                    )
+        temp_path.chmod(mode)
+        try:
+            os.link(temp_path, dst)
+        except FileExistsError as err:
+            if dst.is_file():
+                return
+            raise InstallError(
+                f"download destination is not a file: {pretty(dst)}"
+            ) from err
+    except InstallError:
+        raise
+    except Exception as err:
+        raise InstallError(f"failed to download {url}: {err}") from err
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+    print(f"  + {pretty(dst)} (downloaded)")
+
+
 def install_dir(name: str, config: Config, manifest: dict) -> None:
     """Install a single config directory according to its Config."""
     config_dir = DOTFILES / name
@@ -395,10 +527,10 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
     if config.target is not None:
         dst = resolve_path(config.target)
         make_symlink(config_dir, dst, manifest)
-    elif not config.links:
+    elif not config.links and not config.downloads:
         # default: symlink to ~/.config/<name>
-        # only applies when no links were defined at all. if links were
-        # defined but all filtered out for this host/os, skip the default.
+        # only applies when no links or downloads were defined at all. if
+        # links were filtered out for this host/os, skip the default.
         dst = resolve_path(f"~/.config/{name}")
         dst.parent.mkdir(parents=True, exist_ok=True)
         make_symlink(config_dir, dst, manifest)
@@ -415,6 +547,9 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
             render_file(src, dst, manifest)
         else:
             make_symlink(src, dst, manifest)
+
+    for download in active_downloads_for(config.downloads):
+        install_download(download)
 
     # post-install commands
     for run in active_runs_for(config.runs):
@@ -550,11 +685,21 @@ def check_expected_status(name: str, config: Config) -> tuple[int, int]:
 
     if config.target is not None:
         check_symlink(resolve_path(config.target), config_dir)
-    elif not config.links:
+    elif not config.links and not config.downloads:
         check_symlink(resolve_path(f"~/.config/{name}"), config_dir)
 
     for entry in active_link_entries_for(config.links, config_dir):
         check_symlink(entry.dst, entry.src)
+
+    for download in active_downloads_for(config.downloads):
+        dst = resolve_path(download.dst)
+        if dst.is_file():
+            print(f"  ok  {pretty(dst)}")
+            ok += 1
+        else:
+            suffix = " (missing)" if not dst.exists() else ""
+            print(f"  BAD {pretty(dst)}{suffix}")
+            broken += 1
 
     return ok, broken
 
@@ -569,16 +714,21 @@ def main() -> None:
 
     match command:
         case "install":
-            names = rest if rest else discover_dirs(DOTFILES)
+            requested = rest if rest else discover_dirs(DOTFILES)
+            try:
+                names = resolve_install_names(requested)
+            except InstallError as err:
+                print(f"ERROR: {err}")
+                sys.exit(1)
             manifest = {"symlinks": [], "files": [], "dirs_created": []}
             for name in names:
-                config_dir = DOTFILES / name
-                if not config_dir.is_dir():
-                    print(f"  ? {name}: directory not found, skipping")
-                    continue
-                config = load_config(config_dir)
+                config = load_config(DOTFILES / name)
                 print(f"[{name}]")
-                install_dir(name, config, manifest)
+                try:
+                    install_dir(name, config, manifest)
+                except InstallError as err:
+                    print(f"  ERROR: {err}")
+                    sys.exit(1)
                 if not config.skip:
                     check_watches(name, config)
             save_manifest(manifest)

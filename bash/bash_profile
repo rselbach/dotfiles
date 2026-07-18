@@ -1,0 +1,6 @@
+# Bootstrap the interactive Bash configuration for login shells.
+if [[ -f "${HOME}/.bashrc" ]]; then
+  # Installed path is intentionally dynamic.
+  # shellcheck disable=SC1091
+  source "${HOME}/.bashrc"
+fi
