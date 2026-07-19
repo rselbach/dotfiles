@@ -4,6 +4,7 @@ brew "atuin"
 brew "awscli"
 brew "bash"
 brew "bash-completion"
+brew "bash-preexec"
 brew "bat"
 brew "carapace"
 # claude-code: install via npm (npm install -g @anthropic-ai/claude-code)

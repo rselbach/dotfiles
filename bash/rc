@@ -1,0 +1,14 @@
+# Load Bash configuration fragments in lexical order.
+_rc_dir="${BASH_SOURCE[0]%/*}"
+
+for _rc_file in "${_rc_dir}"/rc.d/*.bash; do
+  [[ -e "${_rc_file}" ]] || continue
+  # shellcheck source=/dev/null
+  if ! source "${_rc_file}"; then
+    printf 'failed to load %s\n' "${_rc_file}" >&2
+    unset _rc_dir _rc_file
+    return 1
+  fi
+done
+
+unset _rc_dir _rc_file
