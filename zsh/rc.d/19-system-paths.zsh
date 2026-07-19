@@ -9,4 +9,5 @@ path+=(
 
 export PATH
 
+unset -f _path_add
 unset _zsh_path_base

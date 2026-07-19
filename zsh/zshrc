@@ -1,16 +1,19 @@
-# Bootstrap the ordered zsh config fragments.
+# Bootstrap the ordered Zsh config fragments.
 _zshrc_dir="${${(%):-%N}:A:h}"
 
-source "${_zshrc_dir}/rc"
+if ! source "${_zshrc_dir}/rc"; then
+  printf '%s\n' 'failed to load Zsh configuration' >&2
+  unset _zshrc_dir
+  return 1
+fi
 
 # Machine-specific overrides stay last.
-[[ -f "${HOME}/.zsh.local" ]] && source "${HOME}/.zsh.local"
+if [[ -f "${HOME}/.zsh.local" ]]; then
+  if ! source "${HOME}/.zsh.local"; then
+    printf '%s\n' 'failed to load ~/.zsh.local' >&2
+    unset _zshrc_dir
+    return 1
+  fi
+fi
 
 unset _zshrc_dir
-
-# opencode
-export PATH=/home/rselbach/.opencode/bin:$PATH
-
-
-# Added by Antigravity CLI installer
-export PATH="/Users/rselbach/.local/bin:$PATH"

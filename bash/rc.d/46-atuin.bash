@@ -27,7 +27,7 @@ if command -v atuin >/dev/null 2>&1; then
       printf '%s\n' 'atuin: failed to load bash-preexec' >&2
       PROMPT_COMMAND="${original_prompt_command}"
       unset bash_preexec_path original_prompt_command migrate_prompt_hook
-      return 1
+      return 0
     fi
     unset bash_preexec_path original_prompt_command
 

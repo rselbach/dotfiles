@@ -1,5 +1,7 @@
 # Reproduce the Starship prompt with zsh built-ins and jj-git-prompt.
 
+export PROMPT_EOL_MARK=''
+
 prompt::directory() {
   local root="${PWD}"
   local parent

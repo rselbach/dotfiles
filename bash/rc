@@ -1,14 +1,37 @@
-# Load Bash configuration fragments in lexical order.
+# Load shared and Bash configuration fragments by stem.
 _rc_dir="${BASH_SOURCE[0]%/*}"
+_shells_rc_dir="${_rc_dir%/*}/shells/rc.d"
+_rc_shell='bash'
 
-for _rc_file in "${_rc_dir}"/rc.d/*.bash; do
-  [[ -e "${_rc_file}" ]] || continue
-  # shellcheck source=/dev/null
-  if ! source "${_rc_file}"; then
-    printf 'failed to load %s\n' "${_rc_file}" >&2
-    unset _rc_dir _rc_file
-    return 1
-  fi
-done
+if ! _rc_names="$(
+  set -o pipefail
+  for _rc_file in \
+    "${_shells_rc_dir}"/*.sh \
+    "${_rc_dir}"/rc.d/*.bash; do
+    [[ -e "${_rc_file}" ]] || continue
+    _rc_name="${_rc_file##*/}"
+    printf '%s\n' "${_rc_name%.*}"
+  done | LC_ALL=C sort -u
+)"; then
+  printf '%s\n' 'failed to enumerate Bash configuration fragments' >&2
+  unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names
+  return 1
+fi
 
-unset _rc_dir _rc_file
+while IFS= read -r _rc_name; do
+  [[ -n "${_rc_name}" ]] || continue
+
+  for _rc_file in \
+    "${_shells_rc_dir}/${_rc_name}.sh" \
+    "${_rc_dir}/rc.d/${_rc_name}.bash"; do
+    [[ -e "${_rc_file}" ]] || continue
+    # shellcheck source=/dev/null
+    if ! source "${_rc_file}"; then
+      printf 'failed to load %s\n' "${_rc_file}" >&2
+      unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names
+      return 1
+    fi
+  done
+done <<< "${_rc_names}"
+
+unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names

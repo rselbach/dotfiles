@@ -1,4 +1,4 @@
-depends = ["jj-git-prompt"]
+depends = ["jj-git-prompt", "shells"]
 
 [[links]]
 src = "zshrc"

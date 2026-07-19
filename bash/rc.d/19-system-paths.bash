@@ -37,5 +37,6 @@ for _bash_path_entry in "${_bash_path_unique[@]}"; do
 done
 export PATH
 
+unset -f _path_add
 unset _bash_path_base _bash_path _bash_path_unique
 unset _bash_path_entry _bash_path_existing _bash_path_seen _bash_path_index
