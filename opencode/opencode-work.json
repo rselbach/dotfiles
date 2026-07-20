@@ -19,6 +19,14 @@
         "local": {
           "name": "Ollama local",
           "reasoning": true,
+          "variants": {
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            }
+          },
           "tool_call": true,
           "limit": {
             "context": 1050000,

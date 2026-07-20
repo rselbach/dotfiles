@@ -36,6 +36,8 @@ that file over inferring behavior from existing symlinks.
   `linux`, `windows`.
 - `hosts`: optional hostname allow-list; compared case-insensitively against
   `platform.node()`.
+- `exclude_hosts`: optional hostname deny-list; compared case-insensitively
+  against `platform.node()`.
 - `optional = true`: skip silently when `src` does not exist.
 - `secrets = true`: render the source as a template using decrypted
   `secrets.yaml` values instead of symlinking it. Rendered files are written

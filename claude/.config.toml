@@ -1,11 +1,14 @@
 [[links]]
 src = "settings.json"
 dst = "~/.claude/settings.json"
+exclude_hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
 src = "../agents/AGENTS.md"
 dst = "~/.claude/CLAUDE.md"
+exclude_hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
 src = "../agents/skills/common"
 dst = "~/.claude/skills"
+exclude_hosts = ["rselbach-KJG3M7PY7D"]

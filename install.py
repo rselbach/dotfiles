@@ -96,6 +96,7 @@ class LinkSpec:
     dst: str
     os: str | None = None
     hosts: list[str] | None = None
+    exclude_hosts: list[str] | None = None
     optional: bool = False
     secrets: bool = False
 
@@ -154,6 +155,8 @@ def active_link_specificity(link: LinkSpec) -> int | None:
     host = current_host()
     os_name = current_os()
 
+    if link.exclude_hosts and host in [h.lower() for h in link.exclude_hosts]:
+        return None
     if link.hosts:
         if host in [h.lower() for h in link.hosts]:
             return 2

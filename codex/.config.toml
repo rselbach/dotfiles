@@ -1,3 +1,4 @@
 [[links]]
 src = "../agents/AGENTS.md"
 dst = "~/.codex/AGENTS.md"
+exclude_hosts = ["rselbach-KJG3M7PY7D"]

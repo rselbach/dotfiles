@@ -8,6 +8,7 @@ name = "Roberto Selbach"
 default-command = "log"
 log-synthetic-elided-nodes = true
 diff-formatter = ":git"
+pager = ["hunk", "pager"]
 editor = "nvim"
 
 [ui.graph]
