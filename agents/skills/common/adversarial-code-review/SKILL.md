@@ -1,9 +1,18 @@
 ---
 name: adversarial-code-review
-description: Perform exhaustive adversarial code reviews that try to falsify changes and prove concrete correctness, resilience, security, or operability defects with evidence. Use when the user asks for an adversarial, hostile, skeptical, red-team, break-it, or failure-mode review of a pull request, branch/ref, commit, diff or patch, staged changes, uncommitted changes, or selected code. Do not use for implementation or style-only reviews.
+description: Run an exhaustive adversarial code review only when the user explicitly requests an adversarial review or asks to use this skill. Do not invoke for routine reviews, implementation work, test failures, debugging, or automatically after code changes.
 ---
 
 # Adversarial Code Review
+
+## Activation
+
+Use this skill only after the user explicitly requests an adversarial code
+review, such as "adversarially review this PR" or "use
+adversarial-code-review." Do not infer that request from a code change, a
+normal review request, implementation work, a test failure, debugging, or the
+riskiness of a change. When the request is ambiguous, use the normal review
+process instead.
 
 ## Mission
 
