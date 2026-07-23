@@ -47,19 +47,13 @@ jj cat -r <id> <path>                # Show file at revision
 jj git fetch                         # Pull remote
 jj rebase -d main                    # Rebase onto main
 
-# Push requires a bookmark
-jj bookmark set master -r @-         # Point bookmark at commit (not empty @)
-jj git push                          # Push to remote
+# Push requires a prefixed bookmark
+jj bookmark set rselbach/feature-x -r @-
+jj git push --bookmark rselbach/feature-x
 
 # For new branches
-jj bookmark create feature-x -r @-
-jj git push --bookmark feature-x
-```
-
-**Note:** If push is refused for new bookmarks, configure auto-tracking:
-
-```bash
-jj config set --user 'remotes.origin.auto-track-bookmarks' 'glob:*'
+jj bookmark create rselbach/feature-x -r @-
+jj git push --bookmark rselbach/feature-x
 ```
 
 ## Troubleshooting
@@ -70,7 +64,7 @@ jj config set --user 'remotes.origin.auto-track-bookmarks' 'glob:*'
 | Lost work           | `jj op log` → `jj op restore`                  |
 | Wrong parent        | `jj rebase -r @ -d <target>`                   |
 | Push rejected       | `jj git fetch && jj rebase -d main`            |
-| "Nothing changed"   | `jj bookmark set master -r @-` then push       |
+| "Nothing changed"   | Set `rselbach/<name>` to `@-`, then push       |
 | Squash opens editor | Use `jj squash -m "message"` instead           |
 | @ is empty          | Your work is in `@-`; use `-r @-` for commands |
 
@@ -85,4 +79,4 @@ jj config set --user 'remotes.origin.auto-track-bookmarks' 'glob:*'
 | `git reflog`              | `jj op log`                              |
 | `git reset --hard`        | `jj op restore`                          |
 | `git branch`              | `jj bookmark`                            |
-| `git push`                | `jj bookmark set X -r @- && jj git push` |
+| `git push`                | Set and push bookmark `rselbach/<name>`  |

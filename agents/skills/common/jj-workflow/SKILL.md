@@ -42,6 +42,15 @@ jj squash -m "message"
 - `@-` = parent of current change
 - Changes are mutable until pushed
 
+## Bookmark Names
+
+Prefix every new branch or bookmark with `rselbach/`.
+
+- Correct: `rselbach/feature-x`
+- Incorrect: `feature-x`
+- Existing shared bookmarks such as `main` or `master` keep their repository
+  names, but do not move them unless the user explicitly asks.
+
 ## When to Use What
 
 | Situation                   | Do This                                                   |
@@ -100,26 +109,23 @@ jj abandon <change-ids>              # Remove empty ones
 # 2. Describe your work (don't try to squash into immutable parent)
 jj describe -m "feat: what you did"
 
-# 3. Move bookmark to your commit and push
-jj bookmark set master -r @
-jj git push
+# 3. Create a prefixed bookmark and push it
+jj bookmark create rselbach/feature-x -r @
+jj git push --bookmark rselbach/feature-x
 ```
 
 **For feature branches (new):**
 
 ```bash
-jj bookmark create feature-x -r @
-jj git push --bookmark feature-x
-# If refused, configure auto-tracking once:
-jj config set --user 'remotes.origin.auto-track-bookmarks' 'glob:*'
-# Then retry: jj git push --bookmark feature-x
+jj bookmark create rselbach/feature-x -r @
+jj git push --bookmark rselbach/feature-x
 ```
 
 **For feature branches (updating):**
 
 ```bash
-jj bookmark set feature-x -r @
-jj git push
+jj bookmark set rselbach/feature-x -r @
+jj git push --bookmark rselbach/feature-x
 ```
 
 Teammates see clean git. They don't know you used jj.
@@ -132,10 +138,4 @@ The oplog records every operation. Nothing is lost.
 jj op log                      # See all operations
 jj undo                        # Undo last operation
 jj op restore <id>             # Jump to any past state
-```
-
-## Bail Out
-
-```bash
-rm -rf .jj    # Delete jj, keep git unchanged
 ```
