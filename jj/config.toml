@@ -56,6 +56,22 @@ tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
 retrunk = ["rebase", "-d", "trunk()"]
 # new-branch
 nb = ["util", "exec", "--", "sh", "-c", "jj bookmark set \"$1\" -r @", ""]
+# Usage: jj pull-bm <bookmark>
+pull-bm = ["util", "exec", "--", "bash", "-c", """
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+    echo "usage: jj pull-bm <bookmark>" >&2
+    exit 2
+fi
+
+bookmark="$1"
+
+jj git fetch --remote origin
+jj bookmark set "$bookmark" -r "$bookmark@origin"
+jj edit "$bookmark"
+""", ""]
+
 
 # git alias ports
 # view the current working tree status
