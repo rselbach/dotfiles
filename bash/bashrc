@@ -11,8 +11,8 @@ while [[ -L "${_bashrc_source}" ]]; do
   fi
 
   case "${_bashrc_target}" in
-    /*) _bashrc_source="${_bashrc_target}" ;;
-    *) _bashrc_source="${_bashrc_dir}/${_bashrc_target}" ;;
+  /*) _bashrc_source="${_bashrc_target}" ;;
+  *) _bashrc_source="${_bashrc_dir}/${_bashrc_target}" ;;
   esac
 done
 

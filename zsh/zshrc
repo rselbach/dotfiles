@@ -17,3 +17,9 @@ if [[ -f "${HOME}/.zsh.local" ]]; then
 fi
 
 unset _zshrc_dir
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<

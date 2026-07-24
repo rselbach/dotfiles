@@ -1,16 +1,51 @@
 {
+  "agentPushNotifEnabled": true,
   "attribution": {
     "commit": "",
     "pr": ""
   },
-  "model": "opus[1m]",
-  "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
-  },
   "effortLevel": "xhigh",
-  "tui": "fullscreen",
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "atuin hook claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "command": "atuin hook claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "atuin hook claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
+  },
+  "model": "opus[1m]",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "agentPushNotifEnabled": true
+  "tui": "fullscreen"
 }
