@@ -53,8 +53,6 @@
 - Prefer early returns and `switch` to `if`/`else`; avoid `else` where practical.
 - Use map-based table tests, `tc` for loop cases, and `want` rather than
   `expected`.
-- Always use `testify/require` with `r := require.New(t)`. If it is absent, ask
-  before adding the dependency.
 - Add Godoc to exported symbols; use lowercase comments for internal symbols.
 - Run `goimports`, then `golangci-lint run ./...`, after Go changes.
 

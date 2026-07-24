@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.81.1",
+  "lastChangelogVersion": "0.82.0",
   "defaultProvider": "kimi-coding",
   "defaultModel": "k3",
-  "defaultThinkingLevel": "max",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-mcp-adapter",
