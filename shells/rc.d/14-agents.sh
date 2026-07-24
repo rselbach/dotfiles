@@ -61,7 +61,47 @@ set-claude-glm() {
 }
 
 set-claude-kimi() {
-  __claude-via-fireworks accounts/fireworks/models/kimi-2p7
+  export ANTHROPIC_MODEL="k3[1m]"
+  export ANTHROPIC_DEFAULT_FABLE_MODEL=$ANTHROPIC_MODEL
+  export ANTHROPIC_DEFAULT_OPUS_MODEL=$ANTHROPIC_MODEL
+  export ANTHROPIC_DEFAULT_SONNET_MODEL=$ANTHROPIC_MODEL
+  export ANTHROPIC_DEFAULT_HAIKU_MODEL=$ANTHROPIC_MODEL
+  export CLAUDE_CODE_SUBAGENT_MODEL=$ANTHROPIC_MODEL
+  export CLAUDE_CODE_EFFORT_LEVEL=high
+  export CLAUDE_CODE_AUTO_COMPACT_WINDOW=1048576
+  export CLAUDE_CODE_MAX_CONTEXT_TOKENS=1048576
+  export ANTHROPIC_API_KEY=$(get-token kimi)
+  export ANTHROPIC_BASE_URL=https://api.kimi.com/coding/
+}
+
+claude-kimi() {
+  ANTHROPIC_DEFAULT_FABLE_MODEL="k3[1m]" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL="k3[1m]" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL="k3[1m]" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL="k3[1m]" \
+    CLAUDE_CODE_SUBAGENT_MODEL="k3[1m]" \
+    CLAUDE_CODE_EFFORT_LEVEL=high \
+    CLAUDE_CODE_AUTO_COMPACT_WINDOW=1048576 \
+    CLAUDE_CODE_MAX_CONTEXT_TOKENS=1048576 \
+    ANTHROPIC_API_KEY=$(get-token kimi) \
+    ANTHROPIC_BASE_URL=https://api.kimi.com/coding/ \
+    claude --model "k3[1m]" --dangerously-skip-permissions
+}
+
+claude-proxy() {
+  local effort="${1:-high}"
+
+  ANTHROPIC_DEFAULT_FABLE_MODEL="local[1m]" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL="local[1m]" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL="local[1m]" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL="local[1m]" \
+    CLAUDE_CODE_SUBAGENT_MODEL="local[1m]" \
+    CLAUDE_CODE_EFFORT_LEVEL="$effort" \
+    CLAUDE_CODE_AUTO_COMPACT_WINDOW=1048576 \
+    CLAUDE_CODE_MAX_CONTEXT_TOKENS=1048576 \
+    ANTHROPIC_API_KEY=not-used \
+    ANTHROPIC_BASE_URL=http://localhost:8787 \
+    claude --model "local[1m]" --dangerously-skip-permissions
 }
 
 __claude-via-openrouter() {
@@ -82,10 +122,14 @@ __claude-via-openrouter() {
   export ENABLE_TOOL_SEARCH=true
 }
 
-alias claudex='CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-sol \
-CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \
-CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=6 \
-ENABLE_TOOL_SEARCH=false \
-ANTHROPIC_BASE_URL=http://localhost:8317 \
-ANTHROPIC_AUTH_TOKEN=not-used \
-claude --model gpt-5.6-sol'
+claudex() {
+  local effort=${1:-high}
+
+  CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-sol \
+    CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \
+    CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=6 \
+    ENABLE_TOOL_SEARCH=false \
+    ANTHROPIC_BASE_URL=http://localhost:8317 \
+    ANTHROPIC_AUTH_TOKEN=not-used \
+    claude --model gpt-5.6-sol --dangerously-skip-permissions
+}

@@ -1,51 +1,51 @@
 {
-  "agentPushNotifEnabled": true,
   "attribution": {
     "commit": "",
     "pr": ""
   },
-  "effortLevel": "xhigh",
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true
-  },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "PostToolUse": [
       {
+        "matcher": "Bash",
         "hooks": [
           {
-            "command": "atuin hook claude-code",
-            "type": "command"
+            "type": "command",
+            "command": "atuin hook claude-code"
           }
-        ],
-        "matcher": "Bash"
+        ]
       }
     ],
     "PostToolUseFailure": [
       {
+        "matcher": "Bash",
         "hooks": [
           {
-            "command": "atuin hook claude-code",
-            "type": "command"
+            "type": "command",
+            "command": "atuin hook claude-code"
           }
-        ],
-        "matcher": "Bash"
+        ]
       }
     ],
     "PreToolUse": [
       {
+        "matcher": "Bash",
         "hooks": [
           {
-            "command": "atuin hook claude-code",
-            "type": "command"
+            "type": "command",
+            "command": "atuin hook claude-code"
           }
-        ],
-        "matcher": "Bash"
+        ]
       }
     ]
   },
-  "model": "opus[1m]",
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "tui": "fullscreen"
+  "agentPushNotifEnabled": true
 }
