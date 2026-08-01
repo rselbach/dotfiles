@@ -6,7 +6,7 @@
   "hideThinkingBlock": true,
   "packages": [
     "npm:pi-web-access",
-    "npm:pi-mcp-adapter",
+    "/Users/rselbach/devel/pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
     "extensions/orchestrator.ts",
     "npm:@ff-labs/pi-fff"

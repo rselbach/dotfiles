@@ -5,7 +5,7 @@
   "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": false,
   "packages": [
-    "npm:pi-mcp-adapter",
+    "pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
     "extensions/orchestrator.ts"
   ],

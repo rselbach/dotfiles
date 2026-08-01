@@ -103,6 +103,26 @@ os = "darwin"  # optional
 are checked by `status` but are not recorded in the manifest or removed by
 `uninstall`; delete a destination file to download it again.
 
+**Git repositories** -- clone a repository to a destination and check out a
+branch, tag, or commit SHA:
+
+```toml
+[[repositories]]
+url = "https://github.com/example/tool.git"
+dst = "~/.local/share/tool"
+ref = "v1.2.3"
+```
+
+On subsequent installs, the origin is fetched again. Remote branches are
+checked out as local branches and updated with a fast-forward-only merge; tags
+and commit SHAs are checked out detached. Existing repositories must be at the
+configured work-tree root and have an exact matching `origin` URL. The
+installer does not discard local changes or divergent commits.
+
+Repositories are checked by `status`, but are not recorded in the manifest or
+removed by `uninstall`. If a tag and remote branch have the same name, the
+branch takes precedence.
+
 **Watch directories** -- warn about files in a destination directory that are
 not managed by this repo (checked during `install` and `status`). Useful for
 directories whose contents are linked individually, where a file created
@@ -125,8 +145,9 @@ cwd = "startnu"
 ### OS filtering
 
 Links, downloads, and run commands can be restricted to an OS (`linux`,
-`darwin`, `windows`). Unmatched entries are skipped. Defining links or downloads
-disables the default `~/.config/<name>` symlink even if none are active.
+`darwin`, `windows`). Unmatched entries are skipped. Defining links, downloads,
+or repositories disables the default `~/.config/<name>` symlink even if none
+are active.
 
 ```toml
 [[links]]

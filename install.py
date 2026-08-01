@@ -130,6 +130,13 @@ class DownloadSpec:
 
 
 @dataclass
+class RepositorySpec:
+    url: str
+    dst: str
+    ref: str
+
+
+@dataclass
 class Config:
     target: str | None = None
     skip: bool = False
@@ -137,6 +144,7 @@ class Config:
     links: list[LinkSpec] = field(default_factory=list)
     dirs: list[DirSpec] = field(default_factory=list)
     downloads: list[DownloadSpec] = field(default_factory=list)
+    repositories: list[RepositorySpec] = field(default_factory=list)
     runs: list[RunSpec] = field(default_factory=list)
     watches: list[WatchSpec] = field(default_factory=list)
 
@@ -206,6 +214,9 @@ def load_config(config_dir: Path) -> Config:
         links=[LinkSpec(**l) for l in raw.get("links", [])],
         dirs=[DirSpec(**d) for d in raw.get("dirs", [])],
         downloads=[DownloadSpec(**d) for d in raw.get("downloads", [])],
+        repositories=[
+            RepositorySpec(**r) for r in raw.get("repositories", [])
+        ],
         runs=[RunSpec(**r) for r in raw.get("run", [])],
         watches=[WatchSpec(**w) for w in raw.get("watch", [])],
     )
@@ -511,6 +522,195 @@ def install_download(download: DownloadSpec) -> None:
     print(f"  + {pretty(dst)} (downloaded)")
 
 
+def run_git(
+    args: list[str],
+    *,
+    check: bool = True,
+) -> subprocess.CompletedProcess[str]:
+    """Run git and raise a concise installation error when it fails."""
+    try:
+        result = subprocess.run(
+            ["git", *args],
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError as err:
+        raise InstallError("git is not installed") from err
+
+    if check and result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip()
+        if not detail:
+            detail = f"exit {result.returncode}"
+        raise InstallError(f"git failed: {detail}")
+    return result
+
+
+def git_ref_exists(dst: Path, ref: str) -> bool:
+    """Return whether a fully qualified ref exists in a repository."""
+    result = run_git(
+        ["-C", str(dst), "show-ref", "--verify", "--quiet", ref],
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def git_commit(dst: Path, ref: str) -> str | None:
+    """Resolve a ref to a commit, or return None when it cannot be resolved."""
+    result = run_git(
+        [
+            "-C",
+            str(dst),
+            "rev-parse",
+            "--verify",
+            "--quiet",
+            f"{ref}^{{commit}}",
+        ],
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip()
+
+
+def validate_repository(repository: RepositorySpec, dst: Path) -> None:
+    """Ensure dst is the configured repository's top-level work tree."""
+    top_level = run_git(
+        ["-C", str(dst), "rev-parse", "--show-toplevel"],
+        check=False,
+    )
+    if top_level.returncode != 0:
+        raise InstallError(
+            f"repository destination is not a git work tree: {pretty(dst)}"
+        )
+    if Path(top_level.stdout.strip()).resolve() != dst.resolve():
+        raise InstallError(
+            f"repository destination is not the work tree root: {pretty(dst)}"
+        )
+
+    origin = run_git(
+        ["-C", str(dst), "remote", "get-url", "origin"],
+        check=False,
+    )
+    if origin.returncode != 0 or origin.stdout.strip() != repository.url:
+        raise InstallError(
+            f"repository origin does not match configuration: {pretty(dst)}"
+        )
+
+
+def validate_repository_spec(repository: RepositorySpec) -> None:
+    """Reject missing values and option-like refs before invoking git."""
+    if not repository.url:
+        raise InstallError("repository url must not be empty")
+    if not repository.dst:
+        raise InstallError("repository dst must not be empty")
+    if not repository.ref or repository.ref.startswith("-"):
+        raise InstallError(f"invalid repository ref: {repository.ref!r}")
+
+
+def install_repository(repository: RepositorySpec) -> None:
+    """Clone or update a repository and check out its configured ref."""
+    validate_repository_spec(repository)
+    dst = resolve_path(repository.dst)
+    ref = repository.ref
+
+    if dst.exists() or dst.is_symlink():
+        if not dst.is_dir():
+            raise InstallError(
+                f"repository destination is not a directory: {pretty(dst)}"
+            )
+    else:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        run_git(
+            [
+                "clone",
+                "--no-checkout",
+                "--",
+                repository.url,
+                str(dst),
+            ]
+        )
+
+    validate_repository(repository, dst)
+    run_git(["-C", str(dst), "fetch", "--tags", "--prune", "origin"])
+
+    remote_branch = f"refs/remotes/origin/{ref}"
+    if git_ref_exists(dst, remote_branch):
+        local_branch = f"refs/heads/{ref}"
+        if git_ref_exists(dst, local_branch):
+            run_git(["-C", str(dst), "checkout", ref])
+        else:
+            run_git(
+                [
+                    "-C",
+                    str(dst),
+                    "checkout",
+                    "--track",
+                    "-b",
+                    ref,
+                    f"origin/{ref}",
+                ]
+            )
+        run_git(["-C", str(dst), "merge", "--ff-only", f"origin/{ref}"])
+    else:
+        if git_commit(dst, ref) is None:
+            run_git(["-C", str(dst), "fetch", "origin", ref])
+        if git_commit(dst, ref) is None:
+            raise InstallError(f"repository ref not found: {ref}")
+        run_git(["-C", str(dst), "checkout", "--detach", ref])
+
+    print(f"  + {pretty(dst)} (git: {ref})")
+
+
+def repository_problem(repository: RepositorySpec) -> str | None:
+    """Return why a repository does not match its configuration, if anything."""
+    try:
+        validate_repository_spec(repository)
+        dst = resolve_path(repository.dst)
+        if not dst.is_dir():
+            return "missing"
+        validate_repository(repository, dst)
+
+        ref = repository.ref
+        remote_branch = f"refs/remotes/origin/{ref}"
+        if git_ref_exists(dst, remote_branch):
+            branch = run_git(
+                ["-C", str(dst), "symbolic-ref", "--quiet", "--short", "HEAD"],
+                check=False,
+            )
+            if branch.returncode != 0 or branch.stdout.strip() != ref:
+                return f"expected branch {ref}"
+            up_to_date = run_git(
+                [
+                    "-C",
+                    str(dst),
+                    "merge-base",
+                    "--is-ancestor",
+                    f"origin/{ref}",
+                    "HEAD",
+                ],
+                check=False,
+            )
+            if up_to_date.returncode != 0:
+                return f"branch {ref} is not up to date"
+            return None
+
+        want = git_commit(dst, ref)
+        if want is None:
+            return f"ref not found: {ref}"
+        head = git_commit(dst, "HEAD")
+        if head != want:
+            return f"expected ref {ref}"
+        branch = run_git(
+            ["-C", str(dst), "symbolic-ref", "--quiet", "--short", "HEAD"],
+            check=False,
+        )
+        if branch.returncode == 0:
+            return f"expected detached ref {ref}"
+    except InstallError as err:
+        return str(err)
+    return None
+
+
 def install_dir(name: str, config: Config, manifest: dict) -> None:
     """Install a single config directory according to its Config."""
     config_dir = DOTFILES / name
@@ -530,13 +730,16 @@ def install_dir(name: str, config: Config, manifest: dict) -> None:
     if config.target is not None:
         dst = resolve_path(config.target)
         make_symlink(config_dir, dst, manifest)
-    elif not config.links and not config.downloads:
+    elif not config.links and not config.downloads and not config.repositories:
         # default: symlink to ~/.config/<name>
-        # only applies when no links or downloads were defined at all. if
-        # links were filtered out for this host/os, skip the default.
+        # only applies when no links, downloads, or repositories were defined.
+        # if links or downloads were filtered out, skip the default.
         dst = resolve_path(f"~/.config/{name}")
         dst.parent.mkdir(parents=True, exist_ok=True)
         make_symlink(config_dir, dst, manifest)
+
+    for repository in config.repositories:
+        install_repository(repository)
 
     # explicit links
     for entry in active_link_entries_for(config.links, config_dir):
@@ -688,8 +891,18 @@ def check_expected_status(name: str, config: Config) -> tuple[int, int]:
 
     if config.target is not None:
         check_symlink(resolve_path(config.target), config_dir)
-    elif not config.links and not config.downloads:
+    elif not config.links and not config.downloads and not config.repositories:
         check_symlink(resolve_path(f"~/.config/{name}"), config_dir)
+
+    for repository in config.repositories:
+        dst = resolve_path(repository.dst)
+        problem = repository_problem(repository)
+        if problem is None:
+            print(f"  ok  {pretty(dst)} (git: {repository.ref})")
+            ok += 1
+        else:
+            print(f"  BAD {pretty(dst)} ({problem})")
+            broken += 1
 
     for entry in active_link_entries_for(config.links, config_dir):
         check_symlink(entry.dst, entry.src)

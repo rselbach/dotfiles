@@ -34,3 +34,8 @@ dst = "~/.pi/agent/agents"
 [[links]]
 src = "prompts"
 dst = "~/.pi/agent/prompts"
+
+[[repositories]]
+url = "https://github.com/rselbach/pi-mcp-adapter.git"
+dst = "~/.pi/agent/pi-mcp-adapter"
+ref = "rselbach/t3-transient-config"

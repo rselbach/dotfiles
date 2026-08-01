@@ -19,11 +19,13 @@ that file over inferring behavior from existing symlinks.
   - `[[links]]`: explicit per-file/per-directory links.
   - `[[dirs]]`: directories to pre-create before linking.
   - `[[downloads]]`: files to download when their destinations are missing.
+  - `[[repositories]]`: Git repositories to clone and check out.
   - `[[run]]`: post-install commands.
   - `[[watch]]`: destination directories to check for unmanaged files.
 - Important: if any `[[links]]` are defined, the default whole-directory link is
   disabled. If all links are filtered out by OS/host, nothing is linked for that
-  config unit. Defining `[[downloads]]` also disables the default link.
+  config unit. Defining `[[downloads]]` or `[[repositories]]` also disables the
+  default link.
 
 ## `.config.toml` details
 
@@ -63,6 +65,16 @@ Expansion/filtering rules:
 - `mode`: optional octal string; defaults to `"0755"`.
 - `os`: optional platform filter.
 - Downloads are not recorded in the manifest or removed during uninstall.
+
+`[[repositories]]` fields:
+
+- `url`: Git remote URL. An existing checkout must have this exact `origin` URL.
+- `dst`: clone destination; `~` and environment variables are expanded.
+- `ref`: branch, tag, or commit SHA to check out. Remote branches are updated
+  with a fast-forward-only merge; tags and SHAs are checked out detached.
+
+Repositories are checked by `status`, but are not recorded in the manifest or
+removed during uninstall.
 
 `[[run]]` fields:
 

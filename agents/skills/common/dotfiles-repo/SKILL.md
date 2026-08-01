@@ -23,8 +23,9 @@ Rules to remember:
 - Each top-level, non-hidden directory is a config unit.
 - Without a `.config.toml`, `./<name>` is symlinked to `~/.config/<name>`.
 - `target = "..."` changes the whole-directory destination.
-- If any `[[links]]` entries exist, the default whole-directory link is disabled.
+- If any `[[links]]`, `[[downloads]]`, or `[[repositories]]` entries exist, the default whole-directory link is disabled.
 - `[[links]]` can target paths outside `~/.config` and can be filtered by `os` or `hosts`.
+- `[[repositories]]` clones a Git `url` to `dst` at a branch, tag, or commit SHA given by `ref`.
 - `src = "*"` expands inside the config unit; `<name>` in `dst` becomes the matched basename.
 - `secrets = true` means the destination is rendered from secrets data; edit the repo template source, not the rendered file.
 
@@ -53,3 +54,5 @@ Use `make install DIRS=<unit>` after changing one config unit when the user want
 - Existing non-symlink destinations are moved to `*-old` during install.
 - Host-specific links beat universal and OS-specific links for the same destination.
 - If all `[[links]]` are filtered out for the current OS or host, nothing is linked for that config unit.
+- Repository branches are updated by fast-forward only; tags and commit SHAs are checked out detached.
+- Repository destinations are not removed by `uninstall`.
