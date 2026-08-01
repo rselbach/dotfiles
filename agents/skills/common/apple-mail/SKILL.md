@@ -16,13 +16,12 @@ mail data.
 ## Quick Reference
 
 ```bash
-TOOL=~/Development/agent-stuff/skills/apple-mail/apple-mail.sh
+TOOL=~/devel/dotfiles/agent/skills/apple-mail/apple-mail.sh
 
 # Search emails
-$TOOL search --from "peter@" --subject "dinner" --limit 5
 $TOOL search --after 2026-02-01 --has-attachment
 $TOOL search --body "invoice" --mailbox "INBOX" --unread
-$TOOL search --to "armin@" --before 2025-12-31
+$TOOL search --to "rselbach@" --before 2025-12-31
 
 # Show message metadata, recipients, attachments, and summary
 $TOOL info 783660
@@ -32,7 +31,7 @@ $TOOL read 783660
 
 # Extract attachments to a temp directory (prints the path)
 $TOOL attachment 783660                          # all attachments
-$TOOL attachment 783660 "Rechnung.pdf"           # specific file
+$TOOL attachment 783660 "Invoice.pdf"            # specific file
 
 # List all mailboxes with counts
 $TOOL mailboxes
