@@ -467,7 +467,7 @@ export default function subagentExtension(pi: ExtensionAPI): void {
 			const runDir = path.join(getAgentDir(), RUNS_DIR, ctx.sessionManager.getSessionId(), childSessionId);
 			const resultPath = path.join(runDir, "result.json");
 			const tmuxSession = tmuxSessionName(childSessionId);
-			const tmuxTarget = `${tmuxSession}:0.0`;
+			const tmuxTarget = tmuxSession;
 			const spec: RunSpec = {
 				task: params.task,
 				cwd,
@@ -545,7 +545,7 @@ export default function subagentExtension(pi: ExtensionAPI): void {
 					try {
 						const remain = await pi.exec(
 							"tmux",
-							tmuxArgs("set-window-option", "-t", `${tmuxSession}:0`, "remain-on-exit", "on"),
+							tmuxArgs("set-window-option", "-t", tmuxTarget, "remain-on-exit", "on"),
 						);
 						if (remain.code !== 0) throw new Error(remain.stderr.trim() || "Failed to set remain-on-exit.");
 

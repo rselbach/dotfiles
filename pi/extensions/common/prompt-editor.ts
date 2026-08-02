@@ -1,5 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { CustomEditor, ModelSelectorComponent, SettingsManager } from "@earendil-works/pi-coding-agent";
+import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs/promises";
@@ -16,6 +17,7 @@ type ModeSpec = {
 	provider?: string;
 	modelId?: string;
 	thinkingLevel?: ThinkingLevel;
+	serviceTier?: "priority";
 	/**
 	 * Optional theme color token to use for the editor border.
 	 * If unset, the border color is derived from the (current) thinking level.
@@ -29,9 +31,79 @@ type ModesFile = {
 	modes: Record<ModeName, ModeSpec>;
 };
 
+type LabelPart = {
+	text: string;
+	color: (text: string) => string;
+};
+
+type UsageTotals = {
+	input: number;
+	output: number;
+	cacheRead: number;
+	cacheWrite: number;
+};
+
+const ANSI_CSI_PATTERN = /\x1b\[[0-?]*[ -/]*[@-~]/g;
+
+function stripAnsi(text: string): string {
+	return text.replace(ANSI_CSI_PATTERN, "");
+}
+
+function formatTokens(count: number): string {
+	if (count < 1_000) return String(count);
+	if (count < 10_000) return `${(count / 1_000).toFixed(1)}k`;
+	if (count < 1_000_000) return `${Math.round(count / 1_000)}k`;
+	if (count < 10_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
+	return `${Math.round(count / 1_000_000)}M`;
+}
+
+function getUsageTotals(ctx: ExtensionContext): UsageTotals {
+	const totals: UsageTotals = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 };
+
+	for (const entry of ctx.sessionManager.getEntries()) {
+		if (entry.type !== "message") continue;
+		if (entry.message.role !== "assistant" && entry.message.role !== "toolResult") continue;
+
+		const usage = entry.message.usage;
+		if (!usage) continue;
+		totals.input += usage.input;
+		totals.output += usage.output;
+		totals.cacheRead += usage.cacheRead;
+		totals.cacheWrite += usage.cacheWrite;
+	}
+
+	return totals;
+}
+
+function formatUsage(ctx: ExtensionContext): string {
+	const usage = getUsageTotals(ctx);
+	return [
+		`↑${formatTokens(usage.input)}`,
+		`↓${formatTokens(usage.output)}`,
+		`R${formatTokens(usage.cacheRead)}`,
+		`W${formatTokens(usage.cacheWrite)}`,
+	].join(" ");
+}
+
+function formatContext(ctx: ExtensionContext): string {
+	const usage = ctx.getContextUsage();
+	const contextWindow = usage?.contextWindow ?? ctx.model?.contextWindow;
+	if (!contextWindow) return "ctx:?";
+
+	const tokens = usage?.tokens;
+	const used = tokens === null || tokens === undefined ? "?" : formatTokens(tokens);
+	const percent = usage?.percent;
+	const percentLabel = percent === null || percent === undefined ? "?" : `${percent.toFixed(1)}%`;
+	return `ctx:${used}/${formatTokens(contextWindow)} ${percentLabel}`;
+}
+
 // Only "default" is a forced/built-in mode. Others are just initial suggestions and can be renamed/deleted.
 const DEFAULT_MODE_ORDER = ["default"] as const;
 const CUSTOM_MODE_NAME = "custom" as const;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
 
 function expandUserPath(p: string): string {
 	if (p === "~") return os.homedir();
@@ -167,6 +239,7 @@ type ModeSpecPatch = {
 	provider?: string | null;
 	modelId?: string | null;
 	thinkingLevel?: ThinkingLevel | null;
+	serviceTier?: "priority" | null;
 	color?: string | null;
 };
 
@@ -199,7 +272,7 @@ function computeModesPatch(base: ModesFile, next: ModesFile, includeCurrentMode:
 		}
 
 		const diff: ModeSpecPatch = {};
-		const fields: (keyof ModeSpec)[] = ["provider", "modelId", "thinkingLevel", "color"];
+		const fields: (keyof ModeSpec)[] = ["provider", "modelId", "thinkingLevel", "serviceTier", "color"];
 		for (const f of fields) {
 			const av = a[f];
 			const bv = b[f];
@@ -257,6 +330,7 @@ function sanitizeModeSpec(spec: unknown): ModeSpec {
 		provider: typeof obj.provider === "string" ? obj.provider : undefined,
 		modelId: typeof obj.modelId === "string" ? obj.modelId : undefined,
 		thinkingLevel: normalizeThinkingLevel(obj.thinkingLevel),
+		serviceTier: obj.serviceTier === "priority" ? "priority" : undefined,
 		color: typeof obj.color === "string" ? obj.color : undefined,
 	};
 }
@@ -278,7 +352,7 @@ function createDefaultModes(ctx: ExtensionContext, pi: ExtensionAPI): ModesFile 
 			// Forced default mode
 			default: { ...base },
 			// Convenience mode (user can delete/rename)
-			fast: { ...base, thinkingLevel: "off" },
+			fast: { ...base, serviceTier: "priority" },
 		},
 	};
 }
@@ -932,11 +1006,9 @@ interface PromptEntry {
 
 class PromptEditor extends CustomEditor {
 	public modeLabelProvider?: () => string;
-	/**
-	 * Color function for the mode label. If unset, the label inherits the border color.
-	 * We use this to keep the label consistent (e.g. same as the footer/status bar).
-	 */
 	public modeLabelColor?: (text: string) => string;
+	public topLabelPartsProvider?: () => LabelPart[];
+	public bottomLabelPartsProvider?: () => LabelPart[];
 	private lockedBorder = false;
 	private _borderColor?: (text: string) => string;
 
@@ -962,69 +1034,74 @@ class PromptEditor extends CustomEditor {
 		this.lockedBorder = true;
 	}
 
+	private renderBorderLabel(lines: string[], index: number, width: number, labelParts: LabelPart[]): void {
+		if (labelParts.length === 0) return;
+
+		const plain = stripAnsi(lines[index] ?? "");
+		const scrollPrefixMatch = plain.match(/^(─── [↑↓] \d+ more )/);
+		const prefix = scrollPrefixMatch?.[1] ?? "──";
+		const labelLeftSpace = prefix.endsWith(" ") ? "" : " ";
+		const labelRightSpace = " ";
+		const minRightBorder = 1;
+		const maxLabelWidth = Math.max(
+			0,
+			width -
+				visibleWidth(prefix) -
+				visibleWidth(labelLeftSpace) -
+				visibleWidth(labelRightSpace) -
+				minRightBorder,
+		);
+		if (maxLabelWidth === 0) return;
+
+		let remainingWidth = maxLabelWidth;
+		const fittedParts = labelParts.map((part) => {
+			const text = truncateToWidth(part.text, remainingWidth, "");
+			remainingWidth -= visibleWidth(text);
+			return { ...part, text };
+		});
+		const labelWidth = fittedParts.reduce((sum, part) => sum + visibleWidth(part.text), 0);
+		const right = "─".repeat(
+			Math.max(
+				0,
+				width -
+					visibleWidth(prefix) -
+					visibleWidth(labelLeftSpace) -
+					labelWidth -
+					visibleWidth(labelRightSpace),
+			),
+		);
+
+		lines[index] =
+			this.borderColor(prefix) +
+			(labelLeftSpace ? this.borderColor(labelLeftSpace) : "") +
+			fittedParts.map((part) => (part.text ? part.color(part.text) : "")).join("") +
+			this.borderColor(labelRightSpace + right);
+	}
+
 	render(width: number): string[] {
 		const lines = super.render(width);
 		const mode = this.modeLabelProvider?.();
-		if (!mode) return lines;
-
-		const stripAnsi = (s: string) => s.replace(/\x1b\[[0-9;]*m/g, "");
-		const topPlain = stripAnsi(lines[0] ?? "");
-
-		// If the editor is scrolled, the built-in editor renders a scroll indicator on the top border.
-		// Preserve it, but still show the mode label.
-		const scrollPrefixMatch = topPlain.match(/^(─── ↑ \d+ more )/);
-		const prefix = scrollPrefixMatch?.[1] ?? "──";
-
 		const labelColor = this.modeLabelColor ?? ((text: string) => this.borderColor(text));
-		const isBashMode = this.getText().trimStart().startsWith("!");
-		const labelParts: Array<{ text: string; color: (text: string) => string }> = [
-			{ text: formatModeLabel(mode), color: labelColor },
-		];
-		if (isBashMode) {
-			labelParts.push(
+		const topLabelParts: LabelPart[] = [];
+		if (mode) topLabelParts.push({ text: formatModeLabel(mode), color: labelColor });
+		topLabelParts.push(...(this.topLabelPartsProvider?.() ?? []));
+
+		if (this.getText().trimStart().startsWith("!")) {
+			topLabelParts.push(
 				{ text: " ", color: labelColor },
 				{ text: "──", color: (text: string) => this.borderColor(text) },
 				{ text: " bash", color: labelColor },
 			);
 		}
+		this.renderBorderLabel(lines, 0, width, topLabelParts);
 
-		// Compute how much room we have for the label core (without truncating the prefix).
-		const labelLeftSpace = prefix.endsWith(" ") ? "" : " ";
-		const labelRightSpace = " ";
-		const minRightBorder = 1; // keep at least one border cell on the right
-		const maxLabelLen = Math.max(0, width - prefix.length - labelLeftSpace.length - labelRightSpace.length - minRightBorder);
-		if (maxLabelLen <= 0) return lines;
-
-		let labelLen = labelParts.reduce((sum, part) => sum + part.text.length, 0);
-		if (labelLen > maxLabelLen) {
-			let remainingLen = maxLabelLen;
-			for (const part of labelParts) {
-				if (remainingLen <= 0) {
-					part.text = "";
-					continue;
-				}
-				if (part.text.length > remainingLen) {
-					part.text = part.text.slice(0, remainingLen);
-					remainingLen = 0;
-				} else {
-					remainingLen -= part.text.length;
-				}
-			}
-			labelLen = maxLabelLen;
+		for (let index = lines.length - 1; index > 0; index -= 1) {
+			const plain = stripAnsi(lines[index] ?? "");
+			if (!/^─+$/.test(plain) && !/^─── [↑↓] \d+ more ─*$/.test(plain)) continue;
+			this.renderBorderLabel(lines, index, width, this.bottomLabelPartsProvider?.() ?? []);
+			break;
 		}
 
-		const labelChunkLen = labelLeftSpace.length + labelLen + labelRightSpace.length;
-		const remaining = width - prefix.length - labelChunkLen;
-		if (remaining < 0) return lines;
-
-		const right = "─".repeat(Math.max(0, remaining));
-		const coloredLabel = labelParts.map((part) => (part.text ? part.color(part.text) : "")).join("");
-		lines[0] =
-			this.borderColor(prefix) +
-			(labelLeftSpace ? labelColor(labelLeftSpace) : "") +
-			coloredLabel +
-			(labelRightSpace ? labelColor(labelRightSpace) : "") +
-			this.borderColor(right);
 		return lines;
 	}
 
@@ -1183,8 +1260,24 @@ function setEditor(pi: ExtensionAPI, ctx: ExtensionContext, history: PromptEntry
 		const editor = new PromptEditor(tui, theme, keybindings);
 		requestEditorRender = () => editor.requestRenderNow();
 		editor.modeLabelProvider = () => runtime.currentMode;
-		// Keep the mode label color stable (match footer/status bar).
 		editor.modeLabelColor = (text: string) => uiTheme.fg("dim", text);
+		editor.topLabelPartsProvider = () => {
+			const model = ctx.model;
+			const modelLabel = model ? `${model.provider}/${model.id}` : "no model";
+			return [
+				{ text: " • ", color: (text: string) => uiTheme.fg("dim", text) },
+				{ text: modelLabel, color: (text: string) => uiTheme.fg("accent", text) },
+			];
+		};
+		editor.bottomLabelPartsProvider = () => {
+			const percent = ctx.getContextUsage()?.percent ?? 0;
+			const contextColor = percent > 90 ? "error" : percent > 70 ? "warning" : "muted";
+			return [
+				{ text: formatContext(ctx), color: (text: string) => uiTheme.fg(contextColor, text) },
+				{ text: " • ", color: (text: string) => uiTheme.fg("dim", text) },
+				{ text: formatUsage(ctx), color: (text: string) => uiTheme.fg("muted", text) },
+			];
+		};
 		const borderColor = (text: string) => {
 			const isBashMode = editor.getText().trimStart().startsWith("!");
 			if (isBashMode) {
@@ -1229,6 +1322,15 @@ function applyEditor(pi: ExtensionAPI, ctx: ExtensionContext) {
 // =============================================================================
 
 export default function (pi: ExtensionAPI) {
+	pi.on("before_provider_request", (event, ctx) => {
+		const mode = runtime.data.modes[runtime.currentMode];
+		if (mode?.serviceTier !== "priority") return;
+		if (ctx.model?.provider !== "openai-codex" || ctx.model.api !== "openai-codex-responses") return;
+		if (!isRecord(event.payload) || event.payload.model !== ctx.model.id) return;
+
+		return { ...event.payload, service_tier: mode.serviceTier };
+	});
+
 	pi.registerCommand("mode", {
 		description: "Select prompt mode",
 		handler: async (args, ctx) => {
