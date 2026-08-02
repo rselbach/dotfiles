@@ -18,7 +18,9 @@ if ! _rc_names="$(
   return 1
 fi
 
-while IFS= read -r _rc_name; do
+# Iterate without redirecting stdin so fragments see the real terminal.
+readarray -t _rc_name_list <<< "${_rc_names}"
+for _rc_name in "${_rc_name_list[@]}"; do
   [[ -n "${_rc_name}" ]] || continue
 
   for _rc_file in \
@@ -28,10 +30,10 @@ while IFS= read -r _rc_name; do
     # shellcheck source=/dev/null
     if ! source "${_rc_file}"; then
       printf 'failed to load %s\n' "${_rc_file}" >&2
-      unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names
+      unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names _rc_name_list
       return 1
     fi
   done
-done <<< "${_rc_names}"
+done
 
-unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names
+unset _rc_dir _shells_rc_dir _rc_shell _rc_file _rc_name _rc_names _rc_name_list

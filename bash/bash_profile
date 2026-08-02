@@ -6,3 +6,6 @@ if [[ -f "${HOME}/.bashrc" ]]; then
 fi
 
 . "$HOME/.atuin/bin/env"
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"
