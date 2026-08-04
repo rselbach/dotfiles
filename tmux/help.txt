@@ -1,0 +1,44 @@
+tmux cheat sheet
+================
+
+Prefix: C-space (hold Ctrl, tap Space, release). C-b also works.
+Press prefix + ? to close this window.
+
+Tabs
+  prefix c          new tab
+  prefix r          rename tab (or right-click a tab)
+  prefix k          close tab
+  prefix 1..9       jump to tab          (or just click a tab)
+  prefix n / p      next / previous tab
+
+Panes (splits inside a tab)
+  prefix v          split to the right
+  prefix h          split below
+  prefix x          close pane
+  Opt+arrows        jump between panes
+  Opt+Shift+arrows  resize the current pane
+  Opt+Enter         split below
+  Opt+Shift+Enter   split to the right
+  Opt+Esc           close pane
+
+Scrolling & copying
+  Scroll up with the mouse wheel to go back in the buffer
+  v  start selection      y  copy and exit      q  exit copy mode
+  Middle-click pastes.
+
+Sessions
+  prefix d          detach (leave tmux; your session keeps running)
+  prefix C          new session
+  prefix R          rename session
+  prefix K          kill session
+  prefix N / P      next / previous session
+
+To come back after detaching:
+  t      attach to your session
+  tx     attach to any session
+
+Mouse
+  Click a tab to switch, click a pane to focus it,
+  drag pane borders to resize. Right-click a tab to rename it.
+
+Reload config after editing ~/.config/tmux/tmux.conf:  prefix q
