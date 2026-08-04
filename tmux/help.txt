@@ -1,7 +1,7 @@
 tmux cheat sheet
 ================
 
-Prefix: C-space (hold Ctrl, tap Space, release). C-b also works.
+Prefix: C-a (hold Ctrl, tap a). C-space also works.
 Press prefix + ? to close this window.
 
 Tabs
