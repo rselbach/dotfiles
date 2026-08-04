@@ -1,25 +1,46 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "ibm-bob": {
-      "options": {
-        "instanceID": "37f54b01-2dec-4737-bf93-c094a5f95e7c",
-        "teamID": "019ddffb-8c71-79f6-bd0a-feb1a597b638"
-      }
-    },
     "ollama-local": {
       "npm": "@ai-sdk/openai",
       "name": "Ollama on rhea",
       "options": {
-        "baseURL": "http://rhea.local:8787/v1",
+        "baseURL": "http://rhea.local:11434/v1",
         "apiKey": "not-used",
         "verbosity": "low"
       },
       "models": {
-        "local": {
-          "name": "Ollama local",
+        "granite-4.1-8b": {
+          "name": "granite-4.1-8b",
+          "reasoning": false,
+          "tool_call": true,
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "qwen3.5:9b-mlx": {
+          "name": "qwen3.5:9b-mlx",
           "reasoning": true,
           "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            },
             "xhigh": {
               "reasoningEffort": "xhigh"
             },

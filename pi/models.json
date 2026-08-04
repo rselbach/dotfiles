@@ -1,13 +1,30 @@
 {
   "providers": {
     "ollama-local": {
-      "baseUrl": "http://rhea.local:8787/v1",
+      "baseUrl": "http://rhea.local:11434/v1",
       "api": "openai-responses",
       "apiKey": "not-used",
       "models": [
         {
-          "id": "local",
-          "name": "Ollama local",
+          "id": "granite4.1:8b",
+          "name": "granite4.1:8b",
+          "reasoning": false,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 1050000,
+          "maxTokens": 128000,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "qwen3.5:9b-mlx",
+          "name": "qwen3.5:9b-mlx",
           "reasoning": true,
           "input": [
             "text",
