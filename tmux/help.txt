@@ -6,7 +6,7 @@ Press prefix + ? to close this window.
 
 Tabs
   prefix c          new tab          (or click the + at the far right)
-  prefix r          rename tab (or right-click a tab)
+  prefix r          rename tab (or right-click a tab; ESC cancels)
   prefix k          close tab
   prefix 1..9       jump to tab          (or just click a tab)
   prefix n / p      next / previous tab
