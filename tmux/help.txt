@@ -5,7 +5,7 @@ Prefix: C-space (hold Ctrl, tap Space, release). C-b also works.
 Press prefix + ? to close this window.
 
 Tabs
-  prefix c          new tab
+  prefix c          new tab          (or click the + at the far right)
   prefix r          rename tab (or right-click a tab)
   prefix k          close tab
   prefix 1..9       jump to tab          (or just click a tab)
