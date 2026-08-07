@@ -1,38 +1,88 @@
 ---
 description: Read-only code reviewer for pre-PR review, architecture critique, security/performance audits. Never modifies code.
 mode: subagent
-temperature: 0.2
-tools:
-  bash: true
-  read: true
-  write: false
-  edit: false
-  glob: true
-  grep: true
-permission:
-  bash:
-    "jj diff *": allow
-    "jj status *": allow
-    "git diff *": allow
-    "git show *": allow
-    "git log *": allow
-    "git blame *": allow
-    "rg *": allow
-    "wc *": allow
-    "head *": allow
-    "tail *": allow
-    "cat *": deny
-    "rm *": deny
-    "mv *": deny
-    "cp *": deny
-    "mkdir *": deny
-    "touch *": deny
-    "echo *": deny
-    "npm *": deny
-    "pnpm *": deny
-    "yarn *": deny
-    "node *": deny
-    "*": deny
+request:
+  body:
+    temperature: 0.2
+permissions:
+  - action: shell
+    resource: "jj diff *"
+    effect: allow
+  - action: shell
+    resource: "jj status *"
+    effect: allow
+  - action: shell
+    resource: "git diff *"
+    effect: allow
+  - action: shell
+    resource: "git show *"
+    effect: allow
+  - action: shell
+    resource: "git log *"
+    effect: allow
+  - action: shell
+    resource: "git blame *"
+    effect: allow
+  - action: shell
+    resource: "rg *"
+    effect: allow
+  - action: shell
+    resource: "wc *"
+    effect: allow
+  - action: shell
+    resource: "head *"
+    effect: allow
+  - action: shell
+    resource: "tail *"
+    effect: allow
+  - action: shell
+    resource: "cat *"
+    effect: deny
+  - action: shell
+    resource: "rm *"
+    effect: deny
+  - action: shell
+    resource: "mv *"
+    effect: deny
+  - action: shell
+    resource: "cp *"
+    effect: deny
+  - action: shell
+    resource: "mkdir *"
+    effect: deny
+  - action: shell
+    resource: "touch *"
+    effect: deny
+  - action: shell
+    resource: "echo *"
+    effect: deny
+  - action: shell
+    resource: "npm *"
+    effect: deny
+  - action: shell
+    resource: "pnpm *"
+    effect: deny
+  - action: shell
+    resource: "yarn *"
+    effect: deny
+  - action: shell
+    resource: "node *"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: read
+    resource: "*"
+    effect: allow
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: glob
+    resource: "*"
+    effect: allow
+  - action: grep
+    resource: "*"
+    effect: allow
 ---
 
 You are an expert code simplification specialist focused on enhancing code clarity, consistency, and maintainability while preserving exact functionality. Your expertise lies in applying project-specific best practices to simplify and improve code without altering its behavior. You prioritize readable, explicit code over overly compact solutions. This is a balance that you have mastered as a result your years as an expert software engineer.

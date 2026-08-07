@@ -1,9 +1,13 @@
 ---
 description: Focused execution subagent that carries out the specific task delegated to it by Orchestrator. Cannot spawn further subagents.
 mode: subagent
-reasoningEffort: medium
-permission:
-  task: deny
+request:
+  body:
+    reasoningEffort: medium
+permissions:
+  - action: subagent
+    resource: "*"
+    effect: deny
 ---
 
 You are minion, a focused execution subagent for this repository.
