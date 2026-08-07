@@ -104,6 +104,18 @@ claude-proxy() {
     claude --model "local[1m]" --dangerously-skip-permissions
 }
 
+claude-deepseek() {
+  ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic \
+    ANTHROPIC_AUTH_TOKEN=$(get-token deepseek) \
+    ANTHROPIC_MODEL=deepseek-v4-flash \
+    ANTHROPIC_DEFAULT_OPUS_MODEL=deepseek-v4-flash \
+    ANTHROPIC_DEFAULT_SONNET_MODEL=deepseek-v4-flash \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL=deepseek-v4-flash \
+    CLAUDE_CODE_SUBAGENT_MODEL=deepseek-v4-flash \
+    CLAUDE_CODE_EFFORT_LEVEL=max \
+    claude --model "deepseek-v4-flash" --dangerously-skip-permissions
+}
+
 __claude-via-openrouter() {
   local model="$1"
   local haiku_model="${2:-$model}"
