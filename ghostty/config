@@ -33,3 +33,52 @@ keybind = shift+enter=text:\n
 
 # Slowdown mouse scrolling
 mouse-scroll-multiplier = 0.95
+
+
+# native-shortcuts-herd: managed ghostty key routing
+# edit with: native-shortcuts-herd install
+
+# macos/chrome-style herdr actions
+keybind = cmd+KeyT=text:\x02t
+keybind = cmd+t=unbind
+keybind = cmd+KeyN=text:\x02n
+keybind = cmd+n=unbind
+keybind = cmd+KeyW=text:\x02W
+keybind = cmd+w=unbind
+keybind = cmd+KeyK=text:\x02N
+keybind = cmd+k=unbind
+keybind = cmd+KeyL=text:\x02T
+keybind = cmd+l=unbind
+keybind = cmd+KeyD=text:\x02v
+keybind = cmd+d=unbind
+keybind = cmd+shift+KeyD=text:\x02-
+keybind = cmd+shift+d=unbind
+keybind = alt+t=text:\x02t
+
+# ctrl+tab / ctrl+shift+tab -> herdr tabs
+keybind = ctrl+tab=text:\x1b[9;5u
+keybind = ctrl+shift+tab=text:\x1b[9;6u
+
+# ctrl+alt+tab / ctrl+alt+shift+tab -> herdr workspaces
+keybind = ctrl+alt+tab=text:\x1b[9;7u
+keybind = ctrl+alt+shift+tab=text:\x1b[9;8u
+
+# cmd+1..9 -> herdr workspaces
+keybind = cmd+digit_1=text:\x1b[49;6u
+keybind = cmd+1=text:\x1b[49;6u
+keybind = cmd+digit_2=text:\x1b[50;6u
+keybind = cmd+2=text:\x1b[50;6u
+keybind = cmd+digit_3=text:\x1b[51;6u
+keybind = cmd+3=text:\x1b[51;6u
+keybind = cmd+digit_4=text:\x1b[52;6u
+keybind = cmd+4=text:\x1b[52;6u
+keybind = cmd+digit_5=text:\x1b[53;6u
+keybind = cmd+5=text:\x1b[53;6u
+keybind = cmd+digit_6=text:\x1b[54;6u
+keybind = cmd+6=text:\x1b[54;6u
+keybind = cmd+digit_7=text:\x1b[55;6u
+keybind = cmd+7=text:\x1b[55;6u
+keybind = cmd+digit_8=text:\x1b[56;6u
+keybind = cmd+8=text:\x1b[56;6u
+keybind = cmd+digit_9=text:\x1b[57;6u
+keybind = cmd+9=text:\x1b[57;6u
