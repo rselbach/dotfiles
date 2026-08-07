@@ -3,6 +3,7 @@ _path_add "${HOME}/.opencode/bin"
 # speed up pi if launched outside a project dir
 export PI_LENS_STARTUP_MODE=quick
 
+alias opencode='opencode2'
 alias c='opencode'
 
 set-claude-default() {

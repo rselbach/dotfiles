@@ -1,6 +1,6 @@
 {
-  "lastChangelogVersion": "0.83.0",
-  "defaultThinkingLevel": "medium",
+  "lastChangelogVersion": "0.84.1",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "npm:pi-web-access",

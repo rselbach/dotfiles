@@ -43,6 +43,11 @@
       "cloudflare": {
         "type": "remote",
         "url": "https://mcp.cloudflare.com/mcp"
+      },
+      "atlassian": {
+        "type": "remote",
+        "url": "https://mcp.atlassian.com/v1/mcp/authv2",
+        "disabled": false
       }
     }
   },

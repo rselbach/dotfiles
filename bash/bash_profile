@@ -5,7 +5,5 @@ if [[ -f "${HOME}/.bashrc" ]]; then
   source "${HOME}/.bashrc"
 fi
 
-. "$HOME/.atuin/bin/env"
-
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
