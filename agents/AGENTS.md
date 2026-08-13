@@ -8,15 +8,6 @@
   `$HOME`.
 - Concurrent edits are normal. Refresh context before editing and handoff.
 
-## Communication
-
-- Be terse; noun phrases are okay.
-- Avoid emojis, especially in code comments.
-- Surface material assumptions and tradeoffs. Ask only when ambiguity would
-  materially change the outcome or risk; otherwise proceed reasonably.
-- Report actual errors and relevant output. Never hide or silently summarize a
-  failure.
-
 ## Scope and design
 
 - Prefer the simplest solution that fully meets the request. No speculative

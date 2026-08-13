@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Deployment Secrets"
+  short_description: "Configure GitHub deployment secrets from 1Password"
+  default_prompt: "Use $github-deployment-secrets to configure the deployment secrets for this GitHub repository."
