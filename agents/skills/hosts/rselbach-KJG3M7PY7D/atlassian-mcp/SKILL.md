@@ -9,6 +9,19 @@ description: Guide for using the Atlassian Rovo MCP server tools for Jira, Confl
 
 This skill covers using the Atlassian Rovo MCP tools for Jira, Confluence, Compass, and Teamwork Graph. All tools are accessed through `tools["atlassian"]` in the Code Mode runtime.
 
+## Discovering Tools in Code Mode
+
+The initial Code Mode catalog is partial. A tool missing from the displayed catalog may still be available. Before concluding that an Atlassian tool does not exist, discover it with the Code Mode runtime's top-level `search` function:
+
+```js
+const result = await search({
+  namespace: "atlassian",
+  query: "search Jira issues JQL",
+});
+```
+
+Use the exact path returned, for example `tools.atlassian.searchJiraIssuesUsingJql`. Do not call `tools["search"]`; `search` is a top-level Code Mode function, not an MCP tool.
+
 ## Authentication
 
 OAuth 2.1 flow with PKCE:
@@ -49,11 +62,13 @@ Use `searchJiraIssuesUsingJql` — NOT the Rovo `search` tool. Rovo `search` is 
 
 ```js
 // Get your open issues
-const result = JSON.parse(await tools["atlassian"].searchJiraIssuesUsingJql({
+const result = await tools.atlassian.searchJiraIssuesUsingJql({
   cloudId: "YOUR_CLOUD_ID",
   jql: "assignee = currentUser() AND statusCategory != Done ORDER BY updated DESC",
   maxResults: 50,
-}));
+  fields: ["summary", "status", "priority", "project", "issuetype", "updated"],
+  searchResultMode: "issues",
+});
 result.issues.map(i => ({
   key: i.key,
   summary: i.fields.summary,
@@ -383,7 +398,7 @@ Use markdown unless you need precise formatting control.
 ## Tips
 
 - Always call `getAccessibleAtlassianResources` first to get the cloudId
-- Use `JSON.parse()` on `searchJiraIssuesUsingJql` results — it returns a JSON string
+- `searchJiraIssuesUsingJql` returns an object in Code Mode; do not pass it to `JSON.parse()`
 - For open issues, use `statusCategory != Done` rather than `resolution = Unresolved` (handles issues that were never resolved better)
 - Rovo `search` results include a `type` field: `"issue"`, `"page"`, or `"blogpost"` — filter on it
 - When creating issues, call `getJiraIssueTypeMetaWithFields` first to know what fields are available and required

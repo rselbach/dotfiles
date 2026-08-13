@@ -26,6 +26,10 @@
           "id": "qwen3.5:9b-mlx",
           "name": "qwen3.5:9b-mlx",
           "reasoning": true,
+          "thinkingLevelMap": {
+            "xhigh": "xhigh",
+            "max": "max"
+          },
           "input": [
             "text",
             "image"

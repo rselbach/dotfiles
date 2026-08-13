@@ -88,12 +88,12 @@
         "headers": {
           "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
         }
+      },
+      "atlassian": {
+        "type": "remote",
+        "url": "https://mcp.atlassian.com/v1/mcp/authv2",
+        "disabled": false
       }
-    },
-    "atlassian": {
-      "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/mcp/authv2",
-      "enabled": true
     }
   },
   "plugins": [

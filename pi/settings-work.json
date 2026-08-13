@@ -1,13 +1,14 @@
 {
   "lastChangelogVersion": "0.84.1",
   "defaultThinkingLevel": "high",
-  "hideThinkingBlock": true,
+  "hideThinkingBlock": false,
   "packages": [
     "npm:pi-web-access",
     "/Users/rselbach/devel/pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
     "extensions/orchestrator.ts",
-    "npm:@ff-labs/pi-fff"
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-mcp-adapter"
   ],
   "theme": "dark",
   "defaultProvider": "ollama-local",
