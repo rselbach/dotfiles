@@ -1,0 +1,3 @@
+[[links]]
+src = "config.toml"
+dst = "~/.config/atuin/config.toml"
