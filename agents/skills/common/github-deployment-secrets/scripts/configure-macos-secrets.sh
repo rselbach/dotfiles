@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Configure shared Apple deployment secrets from 1Password in a GitHub repo.
+# Configure shared macOS deployment secrets from 1Password in a GitHub repo.
 
 set -euo pipefail
 
@@ -7,7 +7,7 @@ readonly OP_ITEM="App deployment secrets"
 readonly OP_VAULT="Private"
 
 usage() {
-  echo "usage: $0 OWNER/REPO" >&2
+  echo "usage: $0 [--sparkle] OWNER/REPO" >&2
 }
 
 set_secret() {
@@ -26,6 +26,11 @@ set_secret() {
 }
 
 main() {
+  local include_sparkle=false
+  if [[ "${1:-}" == "--sparkle" ]]; then
+    include_sparkle=true
+    shift
+  fi
   if (( $# != 1 )); then
     usage
     return 2
@@ -47,6 +52,11 @@ main() {
     "MACOS_CERTIFICATE_PASSWORD"
   )
   local index
+
+  if [[ "${include_sparkle}" == true ]]; then
+    fields+=("sparkle_eddsa_private_key")
+    secret_names+=("SPARKLE_EDDSA_PRIVATE_KEY")
+  fi
 
   if [[ ! "${repo}" =~ ^[^/]+/[^/]+$ ]]; then
     echo "repository must use OWNER/REPO format: ${repo}" >&2
