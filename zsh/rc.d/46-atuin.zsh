@@ -1,5 +1,8 @@
 [[ -o interactive ]] || return 0
 
+# Prefer the standalone installer's location, which is not on PATH by default.
+[[ -f "${HOME}/.atuin/bin/env" ]] && source "${HOME}/.atuin/bin/env"
+
 if command -v atuin >/dev/null 2>&1; then
   _atuin_init=''
   if ! _atuin_init="$(atuin init zsh --disable-up-arrow)"; then

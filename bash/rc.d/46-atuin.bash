@@ -1,5 +1,8 @@
 [[ $- == *i* && -t 0 ]] || return 0
 
+# Prefer the standalone installer's location, which is not on PATH by default.
+[[ -f "${HOME}/.atuin/bin/env" ]] && source "${HOME}/.atuin/bin/env"
+
 if command -v atuin >/dev/null 2>&1; then
   if [[ -z "${bash_preexec_imported:-}" ]]; then
     bash_preexec_path="${HOMEBREW_PREFIX:-}/etc/profile.d/bash-preexec.sh"
