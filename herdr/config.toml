@@ -1,7 +1,7 @@
 onboarding = false
 
 [keys]
-prefix = "ctrl+b"
+prefix = "ctrl+a"
 new_workspace = "prefix+n"
 rename_workspace = "prefix+shift+n"
 close_workspace = "prefix+shift+d"
@@ -14,7 +14,7 @@ next_workspace = "ctrl+alt+tab"
 previous_workspace = "ctrl+alt+shift+tab"
 
 [ui]
-show_agent_labels_on_pane_borders = false
+show_agent_labels_on_pane_borders = true
 copy_on_select = false
 prompt_new_tab_name = true
 
