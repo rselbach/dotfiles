@@ -12,6 +12,10 @@ src = "models.json"
 dst = "~/.pi/agent/models.json"
 
 [[links]]
+src = "mcp.json"
+dst = "~/.pi/agent/mcp.json"
+
+[[links]]
 src = "extensions/common/*"
 dst = "~/.pi/agent/extensions/<name>"
 

@@ -1,19 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "providers": {
+  "provider": {
     "ollama-local": {
-      "package": "aisdk:@ai-sdk/openai",
+      "npm": "@ai-sdk/openai",
       "name": "Ollama on rhea",
-      "settings": {
-        "baseURL": "http://rhea.local:8787/v1",
+      "options": {
+        "baseURL": "http://rhea.local:11434/v1",
         "apiKey": "not-used",
         "verbosity": "low"
       },
       "models": {
         "local": {
           "name": "Ollama local",
-          "capabilities": {
-            "tools": true,
+          "tool_call": true,
+          "modalities": {
             "input": [
               "text",
               "image"
@@ -31,34 +31,26 @@
     }
   },
   "mcp": {
-    "servers": {
-      "excalidraw": {
-        "type": "remote",
-        "url": "https://api.excalidraw.com/api/v1/mcp",
-        "disabled": false,
-        "headers": {
-          "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
-        }
-      },
-      "cloudflare": {
-        "type": "remote",
-        "url": "https://mcp.cloudflare.com/mcp"
-      },
-      "atlassian": {
-        "type": "remote",
-        "url": "https://mcp.atlassian.com/v1/mcp/authv2",
-        "disabled": false
+    "excalidraw": {
+      "type": "remote",
+      "url": "https://api.excalidraw.com/api/v1/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
       }
+    },
+    "cloudflare": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp"
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp/authv2",
+      "enabled": true
     }
   },
-  "plugins": [
+  "plugin": [
     "./plugins/opencode-codex-identity-plugin.ts"
   ],
-  "permissions": [
-    {
-      "action": "*",
-      "resource": "*",
-      "effect": "allow"
-    }
-  ]
+  "permission": "allow"
 }

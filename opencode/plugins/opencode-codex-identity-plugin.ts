@@ -1,11 +1,13 @@
 export default {
   id: "opencode.codex-identity",
-  setup: async (ctx) => {
-    await ctx.session.hook("http.request", (event) => {
-      if (event.model.providerID !== "openai") return
+  server: async () => {
+    return {
+      "chat.headers": async (input, output) => {
+        if (input.model.providerID !== "openai") return
 
-      event.request.headers.set("originator", "codex_cli_rs")
-      event.request.headers.set("User-Agent", "codex_cli_rs/0.0.0 (OpenCode)")
-    })
+        output.headers.originator = "codex_cli_rs"
+        output.headers["User-Agent"] = "codex_cli_rs/0.0.0 (OpenCode)"
+      },
+    }
   },
 }
