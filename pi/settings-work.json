@@ -12,5 +12,5 @@
   ],
   "theme": "dark",
   "defaultProvider": "ollama-local",
-  "defaultModel": "qwen3.5:9b-mlx"
+  "defaultModel": "qwen3.8:27b-mlx"
 }
