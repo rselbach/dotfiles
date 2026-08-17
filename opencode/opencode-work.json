@@ -27,8 +27,8 @@
             "output": 128000
           }
         },
-        "qwen3.5:9b-mlx": {
-          "name": "qwen3.5:9b-mlx",
+        "qwen3.8:27b": {
+          "name": "qwen3.8:27b",
           "variants": [
             {
               "id": "low",

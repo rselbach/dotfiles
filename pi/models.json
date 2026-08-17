@@ -23,8 +23,8 @@
           }
         },
         {
-          "id": "qwen3.5:9b-mlx",
-          "name": "qwen3.5:9b-mlx",
+          "id": "qwen3.8:27b",
+          "name": "qwen3.8:27b",
           "reasoning": true,
           "thinkingLevelMap": {
             "xhigh": "xhigh",
