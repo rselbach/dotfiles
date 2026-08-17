@@ -1,12 +1,9 @@
 if command -v zoxide >/dev/null 2>&1; then
   _zoxide_init=''
-  # shellcheck disable=SC2154
-  if ! _zoxide_init="$(zoxide init "${_rc_shell}")"; then
-    printf 'zoxide: failed to generate %s initialization\n' \
-      "${_rc_shell}" >&2
+  if ! _zoxide_init="$(zoxide init zsh)"; then
+    printf '%s\n' 'zoxide: failed to generate Zsh initialization' >&2
   elif ! eval "${_zoxide_init}"; then
-    printf 'zoxide: failed to evaluate %s initialization\n' \
-      "${_rc_shell}" >&2
+    printf '%s\n' 'zoxide: failed to evaluate Zsh initialization' >&2
   else
     alias cd='zd'
 

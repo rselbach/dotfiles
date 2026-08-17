@@ -1,18 +1,6 @@
 # Zellij layout helpers for dev tabs and pane swarms.
 
-case "${_rc_shell:-}" in
-  bash)
-    _zellij_shell_executable="${BASH}"
-    ;;
-  zsh)
-    _zellij_shell_executable="$(command -v zsh)" || return 1
-    ;;
-  *)
-    printf \
-      'Unsupported shell for Zellij helpers: %s\n' "${_rc_shell:-unknown}" >&2
-    return 1
-    ;;
-esac
+_zellij_shell_executable="$(command -v zsh)" || return 1
 
 if [[ -z "${_zellij_shell_executable}" ]]; then
   printf 'Could not determine shell executable for Zellij helpers.\n' >&2

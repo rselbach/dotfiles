@@ -22,8 +22,7 @@ fi
 if [[ -n "${_fnm_path}" ]]; then
   _path_add "${_fnm_path}"
   _fnm_executable="${_fnm_path}/fnm"
-  # shellcheck disable=SC2154
-  _fnm_shell="${_rc_shell}"
+  _fnm_shell='zsh'
 
   _fnm_lazy_env() {
     local fnm_env

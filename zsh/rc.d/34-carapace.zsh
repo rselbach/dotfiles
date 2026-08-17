@@ -1,4 +1,8 @@
-if [[ -o interactive ]] && command -v carapace >/dev/null 2>&1; then
+[[ -o interactive ]] || return 0
+
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+
+if command -v carapace >/dev/null 2>&1; then
   zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
   _carapace_init=''
   if ! _carapace_init="$(carapace _carapace)"; then

@@ -1,16 +1,11 @@
 # Lazy-load pyenv so startup stays fast.
-# shellcheck disable=SC2154
-_pyenv_shell="${_rc_shell}"
+_pyenv_shell='zsh'
 
 pyenv() {
   local pyenv_executable
   local pyenv_init_output
 
-  if [[ "${_pyenv_shell}" == 'bash' ]]; then
-    pyenv_executable="$(type -P pyenv)"
-  else
-    pyenv_executable="$(whence -p pyenv)"
-  fi
+  pyenv_executable="$(whence -p pyenv)"
 
   if [[ -z "${pyenv_executable}" ]]; then
     printf '%s\n' 'pyenv: command not found' >&2

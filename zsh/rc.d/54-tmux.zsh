@@ -1,11 +1,5 @@
-# Snapshot the active shell for helpers invoked after startup.
-# shellcheck disable=SC2154
-if [[ "${_rc_shell}" == 'bash' ]]; then
-  _tmux_shell_executable="${BASH}"
-else
-  _tmux_shell_executable="$(command -v zsh)" || \
-    _tmux_shell_executable='zsh'
-fi
+# Snapshot Zsh's path for helpers invoked after startup.
+_tmux_shell_executable="$(command -v zsh)" || _tmux_shell_executable='zsh'
 
 _tmux_quote() {
   local value="${1}"
