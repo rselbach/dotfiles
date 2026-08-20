@@ -16,6 +16,10 @@ src = "mcp.json"
 dst = "~/.pi/agent/mcp.json"
 
 [[links]]
+src = "keybindings.json"
+dst = "~/.pi/agent/keybindings.json"
+
+[[links]]
 src = "extensions/common/*"
 dst = "~/.pi/agent/extensions/<name>"
 
