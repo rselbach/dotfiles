@@ -3,11 +3,11 @@ xkb_keymap {
     xkb_types     { include "complete" };
     xkb_compat    { include "complete" };
     xkb_symbols   {
-        include "pc+us(intl)+inet(evdev)"
-        include "level3(ralt_switch)"
+        include "pc+us+inet(evdev)"
         include "compose(caps)"
+        include "shift(both_capslock_cancel)"
 
-        key <LSGT> { [ dead_grave, dead_tilde, grave, asciitilde ] };
+        key <LSGT> { [ dead_acute, dead_tilde ] };
     };
     xkb_geometry  { include "pc(pc105)" };
 };

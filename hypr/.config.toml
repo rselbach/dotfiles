@@ -4,6 +4,11 @@ dst = "~/.config/hypr"
 hosts = ["callisto"]
 
 [[links]]
-src = "parallels/"
-dst = "~/.config/hypr"
-hosts = ["rhea-vm"]
+src = "parallels/input.lua"
+dst = "~/.config/hypr/input.lua"
+hosts = ["rheavm"]
+
+[[links]]
+src = "parallels/xkb/parallels.xkb"
+dst = "~/.config/hypr/xkb/parallels.xkb"
+hosts = ["rheavm"]
