@@ -4,8 +4,7 @@ xkb_keymap {
     xkb_compat    { include "complete" };
     xkb_symbols   {
         include "pc+us(intl)+inet(evdev)"
-        include "compose(caps)"
-        include "shift(both_capslock_cancel)"
+        include "ctrl(nocaps)"
 
         key <LSGT> { [ dead_acute, dead_tilde ] };
     };

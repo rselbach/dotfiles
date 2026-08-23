@@ -2,7 +2,7 @@
   "lastChangelogVersion": "0.84.2",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "pi-mcp-adapter",
@@ -10,5 +10,5 @@
     "extensions/orchestrator.ts",
     "npm:@howaboua/pi-codex-conversion"
   ],
-  "theme": "dark"
+  "theme": "omarchy-system"
 }

@@ -2,7 +2,7 @@
 hl.config({
 	input = {
 		kb_layout = "us",
-		kb_options = "compose:caps,shift:both_capslock_cancel,grp:alts_toggle",
+		kb_options = "ctrl:nocaps,grp:alts_toggle",
 
 		-- Use a specific keyboard variant if needed (e.g. intl for international keyboards).
 		kb_variant = "intl",
