@@ -8,5 +8,6 @@ hl.config({
 		kb_variant = "intl",
 		kb_file = os.getenv("HOME") .. "/.config/hypr/xkb/parallels.xkb",
 		repeat_delay = 500,
+		repeat_rate = 20,
 	},
 })
