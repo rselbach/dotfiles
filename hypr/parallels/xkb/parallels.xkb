@@ -6,7 +6,7 @@ xkb_keymap {
         include "pc+us(intl)+inet(evdev)"
         include "ctrl(nocaps)"
 
-        key <LSGT> { [ dead_acute, dead_tilde ] };
+        key <LSGT> { [ dead_grave, dead_tilde ] };
     };
     xkb_geometry  { include "pc(pc105)" };
 };
