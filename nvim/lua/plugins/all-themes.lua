@@ -22,13 +22,23 @@ return {
     priority = 1000,
   },
   {
+    "bjarneo/vantablack.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+  {
+    "bjarneo/white.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = true,
     priority = 1000,
   },
   {
-    "sainnhe/everforest",
+    "neanias/everforest-nvim",
     lazy = true,
     priority = 1000,
   },
@@ -53,12 +63,12 @@ return {
     priority = 1000,
   },
   {
-    "loctvl842/monokai-pro.nvim",
+    "gthelding/monokai-pro.nvim",
     lazy = true,
     priority = 1000,
   },
   {
-    "shaunsingh/nord.nvim",
+    "EdenEast/nightfox.nvim",
     lazy = true,
     priority = 1000,
   },
@@ -69,7 +79,27 @@ return {
     priority = 1000,
   },
   {
+    "ficcdaf/ashen.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+  {
     "folke/tokyonight.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+  {
+    "OldJobobo/miasma.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+  {
+    "OldJobobo/retro-82.nvim",
+    lazy = true,
+    priority = 1000,
+  },
+  {
+    "omacom-io/lumon.nvim",
     lazy = true,
     priority = 1000,
   },
