@@ -24,17 +24,11 @@ Use the exact path returned, for example `tools.atlassian.searchJiraIssuesUsingJ
 
 ## Authentication
 
-OAuth 2.1 flow with PKCE:
+OAuth 2.1 flow with PKCE.
 
-```bash
-opencode2 mcp auth atlassian
-```
+## Default Project Key
 
-Stored credentials can be removed with:
-
-```bash
-opencode2 mcp logout atlassian
-```
+If a ticket's project key isn't given, assume it's `HCPIDN`.
 
 ## First Call: Get Cloud ID
 
@@ -80,6 +74,7 @@ result.issues.map(i => ({
 ```
 
 **Key JQL patterns:**
+
 - `assignee = currentUser() AND statusCategory != Done` — my open issues
 - `assignee = currentUser() AND resolution = Unresolved` — my unresolved
 - `project = PROJ AND status = "In Progress"` — project filter
@@ -87,6 +82,7 @@ result.issues.map(i => ({
 - `status changed to Done AFTER startOfDay("-7d")` — recently resolved
 
 **Parameters:**
+
 - `cloudId`: required, from `getAccessibleAtlassianResources`
 - `jql`: JQL query string
 - `maxResults`: 50-100
@@ -380,6 +376,7 @@ await tools["atlassian"].createCompassCustomFieldDefinition({
 ## Content Format
 
 Two formats available for descriptions and comments:
+
 - `"markdown"` — simple markdown text
 - `"adf"` — Atlassian Document Format (JSON)
 
