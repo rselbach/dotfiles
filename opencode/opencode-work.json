@@ -84,7 +84,7 @@
       "excalidraw": {
         "type": "remote",
         "url": "https://api.excalidraw.com/api/v1/mcp",
-        "disabled": false,
+        "enabled": true,
         "headers": {
           "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
         }
@@ -92,7 +92,7 @@
       "atlassian": {
         "type": "remote",
         "url": "https://mcp.atlassian.com/v1/mcp/authv2",
-        "disabled": false
+        "enabled": true
       }
     }
   },

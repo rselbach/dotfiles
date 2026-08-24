@@ -2,6 +2,9 @@
   "mcpServers": {
     "cloudflare-api": {
       "url": "https://mcp.cloudflare.com/mcp"
+    },
+    "atlassian": {
+      "url": "https://mcp.atlassian.com/v1/mcp/authv2"
     }
   }
 }
