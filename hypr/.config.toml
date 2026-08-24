@@ -9,11 +9,6 @@ dst = "~/.config/hypr/input.lua"
 hosts = ["encedalus"]
 
 [[links]]
-src = "parallels/monitors.lua"
-dst = "~/.config/hypr/monitors.lua"
-hosts = ["encedalus"]
-
-[[links]]
 src = "parallels/xkb/parallels.xkb"
 dst = "~/.config/hypr/xkb/parallels.xkb"
 hosts = ["encedalus"]
