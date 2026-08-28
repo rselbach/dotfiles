@@ -1,0 +1,1 @@
+/home/rselbach/devel/pstack-claude/plugins/pstack/.codex-plugin/prompts/why.md
