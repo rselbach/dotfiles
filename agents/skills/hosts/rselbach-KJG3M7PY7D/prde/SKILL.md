@@ -5,7 +5,7 @@ description: "Work with the user's PRDE development environment: hcloud prde pro
 
 # PRDE Development Environment
 
-Use this skill when helping Ryan work with PRDE, the AWS-backed Nomad development environment accessed through local port forwarding.
+Use this skill when helping the user work with PRDE, the AWS-backed Nomad development environment accessed through local port forwarding.
 
 ## Mental Model
 
@@ -78,24 +78,32 @@ When debugging a service in PRDE:
 
 1. Identify the Nomad job name. If the repo is named `cloud-<service>`, first try `<service>` as the Nomad job name. If unclear, use `nomad status` and ask for the likely service name.
 2. Inspect the job:
+
    ```bash
    nomad job status <job>
    nomad job allocs <job>
    ```
+
 3. Inspect the relevant allocation:
+
    ```bash
    nomad alloc status <alloc-id>
    ```
+
 4. Read recent logs. Prefer bounded log output first:
+
    ```bash
    nomad alloc logs -tail -n 200 <alloc-id> <task>
    nomad alloc logs -stderr -tail -n 200 <alloc-id> <task>
    ```
+
    If the task is unknown, inspect allocation status first or use `nomad alloc logs -job <job> -tail -n 200` for a quick look.
 5. For live debugging, follow logs only when useful:
+
    ```bash
    nomad alloc logs -f -job <job>
    ```
+
 6. Correlate failures with Cadence, Jaeger, Vault, Consul, database state, or service HTTP endpoints as appropriate.
 
 In summaries, include the job, allocation, task, exact error lines, and the likely root cause.
@@ -155,9 +163,11 @@ Before running:
 2. Check for the repo's normal test/build command and run relevant checks unless the user asks to skip.
 3. Confirm the proxy is healthy.
 4. Run the deploy:
+
    ```bash
    hcloud prde run
    ```
+
 5. Watch Nomad status/logs for the affected job.
 
 Useful flags from help, only when appropriate:
