@@ -1,6 +1,6 @@
 ---
 name: setup-pstack
-description: Configure which models pstack uses per role. Detects available models and writes a shared config that overrides the skill defaults. Use for /setup-pstack, "configure pstack models", or changing pstack's model choices.
+description: Configure which models pstack uses per role. Detects available models and writes a shared config that overrides the skill defaults. Use for the `setup-pstack` skill, "configure pstack models", or changing pstack's model choices.
 ---
 
 # Setup pstack
@@ -58,4 +58,4 @@ Tell the user where the config was written. Re-running this skill updates it.
 
 ### 7. Offer a verification skill (optional)
 
-Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /create-verification-skill." On yes, invoke `/create-verification-skill` from the project or user skill root where pstack is installed. On no, move on without pushing.
+Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with the `create-verification-skill` skill." On yes, invoke the `create-verification-skill` skill from the project or user skill root where pstack is installed. On no, move on without pushing.

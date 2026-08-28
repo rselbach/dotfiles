@@ -1,11 +1,11 @@
 ---
 name: poteto-mode
-description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode, or requests to work in this style.
+description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, the `poteto-mode` skill, or requests to work in this style.
 disable-model-invocation: true
 mode: true
 icon: crown
 color: yellow
-reminder: New task? Playbook match or rigor needed -> apply /poteto-mode. Casual turn or user opts out -> don't.
+reminder: New task? Playbook match or rigor needed -> apply the poteto-mode skill. Casual turn or user opts out -> don't.
 ---
 
 # Poteto mode
@@ -24,9 +24,9 @@ Remaining triggers:
 - Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
 - Any prose surface → the **unslop** skill. Your reply is a prose surface; write it per **Writing the reply**. Agent-facing prose also follows the available skill-authoring workflow. If none is registered, edit the `SKILL.md` directly and run the repository's validator.
-- Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill (`/technical-writing`).
+- Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill.
 - Before commit → run the available diff-cleanup workflow to remove generated boilerplate. Skip it when the harness has no such workflow and review the diff directly.
-- Before review → the **no-comments** skill (`/no-comments`).
+- Before review → the **no-comments** skill.
 - Shipping UI / IDE / CLI → use a registered control skill or the repository's own harness for the affected surface. If neither exists, state the missing live-verification capability. For bug fixes, reproduce first on the same surface yourself; hand to the user only under the narrow Bug fix step 1 exception.
 - Any PR-status request → the **Babysit** playbook (`playbooks/babysit.md`). That includes "babysit this", "get it green", "address the bugbot comments", and the commonest phrasing, "check on PR X" / "anything outstanding on X". Never triggered by merely opening a PR. Declare its mode before polling; the playbook's step 1 owns the request-to-mode mapping. Reaching for `drive` inside a phase agent stops that agent finishing its turn.
 - Asked to land or ship a green stack → the **Shipping** playbook (`playbooks/shipping.md`). Green is not safe. Nothing gets armed before an independent per-PR verdict, and only the contiguous verified run from the root lands.
@@ -88,7 +88,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Use the registered `poteto-agent` profile for subagents spawned inside a playbook step** when the harness supports agent profiles. Otherwise pass the relevant poteto-mode constraints in the task brief. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) own their delegation settings for diverse-model review; respect what each skill prescribes.
 
-**Defaults for every delegated task.** Run independent delegates concurrently when the harness supports it. Use file pointers instead of inlined context and select an explicit model per role when model selection is available. `/setup-pstack` configures the choices. Defaults are `grok-4.6-fast-xhigh` for code and `claude-fable-5-thinking-max` for prose and judgment. Code delegates tier by difficulty. The hardest changes (cross-cutting design, gnarly concurrency, subtle algorithms) go to your strongest judgment model (`claude-fable-5-thinking-max`) when the task needs judgment or the intent is vague, and to your strongest instruction-following model (`gpt-5.6-sol-max`) when the work is a precisely specified sequence of steps to execute to the letter; trivial mechanical edits go to your fast code model. Per-role lines in the `/setup-pstack` config override these defaults and the model choices in the routed skills (`how`, `why`, `arena`, `swarm`, `architect`, `interrogate`, `reflect`); a role with no line keeps its default, and `inherit-parent` runs that role on the parent model.
+**Defaults for every delegated task.** Run independent delegates concurrently when the harness supports it. Use file pointers instead of inlined context and select an explicit model per role when model selection is available. The `setup-pstack` skill configures the choices. Defaults are `grok-4.6-fast-xhigh` for code and `claude-fable-5-thinking-max` for prose and judgment. Code delegates tier by difficulty. The hardest changes (cross-cutting design, gnarly concurrency, subtle algorithms) go to your strongest judgment model (`claude-fable-5-thinking-max`) when the task needs judgment or the intent is vague, and to your strongest instruction-following model (`gpt-5.6-sol-max`) when the work is a precisely specified sequence of steps to execute to the letter; trivial mechanical edits go to your fast code model. Per-role lines in the `setup-pstack` config override these defaults and the model choices in the routed skills (`how`, `why`, `arena`, `swarm`, `architect`, `interrogate`, `reflect`); a role with no line keeps its default, and `inherit-parent` runs that role on the parent model.
 
 You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. Interrupt-chained resumes silently drop directives, so fire a fresh subagent with consolidated scope rather than trusting a "done" summary. A second opinion is the same prompt against a different model. Agreement is high-signal.
 

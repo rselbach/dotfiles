@@ -10,7 +10,7 @@ Mine the current conversation for durable learnings, then route them into skill 
 
 ## When to invoke
 
-- The user said "reflect" or "/reflect".
+- The user said "reflect".
 - A complex task (5+ tool calls) just landed cleanly and the recipe is worth keeping.
 - The agent hit dead ends, found the working path, and the path generalizes.
 - The user corrected the agent's approach mid-task.
