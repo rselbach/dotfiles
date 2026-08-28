@@ -47,6 +47,10 @@ dst = "~/.pi/agent/prompts"
 src = "vendor"
 dst = "~/.pi/agent/vendor"
 
+[[links]]
+src = "vendor/pi-pstack/skills/*"
+dst = "~/.pi/agent/skills/<name>"
+
 [[repositories]]
 url = "https://github.com/rselbach/pi-mcp-adapter.git"
 dst = "~/.pi/agent/pi-mcp-adapter"
