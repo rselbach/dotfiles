@@ -1,14 +1,15 @@
 {
-  "lastChangelogVersion": "0.84.2",
+  "lastChangelogVersion": "0.84.3",
   "defaultProvider": "openrouter",
-  "defaultModel": "stealth/ox-alpha",
+  "defaultModel": "zai-api/glm-5.3-flash",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
-    "extensions/orchestrator.ts",
-    "npm:@howaboua/pi-codex-conversion"
+    "npm:@ff-labs/pi-fff",
+    "npm:@howaboua/pi-codex-conversion",
+    "./vendor/pi-pstack"
   ],
   "theme": "omarchy-system"
 }
