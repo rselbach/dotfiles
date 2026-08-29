@@ -1,0 +1,8 @@
+interface:
+  display_name: "HTML report"
+  short_description: "Turn reviews and reports into polished HTML"
+  brand_color: "#D4573B"
+  default_prompt: "Use $html-report to create and open a polished HTML report."
+
+policy:
+  allow_implicit_invocation: true

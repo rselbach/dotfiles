@@ -1,1 +1,0 @@
-/home/rselbach/devel/pstack-claude/plugins/pstack/.codex-plugin/prompts/thermo-nuclear-code-quality-review.md

@@ -1,1 +1,0 @@
-/home/rselbach/devel/pstack-claude/plugins/pstack/.codex-plugin/prompts/maintain-verification-skill.md

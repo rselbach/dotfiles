@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>__REPORT_TITLE__</title>
+  <style>
+    :root {
+      --paper: #f3efe5;
+      --paper-deep: #e7dfcf;
+      --ink: #18201f;
+      --muted: #5d6661;
+      --line: #b8b2a6;
+      --accent: #d4573b;
+      --accent-dark: #903724;
+      --teal: #155e63;
+      --gold: #d1a72c;
+      --green: #276749;
+      --red: #a22d24;
+      --shadow: 8px 8px 0 rgba(24, 32, 31, 0.11);
+      --radius: 2px;
+      --display: Georgia, "Times New Roman", serif;
+      --body: "Trebuchet MS", "Segoe UI", sans-serif;
+      --mono: "Courier New", Courier, monospace;
+      --page: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(rgba(24, 32, 31, 0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 100% 24px;
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.22;
+      pointer-events: none;
+      background-image: radial-gradient(#6d6a61 0.45px, transparent 0.6px);
+      background-size: 5px 5px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 20;
+      width: 0;
+      height: 4px;
+      background: var(--accent);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--ink);
+      background: rgba(243, 239, 229, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      width: min(calc(100% - 40px), var(--page));
+      min-height: 58px;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--ink);
+      background: var(--accent);
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(-5deg);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav a {
+      border-bottom: 1px solid transparent;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav a:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+    }
+
+    .hero {
+      width: min(calc(100% - 40px), var(--page));
+      margin: 0 auto;
+      padding: 78px 0 58px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(270px, 0.65fr);
+      gap: clamp(38px, 7vw, 96px);
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 20px;
+      color: var(--accent-dark);
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 3px;
+      background: currentColor;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 870px;
+      margin-bottom: 24px;
+      font-family: var(--display);
+      font-size: clamp(3rem, 8.4vw, 7.2rem);
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      line-height: 0.88;
+      text-wrap: balance;
+    }
+
+    .subtitle {
+      max-width: 720px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2.2vw, 1.42rem);
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .verdict {
+      position: relative;
+      padding: 26px;
+      border: 1px solid var(--ink);
+      background: #fffaf0;
+      box-shadow: var(--shadow);
+    }
+
+    .verdict::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: var(--accent);
+    }
+
+    .verdict.good::before {
+      background: var(--green);
+    }
+
+    .verdict.risk::before {
+      background: var(--red);
+    }
+
+    .verdict-label {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.69rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .verdict-value {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(1.55rem, 3vw, 2.2rem);
+      line-height: 1.08;
+    }
+
+    .metadata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 48px 0 0;
+      padding: 0;
+      border-block: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .metadata li {
+      min-width: 180px;
+      padding: 15px 28px 15px 0;
+    }
+
+    .metadata li + li {
+      padding-left: 28px;
+      border-left: 1px solid var(--line);
+    }
+
+    .metadata-label,
+    .metadata-value {
+      display: block;
+    }
+
+    .metadata-label {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .metadata-value {
+      margin-top: 3px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      width: min(calc(100% - 40px), var(--page));
+      margin: 0 auto 84px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      gap: 1px;
+    }
+
+    .metric {
+      min-height: 170px;
+      padding: 24px;
+      background: var(--paper);
+    }
+
+    .metric-value {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--teal);
+      font-family: var(--display);
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      line-height: 0.9;
+    }
+
+    .metric-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .metric-detail {
+      display: block;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    main {
+      display: block;
+    }
+
+    .section {
+      width: min(calc(100% - 40px), var(--page));
+      margin: 0 auto;
+      padding: 80px 0;
+      border-top: 1px solid var(--ink);
+      scroll-margin-top: 72px;
+    }
+
+    .section[hidden] {
+      display: none;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
+      gap: clamp(28px, 7vw, 94px);
+      margin-bottom: 50px;
+      align-items: start;
+    }
+
+    .section h2 {
+      margin-bottom: 0;
+      font-family: var(--display);
+      font-size: clamp(2.4rem, 5.5vw, 4.7rem);
+      font-weight: 400;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      text-wrap: balance;
+    }
+
+    .section-intro {
+      max-width: 680px;
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      text-wrap: pretty;
+    }
+
+    .summary-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(250px, 0.8fr);
+      gap: clamp(30px, 6vw, 80px);
+      padding: clamp(28px, 5vw, 54px);
+      border: 1px solid var(--ink);
+      background: #fffaf0;
+      box-shadow: var(--shadow);
+    }
+
+    .summary-headline {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(1.75rem, 4vw, 3.25rem);
+      line-height: 1.1;
+      text-wrap: balance;
+    }
+
+    .summary-copy p:last-child {
+      margin-bottom: 0;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: -14px 0 32px;
+    }
+
+    .filter {
+      padding: 8px 13px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .filter:hover,
+    .filter[aria-pressed="true"] {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .finding-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .finding {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      border: 1px solid var(--ink);
+      background: rgba(255, 250, 240, 0.76);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+
+    .finding:hover {
+      box-shadow: 5px 5px 0 rgba(24, 32, 31, 0.13);
+      transform: translate(-2px, -2px);
+    }
+
+    .finding[hidden] {
+      display: none;
+    }
+
+    .finding-index {
+      padding: 24px 18px;
+      border-right: 1px solid var(--ink);
+      background: var(--paper-deep);
+    }
+
+    .finding-id {
+      display: block;
+      margin-bottom: 18px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .severity,
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .severity::before,
+    .status::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .severity-critical::before,
+    .severity-high::before,
+    .status-fail::before {
+      background: var(--red);
+    }
+
+    .severity-medium::before,
+    .status-not-run::before {
+      background: var(--gold);
+    }
+
+    .severity-low::before,
+    .severity-info::before {
+      background: var(--teal);
+    }
+
+    .status-pass::before {
+      background: var(--green);
+    }
+
+    .finding-content {
+      padding: clamp(25px, 4vw, 42px);
+    }
+
+    .finding h3 {
+      margin-bottom: 13px;
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 3vw, 2.35rem);
+      font-weight: 400;
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+
+    .finding-summary {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .detail-list {
+      margin: 22px 0;
+      padding-left: 21px;
+    }
+
+    .detail-list li + li {
+      margin-top: 9px;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .evidence {
+      padding: 16px;
+      border-left: 4px solid var(--teal);
+      background: var(--paper-deep);
+    }
+
+    .evidence-label {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .recommendation {
+      margin: 25px 0 0;
+      padding: 18px 20px;
+      border: 1px dashed var(--ink);
+      background: #fbf4df;
+    }
+
+    .recommendation strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .references {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 22px;
+    }
+
+    .reference,
+    code {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.55);
+      font-family: var(--mono);
+      font-size: 0.78em;
+    }
+
+    .reference {
+      padding: 5px 8px;
+      text-decoration: none;
+    }
+
+    a.reference:hover {
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    code {
+      padding: 1px 4px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      gap: 1px;
+    }
+
+    .card {
+      min-height: 210px;
+      padding: clamp(24px, 4vw, 38px);
+      background: var(--paper);
+    }
+
+    .card-number {
+      display: block;
+      margin-bottom: 45px;
+      color: var(--accent-dark);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .card h3 {
+      margin-bottom: 11px;
+      font-family: var(--display);
+      font-size: 1.55rem;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 250, 240, 0.7);
+    }
+
+    th,
+    td {
+      padding: 17px 20px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--paper-deep);
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .split-lists {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .list-panel {
+      padding: clamp(25px, 4vw, 40px);
+      border: 1px solid var(--ink);
+      background: rgba(255, 250, 240, 0.75);
+    }
+
+    .list-panel h3 {
+      margin-bottom: 24px;
+      font-family: var(--display);
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+
+    .list-panel ul,
+    .list-panel ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .list-panel li + li {
+      margin-top: 13px;
+    }
+
+    .closing {
+      width: min(calc(100% - 40px), var(--page));
+      margin: 60px auto 0;
+      padding: 36px 0 48px;
+      border-top: 4px solid var(--ink);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        width: min(calc(100% - 28px), var(--page));
+      }
+
+      .brand span:last-child {
+        display: none;
+      }
+
+      .hero,
+      .section,
+      .metrics,
+      .closing {
+        width: min(calc(100% - 28px), var(--page));
+      }
+
+      .hero {
+        padding: 50px 0 42px;
+      }
+
+      .hero-grid,
+      .section-heading,
+      .summary-panel,
+      .split-lists {
+        grid-template-columns: 1fr;
+      }
+
+      .metadata {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .metadata li,
+      .metadata li + li {
+        padding: 12px 12px 12px 0;
+        border-left: 0;
+      }
+
+      .metadata li:nth-child(even) {
+        padding-left: 12px;
+        border-left: 1px solid var(--line);
+      }
+
+      .metrics {
+        margin-bottom: 56px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .section-heading {
+        margin-bottom: 32px;
+      }
+
+      .finding {
+        grid-template-columns: 1fr;
+      }
+
+      .finding-index {
+        display: flex;
+        padding: 13px 17px;
+        border-right: 0;
+        border-bottom: 1px solid var(--ink);
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .finding-id {
+        margin-bottom: 0;
+      }
+
+      .nav {
+        max-width: 75vw;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+
+    @media print {
+      @page {
+        margin: 14mm;
+      }
+
+      body {
+        background: white;
+        color: black;
+        font-size: 10pt;
+      }
+
+      body::before,
+      .progress,
+      .topbar,
+      .filters {
+        display: none !important;
+      }
+
+      .hero,
+      .section,
+      .metrics,
+      .closing {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 0 0 12mm;
+      }
+
+      .section {
+        padding: 10mm 0;
+      }
+
+      .finding,
+      .card,
+      .summary-panel,
+      .list-panel,
+      .table-wrap {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      .finding:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Field report</span></div>
+      <nav class="nav" id="nav" aria-label="Report sections"></nav>
+    </div>
+  </header>
+
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow" id="eyebrow"></p>
+        <h1 id="title"></h1>
+        <p class="subtitle" id="subtitle"></p>
+      </div>
+      <aside class="verdict" id="verdict">
+        <p class="verdict-label" id="verdict-label"></p>
+        <p class="verdict-value" id="verdict-value"></p>
+      </aside>
+    </div>
+    <ul class="metadata" id="metadata"></ul>
+  </header>
+
+  <section class="metrics" id="metrics" aria-label="Report metrics"></section>
+
+  <main>
+    <section class="section" id="summary-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Executive read</p>
+          <h2>Bottom line</h2>
+        </div>
+        <p class="section-intro">The shortest useful version of the report.</p>
+      </div>
+      <div class="summary-panel">
+        <p class="summary-headline" id="summary-headline"></p>
+        <div class="summary-copy" id="summary-copy"></div>
+      </div>
+    </section>
+
+    <section class="section" id="findings-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Evidence</p>
+          <h2>Findings</h2>
+        </div>
+        <p class="section-intro" id="findings-intro"></p>
+      </div>
+      <div class="filters" id="filters" aria-label="Filter findings"></div>
+      <div class="finding-list" id="findings"></div>
+    </section>
+
+    <div id="custom-sections"></div>
+
+    <section class="section" id="verification-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Checks</p>
+          <h2>Verification</h2>
+        </div>
+        <p class="section-intro">Commands and observations used to test the report's claims.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Check</th><th>Status</th><th>Observed result</th></tr></thead>
+          <tbody id="verification"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="closing-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Handoff</p>
+          <h2>Scope &amp; next moves</h2>
+        </div>
+        <p class="section-intro">What this report covers, where it stops, and what to do next.</p>
+      </div>
+      <div class="split-lists">
+        <div class="list-panel" id="scope-panel"><h3>Scope notes</h3><ul id="scope"></ul></div>
+        <div class="list-panel" id="actions-panel"><h3>Recommended order</h3><ol id="actions"></ol></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="closing" id="footer"></footer>
+
+  <script id="report-data" type="application/json">__REPORT_DATA__</script>
+  <script>
+    (() => {
+      "use strict";
+
+      const data = JSON.parse(document.getElementById("report-data").textContent);
+      const list = (value) => Array.isArray(value) ? value : [];
+      const object = (value) => value && typeof value === "object" && !Array.isArray(value) ? value : {};
+      const text = (value, fallback = "") => typeof value === "string" ? value : fallback;
+
+      const create = (tag, className, content) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (content !== undefined) richText(node, text(content));
+        return node;
+      };
+
+      const richText = (node, value) => {
+        const parts = String(value).split(/(`[^`]+`)/g);
+        parts.forEach((part) => {
+          if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
+            node.append(create("code", "", part.slice(1, -1)));
+            return;
+          }
+          node.append(document.createTextNode(part));
+        });
+      };
+
+      const setText = (id, value) => {
+        document.getElementById(id).textContent = text(value);
+      };
+
+      const hide = (id, shouldHide) => {
+        document.getElementById(id).hidden = shouldHide;
+      };
+
+      const addNav = (label, id) => {
+        const link = create("a", "", label);
+        link.href = `#${id}`;
+        document.getElementById("nav").append(link);
+      };
+
+      setText("eyebrow", data.eyebrow || "Review report");
+      setText("title", data.title);
+      setText("subtitle", data.subtitle);
+
+      const verdict = object(data.verdict);
+      setText("verdict-label", verdict.label || "Verdict");
+      setText("verdict-value", verdict.value || "See findings");
+      document.getElementById("verdict").classList.add(text(verdict.tone, "caution"));
+
+      const metadata = list(data.metadata);
+      metadata.forEach((itemValue) => {
+        const item = object(itemValue);
+        const row = create("li");
+        row.append(create("span", "metadata-label", item.label));
+        row.append(create("span", "metadata-value", item.value));
+        document.getElementById("metadata").append(row);
+      });
+      hide("metadata", metadata.length === 0);
+
+      const metrics = list(data.metrics);
+      metrics.forEach((metricValue) => {
+        const metric = object(metricValue);
+        const card = create("article", "metric");
+        card.append(create("span", "metric-value", metric.value));
+        card.append(create("span", "metric-label", metric.label));
+        if (metric.detail) card.append(create("span", "metric-detail", metric.detail));
+        document.getElementById("metrics").append(card);
+      });
+      hide("metrics", metrics.length === 0);
+
+      const summary = object(data.summary);
+      setText("summary-headline", summary.headline);
+      list(summary.paragraphs).forEach((paragraph) => {
+        document.getElementById("summary-copy").append(create("p", "", paragraph));
+      });
+      const hasSummary = Boolean(summary.headline || list(summary.paragraphs).length);
+      hide("summary-section", !hasSummary);
+      if (hasSummary) addNav("Summary", "summary-section");
+
+      const findings = list(data.findings);
+      const findingsRoot = document.getElementById("findings");
+      setText(
+        "findings-intro",
+        findings.length === 1 ? "One evidence-backed observation." : `${findings.length} evidence-backed observations, ranked by consequence.`
+      );
+
+      findings.forEach((findingValue, index) => {
+        const finding = object(findingValue);
+        const severity = text(finding.severity, "info");
+        const article = create("article", "finding");
+        article.dataset.severity = severity;
+
+        const rail = create("div", "finding-index");
+        rail.append(create("span", "finding-id", finding.id || `F-${String(index + 1).padStart(2, "0")}`));
+        rail.append(create("span", `severity severity-${severity}`, severity));
+        article.append(rail);
+
+        const content = create("div", "finding-content");
+        content.append(create("h3", "", finding.title));
+        if (finding.summary) content.append(create("p", "finding-summary", finding.summary));
+
+        const details = list(finding.details);
+        if (details.length) {
+          const detailList = create("ul", "detail-list");
+          details.forEach((detail) => detailList.append(create("li", "", detail)));
+          content.append(detailList);
+        }
+
+        const evidence = list(finding.evidence);
+        if (evidence.length) {
+          const evidenceGrid = create("div", "evidence-grid");
+          evidence.forEach((evidenceValue) => {
+            const item = object(evidenceValue);
+            const panel = create("div", "evidence");
+            panel.append(create("span", "evidence-label", item.label || "Evidence"));
+            panel.append(create("span", "", item.text));
+            evidenceGrid.append(panel);
+          });
+          content.append(evidenceGrid);
+        }
+
+        if (finding.recommendation) {
+          const recommendation = create("div", "recommendation");
+          recommendation.append(create("strong", "", "Recommended move"));
+          recommendation.append(create("span", "", finding.recommendation));
+          content.append(recommendation);
+        }
+
+        const references = list(finding.references);
+        if (references.length) {
+          const referenceList = create("div", "references");
+          references.forEach((referenceValue) => {
+            const reference = object(referenceValue);
+            const href = text(reference.href);
+            const safeHref = /^(https?:|file:)/.test(href);
+            const tag = safeHref ? "a" : "span";
+            const node = create(tag, "reference", reference.label || href);
+            if (safeHref) {
+              node.href = href;
+              node.target = "_blank";
+              node.rel = "noreferrer";
+            }
+            referenceList.append(node);
+          });
+          content.append(referenceList);
+        }
+
+        article.append(content);
+        findingsRoot.append(article);
+      });
+
+      const filters = document.getElementById("filters");
+      const severities = ["critical", "high", "medium", "low", "info"]
+        .filter((severity) => findings.some((finding) => object(finding).severity === severity));
+      ["all", ...severities].forEach((severity) => {
+        const count = severity === "all"
+          ? findings.length
+          : findings.filter((finding) => object(finding).severity === severity).length;
+        const button = create("button", "filter", `${severity} · ${count}`);
+        button.type = "button";
+        button.dataset.filter = severity;
+        button.setAttribute("aria-pressed", severity === "all" ? "true" : "false");
+        button.addEventListener("click", () => {
+          filters.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", "false"));
+          button.setAttribute("aria-pressed", "true");
+          findingsRoot.querySelectorAll(".finding").forEach((item) => {
+            item.hidden = severity !== "all" && item.dataset.severity !== severity;
+          });
+        });
+        filters.append(button);
+      });
+      hide("findings-section", findings.length === 0);
+      if (findings.length) addNav("Findings", "findings-section");
+
+      list(data.sections).forEach((sectionValue, sectionIndex) => {
+        const section = object(sectionValue);
+        const cards = list(section.cards);
+        if (!section.title || cards.length === 0) return;
+
+        const wrapper = create("section", "section");
+        wrapper.id = `section-${sectionIndex + 1}`;
+        const heading = create("div", "section-heading");
+        const titleBlock = create("div");
+        titleBlock.append(create("p", "eyebrow", section.eyebrow || "Notes"));
+        titleBlock.append(create("h2", "", section.title));
+        heading.append(titleBlock);
+        heading.append(create("p", "section-intro", section.intro));
+        wrapper.append(heading);
+
+        const grid = create("div", "card-grid");
+        cards.forEach((cardValue, cardIndex) => {
+          const cardData = object(cardValue);
+          const card = create("article", "card");
+          card.append(create("span", "card-number", String(cardIndex + 1).padStart(2, "0")));
+          card.append(create("h3", "", cardData.title));
+          card.append(create("p", "", cardData.body));
+          grid.append(card);
+        });
+        wrapper.append(grid);
+        document.getElementById("custom-sections").append(wrapper);
+        addNav(section.eyebrow || section.title, wrapper.id);
+      });
+
+      const verification = list(data.verification);
+      verification.forEach((checkValue) => {
+        const check = object(checkValue);
+        const row = create("tr");
+        row.append(create("td", "", check.name));
+        const statusCell = create("td");
+        statusCell.append(create("span", `status status-${check.status}`, check.status));
+        row.append(statusCell);
+        row.append(create("td", "", check.detail));
+        document.getElementById("verification").append(row);
+      });
+      hide("verification-section", verification.length === 0);
+      if (verification.length) addNav("Verification", "verification-section");
+
+      const scope = list(data.scope);
+      const actions = list(data.actions);
+      scope.forEach((item) => document.getElementById("scope").append(create("li", "", item)));
+      actions.forEach((item) => document.getElementById("actions").append(create("li", "", item)));
+      hide("scope-panel", scope.length === 0);
+      hide("actions-panel", actions.length === 0);
+      const hasClosing = scope.length > 0 || actions.length > 0;
+      hide("closing-section", !hasClosing);
+      if (hasClosing) addNav("Handoff", "closing-section");
+
+      setText("footer", data.footer || "Prepared as a self-contained report.");
+
+      const progress = document.getElementById("progress");
+      const updateProgress = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const value = max > 0 ? (window.scrollY / max) * 100 : 0;
+        progress.style.width = `${Math.min(100, Math.max(0, value))}%`;
+      };
+      updateProgress();
+      document.addEventListener("scroll", updateProgress, { passive: true });
+    })();
+  </script>
+</body>
+</html>

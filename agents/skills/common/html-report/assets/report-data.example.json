@@ -1,0 +1,102 @@
+{
+  "eyebrow": "Engineering review",
+  "title": "Greendale registration service",
+  "subtitle": "A focused assessment of correctness, operational risk, and maintainability.",
+  "verdict": {
+    "label": "Verdict",
+    "value": "Ready after two focused fixes",
+    "tone": "caution"
+  },
+  "metadata": [
+    {"label": "Reviewed", "value": "2026-08-29"},
+    {"label": "Scope", "value": "API and persistence layer"},
+    {"label": "Baseline", "value": "main"}
+  ],
+  "metrics": [
+    {"value": "3", "label": "findings", "detail": "One high priority"},
+    {"value": "18", "label": "tests", "detail": "All passing"},
+    {"value": "2", "label": "actions", "detail": "Before release"}
+  ],
+  "summary": {
+    "headline": "The core flow is small and readable, but retry handling can duplicate enrollments.",
+    "paragraphs": [
+      "The service keeps ownership boundaries clear and has useful integration coverage.",
+      "Release should wait until idempotency and cancellation propagation are addressed."
+    ]
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "severity": "high",
+      "title": "Retries can create duplicate enrollments",
+      "summary": "The write path checks for an existing row before starting the transaction.",
+      "details": [
+        "Two concurrent requests can both pass the check and insert the same student-course pair."
+      ],
+      "evidence": [
+        {"label": "Impact", "text": "Students may be billed twice and occupy two seats."},
+        {"label": "Cause", "text": "The database does not enforce the domain identity."}
+      ],
+      "recommendation": "Add a unique constraint for the pair and treat the conflict as a successful retry.",
+      "references": [
+        {"label": "internal/enrollment/store.go:84"},
+        {"label": "internal/enrollment/service.go:51"}
+      ]
+    },
+    {
+      "id": "F-02",
+      "severity": "medium",
+      "title": "Cancellation stops at the HTTP boundary",
+      "summary": "Repository calls use a background context instead of the request context.",
+      "details": [
+        "Timed-out requests can keep a database connection occupied until the query finishes."
+      ],
+      "recommendation": "Pass the request context through the service and repository layers.",
+      "references": [
+        {"label": "internal/enrollment/handler.go:37"}
+      ]
+    },
+    {
+      "id": "F-03",
+      "severity": "low",
+      "title": "Operational errors lose useful context",
+      "summary": "Several returned errors omit the student and course identifiers.",
+      "recommendation": "Wrap boundary errors with the operation and stable identifiers.",
+      "references": [
+        {"label": "internal/enrollment/service.go:68"}
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "eyebrow": "What holds up",
+      "title": "Strong foundations",
+      "intro": "These parts reduce the cost and risk of the recommended fixes.",
+      "cards": [
+        {
+          "title": "Clear ownership",
+          "body": "HTTP, domain, and persistence concerns stay in separate packages without ceremonial wrappers."
+        },
+        {
+          "title": "Useful integration tests",
+          "body": "The suite exercises real transaction behavior and makes the concurrency gap easy to cover."
+        }
+      ]
+    }
+  ],
+  "verification": [
+    {"name": "go test ./...", "status": "pass", "detail": "18 tests passed"},
+    {"name": "golangci-lint run ./...", "status": "pass", "detail": "No findings"},
+    {"name": "Concurrent retry scenario", "status": "not-run", "detail": "No regression test exists yet"}
+  ],
+  "scope": [
+    "Read the HTTP, domain, and persistence paths.",
+    "Ran the repository test and lint commands.",
+    "Did not assess production database configuration or deployment manifests."
+  ],
+  "actions": [
+    "Enforce enrollment identity in the database and add a concurrent retry test.",
+    "Propagate request cancellation through the repository boundary."
+  ],
+  "footer": "Prepared as an evidence-led engineering review."
+}
