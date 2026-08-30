@@ -121,3 +121,33 @@ when present.
 - Summarize changes with file and line references.
 - Report relevant format, lint, build, and test commands and their results.
 - Call out remaining TODOs, uncertainties, or follow-up work.
+
+## Codex pstack model configuration
+
+Ignore this section if your are not Codex.
+
+Use these per-role model overrides only when running pstack on Codex. Each
+pstack SKILL.md names its defaults in a Models section; the values here override
+those defaults. Delete a line to fall back to the skill default. A value of
+`inherit-parent` or `auto` runs that role on the parent session's model (the
+Agent call omits `model`); an alias entry in a panel list still counts toward
+that panel's fan-out.
+
+feature, refactoring: gpt-5.6-sol
+bug-fix: gpt-5.6-sol
+perf-issue: gpt-5.6-sol
+hillclimb: gpt-5.6-terra
+judgment and prose: gpt-5.5
+strongest judgment: gpt-5.6-sol
+how explorer: gpt-5.6-sol
+how explainer: gpt-5.5
+how critics: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
+why investigators: gpt-5.6-sol
+why synthesizer: gpt-5.5
+reflect tooling: gpt-5.6-terra
+reflect judgment, divergent, synthesizer: gpt-5.6-sol
+arena runners: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
+arena cross-judge pool: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
+swarm workers: gpt-5.6-terra
+architect runners: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
+interrogate reviewers: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna

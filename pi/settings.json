@@ -1,18 +1,12 @@
 {
-  "lastChangelogVersion": "0.84.3",
-  "defaultProvider": "zai-api",
-  "defaultModel": "zai-api/glm-5.3-flash",
+  "lastChangelogVersion": "0.84.4",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
     "pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",
-    "npm:@howaboua/pi-codex-conversion",
-    {
-      "source": "./vendor/pi-pstack",
-      "skills": []
-    }
+    "npm:@howaboua/pi-codex-conversion"
   ],
   "theme": "omarchy-system"
 }

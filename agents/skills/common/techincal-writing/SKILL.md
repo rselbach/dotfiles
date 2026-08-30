@@ -1,6 +1,6 @@
 ---
-name: technical-writing
-description: "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages."
+name: techincal-writing
+description: "Deprecated misspelling of technical-writing. Use only when explicitly invoked through the old misspelled name, then load technical-writing."
 disable-model-invocation: true
 ---
 

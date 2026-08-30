@@ -1,0 +1,14 @@
+### Worktree and simulator cleanup
+
+**You own the disk and the safety gate.** Prune merged or abandoned git worktrees and stale iOS simulators to reclaim space. Deletion is irreversible, so every step guards against deleting something in use or holding uncommitted work.
+
+1. Snapshot and audit. Record `df -h /`. Resolve the installed `poteto-mode` directory from the `SKILL.md` path used to load this playbook, then run its `scripts/worktree-audit.sh`, passing `$(git rev-parse --show-toplevel)` as the first argument (principle-build-the-lever). Do not assume the current repository contains the skill. The script reads worktree paths from `git worktree list`, never hand-typed, because hosts and users may place worktrees anywhere. It classifies each worktree by size, age, merge state, uncommitted work, remote state, and PR state, then suggests a bucket.
+2. The bucket is advice, not permission. Cross-check every candidate against active agents, branches, PRs, decision logs, and the user's stated keep set.
+3. Verify usage before deleting. For every `review` row or anything you doubt, inspect active branches, open PRs, running agents, decision logs, and recent filesystem activity. Use **recall** only when session history is genuinely needed. Uncertainty means keep or ask; never infer abandonment from a missing sidebar entry.
+4. Present the exact deletion set and get explicit approval before removing anything. Show tracked diffs and name untracked files. Untracked and ignored files are still user data; never label them disposable without evidence.
+5. Prune only the approved paths. Prefer ordinary `git worktree remove <path>` for clean worktrees. Use `--force` only when the user explicitly approved that exact path after reviewing its tracked, untracked, and ignored contents. If ignored artifacts survive, prefer a recoverable trash or quarantine move. Use permanent recursive deletion only with explicit approval for the resolved target. Confirm with `df -h /` and re-list.
+6. Simulators and other reclaimers. Simulators are usually the next-biggest win. `xcrun simctl --set testing delete all` removes XCTest device clones; `xcrun simctl delete unavailable` removes unavailable devices; `xcrun simctl runtime list` followed by `runtime delete <id>` removes selected old runtimes. Other candidates include Xcode `DerivedData`, `iOS DeviceSupport`, host-specific caches identified by measurement, and package caches. Clear only exact targets the user authorized and only after measuring them.
+
+This is the one playbook that deletes user state with no code review to catch a slip, so the gates above are the review.
+
+**Reply:** `df -h /` before and after with space reclaimed, the worktrees pruned, and a one-line reason for each held back (in-use by which chat, or uncommitted work).

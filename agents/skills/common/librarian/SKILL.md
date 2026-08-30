@@ -23,16 +23,20 @@ Example:
 
 ## Command
 
+Resolve the installed skill directory from the path of this loaded `SKILL.md`.
+Do not assume the current repository contains the skill. Then run:
+
 ```bash
-bash checkout.sh <repo> --path-only
+bash "<skill-directory>/checkout.sh" <repo> --path-only
 ```
 
 Examples:
 
 ```bash
-bash checkout.sh mitsuhiko/minijinja --path-only
-bash checkout.sh github.com/mitsuhiko/minijinja --path-only
-bash checkout.sh https://github.com/mitsuhiko/minijinja --path-only
+bash "<skill-directory>/checkout.sh" mitsuhiko/minijinja --path-only
+bash "<skill-directory>/checkout.sh" github.com/mitsuhiko/minijinja --path-only
+bash "<skill-directory>/checkout.sh" \
+  https://github.com/mitsuhiko/minijinja --path-only
 ```
 
 The script will:
@@ -49,7 +53,7 @@ The script will:
 - Force immediate refresh with:
 
 ```bash
-bash checkout.sh <repo> --force-update --path-only
+bash "<skill-directory>/checkout.sh" <repo> --force-update --path-only
 ```
 
 ## Recommended workflow

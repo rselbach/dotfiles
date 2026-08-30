@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# List agent-owned tmux sessions without touching the user's default server.
 set -euo pipefail
 
 usage() {
@@ -10,7 +11,7 @@ List tmux sessions on a socket (default tmux socket if none provided).
 Options:
   -L, --socket       tmux socket name (passed to tmux -L)
   -S, --socket-path  tmux socket path (passed to tmux -S)
-  -A, --all          scan all sockets under CLAUDE_TMUX_SOCKET_DIR
+  -A, --all          scan all sockets under AGENT_TMUX_SOCKET_DIR
   -q, --query        case-insensitive substring to filter session names
   -h, --help         show this help
 USAGE
@@ -20,7 +21,7 @@ socket_name=""
 socket_path=""
 query=""
 scan_all=false
-socket_dir="${CLAUDE_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/claude-tmux-sockets}"
+socket_dir="${AGENT_TMUX_SOCKET_DIR:-${CLAUDE_TMUX_SOCKET_DIR:-${TMPDIR:-/tmp}/claude-tmux-sockets}}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -72,7 +73,7 @@ list_sessions() {
   shift
   local tmux_cmd=(tmux "$@")
 
-  if ! sessions="$("${tmux_cmd[@]}" list-sessions -F '#{session_name}\t#{session_attached}\t#{session_created_string}' 2>/dev/null)"; then
+  if ! sessions="$("${tmux_cmd[@]}" list-sessions -F $'#{session_name}\t#{session_attached}\t#{session_created_string}' 2>/dev/null)"; then
     echo "No tmux server found on $label" >&2
     return 1
   fi

@@ -16,7 +16,8 @@ mail data.
 ## Quick Reference
 
 ```bash
-TOOL=~/devel/dotfiles/agent/skills/apple-mail/apple-mail.sh
+# Resolve this from the path of the loaded SKILL.md.
+TOOL="<skill-directory>/apple-mail.sh"
 
 # Search emails
 $TOOL search --after 2026-02-01 --has-attachment
