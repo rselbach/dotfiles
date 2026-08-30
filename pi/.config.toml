@@ -8,6 +8,10 @@ dst = "~/.pi/agent/settings.json"
 hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
+src = "pi-fff.json"
+dst = "~/.pi/agent/pi-fff.json"
+
+[[links]]
 src = "models.json"
 dst = "~/.pi/agent/models.json"
 
