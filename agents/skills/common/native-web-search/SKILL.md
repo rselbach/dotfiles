@@ -5,13 +5,24 @@ description: "Trigger native web search. Use when you need quick internet resear
 
 # Native Web Search
 
-Use this skill to run a **fast model with native web search enabled** and get a concise research summary with explicit full URLs.
+Use this skill to run native web search and get a concise research summary with
+explicit full URLs.
 
-## Script
+## OpenCode
 
-- `search.mjs`
+When `OPENCODE=1`, call OpenCode's built-in `websearch` tool directly. Include
+both the topic and the purpose in the query, then synthesize the returned sources
+using the output expectations below. Do not run `search.mjs` under OpenCode.
 
-## Usage
+OpenCode exposes `websearch` when launched with `OPENCODE_ENABLE_EXA=1` or
+`OPENCODE_ENABLE_PARALLEL=1`. If the tool is missing, report that the host must
+be restarted with one of those variables rather than falling back silently.
+
+## Pi adapter
+
+Use `search.mjs` under Pi. It runs a fast model with Pi's native search support.
+
+### Usage
 
 Run from this skill directory:
 
@@ -42,7 +53,7 @@ The script instructs the model to:
 - include full canonical URLs (`https://...`) for each key finding
 - highlight disagreements between sources
 
-## Notes
+## Pi notes
 
 - No extra npm install is required.
 - If module resolution fails, set `PI_AI_MODULE_PATH` to `@earendil-works/pi-ai`'s `dist/index.js` path.

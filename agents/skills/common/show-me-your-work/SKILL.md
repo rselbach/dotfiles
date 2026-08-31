@@ -16,6 +16,7 @@ for the current host when one exists:
 
 - Codex: [`references/hosts/codex.md`](references/hosts/codex.md)
 - Pi: [`references/hosts/pi.md`](references/hosts/pi.md)
+- OpenCode: [`references/hosts/opencode.md`](references/hosts/opencode.md)
 
 The workflow below is the portable core.
 

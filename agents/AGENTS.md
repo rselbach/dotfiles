@@ -151,3 +151,30 @@ arena cross-judge pool: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
 swarm workers: gpt-5.6-terra
 architect runners: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
 interrogate reviewers: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
+
+## OpenCode pstack model configuration
+
+Ignore this section if you are not OpenCode.
+
+OpenCode Task selects an agent rather than a model. Its pstack adapter derives
+generated worker and reviewer agent names from these provider-qualified model
+IDs; an entry in a panel list still counts toward that panel's fan-out.
+
+feature, refactoring: openai/gpt-5.6-sol
+bug-fix: openai/gpt-5.6-sol
+perf-issue: openai/gpt-5.6-sol
+hillclimb: openai/gpt-5.6-terra
+judgment and prose: openai/gpt-5.5
+strongest judgment: openai/gpt-5.6-sol
+how explorer: openai/gpt-5.6-sol
+how explainer: openai/gpt-5.5
+how critics: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
+why investigators: openai/gpt-5.6-sol
+why synthesizer: openai/gpt-5.5
+reflect tooling: openai/gpt-5.6-terra
+reflect judgment, divergent, synthesizer: openai/gpt-5.6-sol
+arena runners: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
+arena cross-judge pool: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
+swarm workers: openai/gpt-5.6-terra
+architect runners: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
+interrogate reviewers: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna

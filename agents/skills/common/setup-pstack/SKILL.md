@@ -17,13 +17,13 @@ bug-fix: <model or inherit-parent>
 ...
 ```
 
-If the active host requires a native configuration file to select subagent models, treat that file as an adapter generated from the `AGENTS.md` mapping. `AGENTS.md` remains the human-readable source of truth.
+If the active host requires native agent definitions to select subagent models, treat those files as an adapter generated from the `AGENTS.md` mapping. `AGENTS.md` remains the human-readable source of truth.
 
 ## Steps
 
 ### 1. Identify the host and available models
 
-Identify the current agent host from the environment. Enumerate only model slugs that the host confirms can be assigned to delegated work. Prefer the host's tool metadata or supported model list. In Pi, detect the host through `AI_AGENT=pi` or `PI_CODING_AGENT=true`, inspect the current `PI_PROVIDER` and `PI_MODEL`, and use `pi --list-models` for available slugs. If no dependable list is available, offer `inherit-parent` and ask the user to provide any additional slugs they want.
+Identify the current agent host from the environment. Enumerate only model slugs that the host confirms can be assigned to delegated work. Prefer the host's tool metadata or supported model list. In Pi, detect the host through `AI_AGENT=pi` or `PI_CODING_AGENT=true`, inspect the current `PI_PROVIDER` and `PI_MODEL`, and use `pi --list-models` for available slugs. In OpenCode, detect `OPENCODE=1` and use `opencode models`. If no dependable list is available, offer `inherit-parent` and ask the user to provide any additional slugs they want.
 
 Never copy defaults from another host. `inherit-parent` and `auto` both mean to omit an explicit model and let the host use the parent session's model.
 
@@ -70,10 +70,35 @@ interrogate reviewers
 
 Keep the edit idempotent. Update the block in place; do not rewrite the rest of `AGENTS.md`.
 
-### 6. Verify
+### 6. Generate the OpenCode adapter
 
-Read the resulting block back. Confirm that all requested roles are present, every real slug is available, and other host sections are unchanged. Tell the user that new sessions will read the mapping through `AGENTS.md`.
+Skip this step outside OpenCode. OpenCode Task selects a subagent type rather
+than accepting a model per call, so render a worker and a read-only reviewer for
+every unique real model in the OpenCode block.
 
-### 7. Offer project verification
+Resolve this skill's installed base directory and run:
+
+```sh
+python3 scripts/render-opencode-agents.py \
+  --output <managed-opencode-agent-source> \
+  --model <provider/model> [--model <provider/model> ...]
+```
+
+The output must be the source directory managed by the user's configuration,
+not an installed symlink destination. The generated names are
+`pstack-worker-<provider-model-slug>` and
+`pstack-reviewer-<provider-model-slug>`. Use worker agents for implementation,
+tooling, prose, and candidate-runner roles. Use reviewer agents for exploration,
+explanation, investigation, synthesis, judgment, cross-judging, architecture,
+and review roles. `inherit-parent` and `auto` use the ordinary `general` or
+`reviewer` agent instead and are not rendered.
+
+Run the same command with `--check` after rendering.
+
+### 7. Verify
+
+Read the resulting block back. Confirm that all requested roles are present, every real slug is available, and other host sections are unchanged. Under OpenCode, also inspect at least one generated worker and reviewer with `opencode debug agent <agent-name>` and confirm their model and permissions. Tell the user that new sessions will read the mapping and agent definitions after restart.
+
+### 8. Offer project verification
 
 Check whether the project has a `verify-*` skill or another harness that drives the real artifact. If not, offer once to invoke `create-verification-skill`. Move on if the user declines.

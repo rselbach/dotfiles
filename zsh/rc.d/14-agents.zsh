@@ -1,5 +1,6 @@
 # speed up pi if launched outside a project dir
 export PI_LENS_STARTUP_MODE=quick
+export OPENCODE_ENABLE_EXA=1
 
 set-claude-default() {
   unset ANTHROPIC_MODEL

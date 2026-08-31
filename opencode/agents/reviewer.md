@@ -1,82 +1,19 @@
 ---
 description: Read-only code reviewer for pre-PR review, architecture critique, security/performance audits. Never modifies code.
 mode: subagent
-request:
-  body:
-    temperature: 0.2
-permissions:
-  - action: shell
-    resource: "git diff *"
-    effect: allow
-  - action: shell
-    resource: "git show *"
-    effect: allow
-  - action: shell
-    resource: "git log *"
-    effect: allow
-  - action: shell
-    resource: "git blame *"
-    effect: allow
-  - action: shell
-    resource: "rg *"
-    effect: allow
-  - action: shell
-    resource: "wc *"
-    effect: allow
-  - action: shell
-    resource: "head *"
-    effect: allow
-  - action: shell
-    resource: "tail *"
-    effect: allow
-  - action: shell
-    resource: "cat *"
-    effect: deny
-  - action: shell
-    resource: "rm *"
-    effect: deny
-  - action: shell
-    resource: "mv *"
-    effect: deny
-  - action: shell
-    resource: "cp *"
-    effect: deny
-  - action: shell
-    resource: "mkdir *"
-    effect: deny
-  - action: shell
-    resource: "touch *"
-    effect: deny
-  - action: shell
-    resource: "echo *"
-    effect: deny
-  - action: shell
-    resource: "npm *"
-    effect: deny
-  - action: shell
-    resource: "pnpm *"
-    effect: deny
-  - action: shell
-    resource: "yarn *"
-    effect: deny
-  - action: shell
-    resource: "node *"
-    effect: deny
-  - action: shell
-    resource: "*"
-    effect: deny
-  - action: read
-    resource: "*"
-    effect: allow
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: glob
-    resource: "*"
-    effect: allow
-  - action: grep
-    resource: "*"
-    effect: allow
+temperature: 0.2
+permission:
+  bash:
+    "*": deny
+    "jj status": allow
+    "jj diff": allow
+    "git status --short": allow
+    "git --no-ext-diff diff": allow
+    "git --no-ext-diff diff --cached": allow
+    "git --no-ext-diff show": allow
+    "git log --oneline -10": allow
+  edit: deny
+  task: deny
 ---
 
 # Code Reviewer Agent
@@ -191,7 +128,7 @@ What should be done instead (conceptually, not a patch).
 ## Review Process
 
 1. **Understand scope** - What files/changes are being reviewed?
-2. **Read the code** - Use Read tool, git diff, git show as needed
+2. **Read the code** - Use Read, Grep, and the allowed read-only Git commands
 3. **Identify patterns** - Look for recurring issues
 4. **Prioritize findings** - Critical/high first, group similar issues
 5. **Be specific** - Include file:line, show the code, explain why

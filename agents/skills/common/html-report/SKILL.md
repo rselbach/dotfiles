@@ -43,6 +43,23 @@ the bundled renderer for routine work. Do not redesign the page each time.
    filters, anchor links, overflow, and print layout when relevant. Fix content
    or renderer defects before handoff. Mark the report page as the browser
    deliverable when the browser tool supports it.
+
+   Under OpenCode, use an exposed browser MCP first. If none is available, run
+   the bundled Playwright check against the printed URL:
+
+   ```sh
+   node scripts/verify_report.cjs \
+     "${report_url}" "${report_dir}" \
+     --browser "$(command -v chromium)"
+   ```
+
+   Set `PLAYWRIGHT_BROWSER_PATH` or pass another Chromium-compatible executable
+   when `chromium` is not installed under that name. The script uses a local
+   Playwright package or the mise-managed `npm:playwright` package, checks both
+   viewports and print overflow, exercises every finding filter, validates
+   anchors and browser errors, and writes screenshots into `${report_dir}`.
+   Report the check as not run if neither a browser MCP nor this fallback is
+   available; do not claim visual verification from reading HTML alone.
 7. End with a link to the HTML file and a short verification summary. Keep the
    server alive until the browser check and handoff are complete.
 

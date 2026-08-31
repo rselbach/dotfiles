@@ -10,6 +10,7 @@ the adapter for the current host when one exists:
 
 - Codex: [`references/hosts/codex.md`](references/hosts/codex.md)
 - Pi: [`references/hosts/pi.md`](references/hosts/pi.md)
+- OpenCode: [`references/hosts/opencode.md`](references/hosts/opencode.md)
 
 Other hosts should use their equivalent documented capabilities.
 
@@ -26,7 +27,7 @@ Remaining triggers:
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
 - Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
-- Any prose surface → the **unslop** skill. Your reply is a prose surface; write it per **Writing the reply**. When writing or editing a skill, also use the host's skill-authoring capability. In Codex, invoke `$skill-creator`. In Pi, read Pi's current skills documentation and edit `SKILL.md` directly.
+- Any prose surface → the **unslop** skill. Your reply is a prose surface; write it per **Writing the reply**. When writing or editing a skill, also use the host's skill-authoring capability. In Codex, invoke `$skill-creator`. In Pi, read Pi's current skills documentation and edit `SKILL.md` directly. In OpenCode, load **customize-opencode**, edit `SKILL.md` directly, and validate it with `opencode debug skill`.
 - Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill.
 - Before review → the **no-comments** skill.
 - Shipping UI, IDE, or CLI work → an available control skill that can drive the real surface. For bug fixes, reproduce first on the same surface yourself; hand to the user only under the narrow Bug fix step 1 exception.

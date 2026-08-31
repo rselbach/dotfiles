@@ -52,7 +52,7 @@ Present the complete Accepted, Rejected, and Backlog result. Wait for explicit a
 For approved work:
 
 - Make a trivial focused edit directly.
-- Use the host's skill-authoring capability for substantive edits, description tuning, or new skills. In Codex, invoke `$skill-creator`. In Pi, read Pi's current skills documentation and edit `SKILL.md` directly.
+- Use the host's skill-authoring capability for substantive edits, description tuning, or new skills. In Codex, invoke `$skill-creator`. In Pi, read Pi's current skills documentation and edit `SKILL.md` directly. In OpenCode, load **customize-opencode**, edit `SKILL.md` directly, and validate it with `opencode debug skill`.
 - Follow the proposed routing unless the user redirects it.
 - Validate every touched skill with the available skill validator.
 

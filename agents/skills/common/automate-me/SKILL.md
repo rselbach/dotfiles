@@ -10,7 +10,8 @@ Turn the user's working conventions into one concise `-mode` skill tailored to t
 This workflow combines **recall** for session evidence, the host's
 skill-authoring capability, and **unslop** for prose discipline. In Codex, use
 `$skill-creator` for authoring. In Pi, read Pi's current skills documentation
-and edit `SKILL.md` directly.
+and edit `SKILL.md` directly. In OpenCode, load **customize-opencode**, edit
+`SKILL.md` directly, and validate it with `opencode debug skill`.
 
 ## Flow
 
@@ -50,13 +51,15 @@ Read **poteto-mode** for granularity, not content. The user's rules are not Pote
 
 Use the host's skill-authoring capability. In Codex, invoke `$skill-creator`.
 In Pi, read Pi's current skills documentation and edit `SKILL.md` directly.
+In OpenCode, load **customize-opencode**, edit `SKILL.md` directly, and validate
+it with `opencode debug skill`.
 
 - Preserve an existing mode skill's category.
 - For a new project skill, use `.agents/skills/<handle>-mode/SKILL.md`, or `.agents/skills/<handle>/<handle>-mode/SKILL.md` when the repository already groups personal skills that way.
 - Use `~/.agents/skills/<handle>-mode/` only when the user wants a personal skill.
 - Make the frontmatter name match the directory.
 - Make the description trigger on the user's handle, the skill name, and requests to work in their style, not generic work such as coding or reviewing.
-- Keep the mode explicit-only by default. Add host-specific invocation metadata when supported. For Codex, set `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. In a shared skill, do not use Pi's `disable-model-invocation` unless every host should honor it.
+- Keep the mode explicit-only by default. Add host-specific invocation metadata when supported. For Codex, set `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. For OpenCode, begin the description with `Use only when explicitly invoked`; it has no equivalent skill metadata. In a shared skill, do not use Pi's `disable-model-invocation` unless every host should honor it.
 
 ### 5. Iterate on prose
 

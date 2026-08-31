@@ -4,7 +4,8 @@
 
 1. Use the host's skill-authoring capability. In Codex, invoke
    `$skill-creator`. In Pi, read Pi's current skills documentation and edit
-   `SKILL.md` directly.
+   `SKILL.md` directly. In OpenCode, load **customize-opencode**, edit
+   `SKILL.md` directly, and validate it with `opencode debug skill`.
 2. Validate the skill: frontmatter has `name` and `description`, referenced files exist, cross-skill links resolve.
 3. Test cases if structural; skip if subjective.
 4. Run **Opening a PR**.

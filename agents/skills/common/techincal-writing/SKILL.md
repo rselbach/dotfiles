@@ -1,7 +1,6 @@
 ---
 name: techincal-writing
 description: "Deprecated misspelling of technical-writing. Use only when explicitly invoked through the old misspelled name, then load technical-writing."
-disable-model-invocation: true
 ---
 
 # Technical writing
