@@ -18,3 +18,4 @@ fi
 
 unset _zshrc_dir
 
+export PATH="/Users/rselbach/.local/bin:$PATH"
