@@ -4,5 +4,10 @@ dst = "~/.codex/AGENTS.md"
 exclude_hosts = ["rselbach-KJG3M7PY7D"]
 
 [[links]]
+src = "./config-work.toml"
+dst = "~/.codex/config.toml"
+hosts = ["rselbach-KJG3M7PY7D"]
+
+[[links]]
 src = "./prompts"
 dst = "~/.codex/prompts"

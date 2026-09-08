@@ -1,10 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "providers": {
+  "provider": {
     "ollama-local": {
-      "package": "aisdk:@ai-sdk/openai",
+      "npm": "@ai-sdk/openai",
       "name": "Ollama on rhea",
-      "settings": {
+      "options": {
         "baseURL": "http://rhea.local:11434/v1",
         "apiKey": "not-used",
         "verbosity": "low"
@@ -12,8 +12,8 @@
       "models": {
         "granite-4.1-8b": {
           "name": "granite-4.1-8b",
-          "capabilities": {
-            "tools": true,
+          "tool_call": true,
+          "modalities": {
             "input": [
               "text",
               "image"
@@ -29,40 +29,25 @@
         },
         "qwen3.8:27b-mlx": {
           "name": "qwen3.8:27b-mlx",
-          "variants": [
-            {
-              "id": "low",
-              "settings": {
-                "reasoningEffort": "low"
-              }
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
             },
-            {
-              "id": "medium",
-              "settings": {
-                "reasoningEffort": "medium"
-              }
+            "medium": {
+              "reasoningEffort": "medium"
             },
-            {
-              "id": "high",
-              "settings": {
-                "reasoningEffort": "high"
-              }
+            "high": {
+              "reasoningEffort": "high"
             },
-            {
-              "id": "xhigh",
-              "settings": {
-                "reasoningEffort": "xhigh"
-              }
+            "xhigh": {
+              "reasoningEffort": "xhigh"
             },
-            {
-              "id": "max",
-              "settings": {
-                "reasoningEffort": "max"
-              }
+            "max": {
+              "reasoningEffort": "max"
             }
-          ],
-          "capabilities": {
-            "tools": true,
+          },
+          "tool_call": true,
+          "modalities": {
             "input": [
               "text",
               "image"
@@ -80,30 +65,22 @@
     }
   },
   "mcp": {
-    "servers": {
-      "excalidraw": {
-        "type": "remote",
-        "url": "https://api.excalidraw.com/api/v1/mcp",
-        "enabled": true,
-        "headers": {
-          "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
-        }
-      },
-      "atlassian": {
-        "type": "remote",
-        "url": "https://mcp.atlassian.com/v1/mcp/authv2",
-        "enabled": true
+    "excalidraw": {
+      "type": "remote",
+      "url": "https://api.excalidraw.com/api/v1/mcp",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:EXCALIDRAW_API_KEY}"
       }
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp/authv2",
+      "enabled": true
     }
   },
-  "plugins": [
-    "./plugins/opencode-codex-identity-plugin.ts",
+  "plugin": [
+    "./plugins/opencode-codex-identity-plugin.ts"
   ],
-  "permissions": [
-    {
-      "action": "*",
-      "resource": "*",
-      "effect": "allow"
-    }
-  ]
+  "permission": "allow"
 }

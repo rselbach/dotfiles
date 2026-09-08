@@ -1,7 +1,7 @@
 {
   "providers": {
     "ollama-local": {
-      "baseUrl": "http://encedalus.local:11434/v1",
+      "baseUrl": "http://rhea.local:11434/v1",
       "api": "openai-responses",
       "apiKey": "not-used",
       "models": [
