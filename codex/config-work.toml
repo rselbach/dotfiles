@@ -1,0 +1,17 @@
+model = "granite4:latest"
+model_catalog_json = "/Users/rselbach/.codex/ollama-models.json"
+model_provider = "rhea"
+approvals_reviewer = "auto_review"
+model_reasoning_effort = "medium"
+
+[model_providers.rhea]
+name = "Rhea"
+base_url = "http://rhea.local:11434/v1"
+wire_api = "responses"
+requires_openai_auth = false
+
+[projects."/Users/rselbach/devel/hashicorp/cloud-idp"]
+trust_level = "trusted"
+
+[mcp_servers.atlassian]
+url = "https://mcp.atlassian.com/v2/mcp"
