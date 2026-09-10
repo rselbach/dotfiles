@@ -27,8 +27,8 @@
             "output": 128000
           }
         },
-        "qwen3.8:27b-mlx": {
-          "name": "qwen3.8:27b-mlx",
+        "granite4:latest": {
+          "name": "granite4:latest",
           "variants": {
             "low": {
               "reasoningEffort": "low"
@@ -82,5 +82,7 @@
   "plugin": [
     "./plugins/opencode-codex-identity-plugin.ts"
   ],
-  "permission": "allow"
+  "permission": {
+    "*": "allow"
+  }
 }

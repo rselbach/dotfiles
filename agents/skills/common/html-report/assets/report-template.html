@@ -44,6 +44,7 @@
       font-family: var(--body);
       font-size: 16px;
       line-height: 1.65;
+      overflow-wrap: anywhere;
     }
 
     body::before {
@@ -121,7 +122,10 @@
 
     .nav {
       display: flex;
+      min-width: 0;
+      flex: 1 1 auto;
       align-items: center;
+      justify-content: flex-end;
       gap: 18px;
       overflow-x: auto;
       white-space: nowrap;
@@ -259,7 +263,7 @@
     }
 
     .metadata li {
-      min-width: 180px;
+      min-width: 0;
       padding: 15px 28px 15px 0;
     }
 
@@ -775,7 +779,13 @@
       }
 
       .nav {
-        max-width: 75vw;
+        max-width: none;
+      }
+
+      .card-grid,
+      .evidence-grid,
+      .metrics {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -823,6 +833,17 @@
 
       .section {
         padding: 10mm 0;
+      }
+
+      .hero-grid,
+      .section-heading,
+      .summary-panel,
+      .split-lists,
+      .finding,
+      .card-grid,
+      .evidence-grid,
+      .metrics {
+        grid-template-columns: 1fr;
       }
 
       .finding,
