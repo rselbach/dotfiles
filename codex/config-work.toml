@@ -13,5 +13,8 @@ requires_openai_auth = false
 [projects."/Users/rselbach/devel/hashicorp/cloud-idp"]
 trust_level = "trusted"
 
+[projects."/Users/rselbach/.codex"]
+trust_level = "trusted"
+
 [mcp_servers.atlassian]
 url = "https://mcp.atlassian.com/v2/mcp"
