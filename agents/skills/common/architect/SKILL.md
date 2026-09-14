@@ -1,6 +1,6 @@
 ---
 name: architect
-description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use when explicitly invoked, for 'architect this' or 'design this', or for non-trivial work where jumping to code would lock in the wrong shape."
+description: Explore designs when explicitly requested or when introducing or substantially reshaping an architectural boundary with multiple viable designs.
 ---
 
 # Architect
@@ -9,11 +9,9 @@ Design before implementing. Sketch types, function signatures, class shapes, and
 
 ## Start
 
-Create a working checklist with one entry per phase before starting. Use the
-host's plan or todo facility when available. Under Pi, use workflow phases for
-a workflow, keep the checklist in chat, or write it to a durable plan file for
-long work. Autonomous mode without checkpoints needs the list to show phase
-position and keep phases from silently disappearing.
+Create a task-specific checklist from the applicable phases. Agreement is
+needed only for a requested checkpoint; redesign is needed only if the chosen
+shape fails. Use the host's plan facility or a concise checklist in chat.
 
 1. Ground
 2. Sketch
@@ -23,19 +21,19 @@ position and keep phases from silently disappearing.
 
 ## Phase A: Ground the problem
 
-Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems. Critique mode if existing structure is the constraint or the design must push back on it.
+Ground the design in the affected code and existing context. Use **how** when an unresolved architectural question needs exploration, with critique mode when existing structure is the constraint.
 
-Naming a file isn't grounding. Produce the traced model `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.
+Trace relevant paths enough to resolve the design decision. Use **why** when historical rationale is uncertain and could affect the proposed ownership or layering.
 
 Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
 
 ## Phase B: Sketch
 
-Run the **arena** skill with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's prompt. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
+When competing designs need independent exploration, run **arena** with the design-sketch task and the Phase A grounding artifacts. Otherwise sketch the design directly. Pass `references/runner-prompt.md` as each runner's prompt. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
 
 Use the configured `architect runners` role when the host exposes model selection. Otherwise let the host select models or inherit the parent model. The design diversity comes from structurally distinct briefs, not from assuming particular model names exist.
 
-Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **exhaust-the-design-space** principle skill made concrete. Whole-shape alternatives, not point fixes inside one shape.
+Compare structurally distinct candidates when unresolved tradeoffs warrant them. A design dictated by established patterns or constraints does not need a second candidate.
 
 Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods.
 

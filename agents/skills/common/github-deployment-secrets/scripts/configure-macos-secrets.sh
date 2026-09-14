@@ -41,6 +41,7 @@ main() {
     "apple_account_id"
     "app_specific_password"
     "apple_team_id"
+    "apple_signing_identity"
     "p12_certificate_base64"
     "p12_certificate_password"
   )
@@ -48,6 +49,7 @@ main() {
     "APPLE_ID"
     "APPLE_APP_SPECIFIC_PASSWORD"
     "APPLE_TEAM_ID"
+    "APPLE_SIGNING_IDENTITY"
     "MACOS_CERTIFICATE_P12_BASE64"
     "MACOS_CERTIFICATE_PASSWORD"
   )

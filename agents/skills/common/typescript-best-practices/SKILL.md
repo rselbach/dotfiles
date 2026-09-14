@@ -1,11 +1,11 @@
 ---
 name: typescript-best-practices
-description: TypeScript best practices. Use when reading or editing any .ts or .tsx file.
+description: TypeScript best practices for writing or reviewing changes to .ts or .tsx files.
 ---
 
 # TypeScript best practices
 
-Apply the **type-system-discipline** principle skill first; this skill grounds it in TypeScript syntax.
+Consult the **type-system-discipline** principle skill when designing types or changing data boundaries.
 
 | Rule | Summary |
 |------|---------|

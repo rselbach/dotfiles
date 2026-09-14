@@ -2,8 +2,6 @@
 import fs from "node:fs";
 import process from "node:process";
 
-const RULE =
-	"Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.";
 const LANES = "Use one isolated lane per scenario at the PR head";
 const SUB_BLOCKS = [
 	"Depends on.",
@@ -28,7 +26,6 @@ const HOW_TO_READ_MARKERS = [
 	"names the evidence",
 	"Check a box only when its evidence exists",
 	"playbooks/",
-	RULE,
 ];
 const PERF_ITEMS = ["Metric.", "Probe.", "Baseline.", "Rule."];
 const BOX = /^\s*- \[[ x]\] (.*)$/;
@@ -130,30 +127,36 @@ for (const pr of prSections) {
 
 	const depends = block("Depends on.");
 	if (depends && depends.rest === "") fail(depends.n, `${pr.title}: Depends on names nothing`);
-	for (const name of ["Files.", "Build.", "You see.", "Verify, unit.", "Merge."]) {
+	for (const name of ["Files.", "Build.", "You see.", "Merge."]) {
 		const b = block(name);
 		if (b && boxes(b.lines).length === 0) fail(b.n, `${pr.title}: ${name} has no box`);
 	}
-	for (const name of ["Verify, unit.", "Verify, live.", "Verify, perf."]) {
-		const b = block(name);
-		if (b && !b.rest.startsWith(RULE)) fail(b.n, `${pr.title}: ${name} does not open with the rule`);
+	const inapplicable = (verification) => {
+		if (!verification || !verification.rest.startsWith("None.")) return false;
+		if (!verification.rest.slice(5).trim()) fail(verification.n, `${pr.title}: ${verification.name} needs a reason for None`);
+		if (boxes(verification.lines).length) fail(verification.n, `${pr.title}: ${verification.name} says None but has boxes`);
+		return true;
+	};
+	const unit = block("Verify, unit.");
+	if (unit && !inapplicable(unit) && boxes(unit.lines).length === 0) {
+		fail(unit.n, `${pr.title}: Verify, unit has no check`);
 	}
 
 	const live = block("Verify, live.");
-	if (live) {
+	if (live && !inapplicable(live)) {
 		if (!live.rest.includes(LANES)) fail(live.n, `${pr.title}: Verify, live lacks "${LANES}"`);
 		const lanes = boxes(live.lines).map((b) => ({ ...b, m: b.text.match(/^Lane (\d+)\. /) }));
 		const numbers = lanes.filter((b) => b.m).map((b) => Number(b.m[1])).sort((a, b) => a - b);
-		if (numbers.join(",") !== "1,2,3,4,5,6,7,8,9,10") fail(live.n, `${pr.title}: lanes are [${numbers.join(",")}], expected 1 to 10`);
+		if (numbers.length === 0 || numbers.some((number, index) => number !== index + 1)) fail(live.n, `${pr.title}: lanes must be numbered consecutively from 1`);
 		for (const lane of lanes) {
 			if (!lane.m) fail(lane.n, `${pr.title}: live box is not a lane`);
-			else if (!/Save `[^`]+`/.test(lane.text)) fail(lane.n, `${pr.title}: lane ${lane.m[1]} names no screenshot`);
+			else if (!/Save `[^`]+`/.test(lane.text)) fail(lane.n, `${pr.title}: lane ${lane.m[1]} names no artifact`);
 			else if (!lane.text.includes("Pass when")) fail(lane.n, `${pr.title}: lane ${lane.m[1]} has no pass predicate`);
 		}
 	}
 
 	const perf = block("Verify, perf.");
-	if (perf) {
+	if (perf && !inapplicable(perf)) {
 		const items = boxes(perf.lines).map((b) => b.text.split(" ")[0]);
 		if (items.join("|") !== PERF_ITEMS.join("|")) fail(perf.n, `${pr.title}: perf boxes are [${items.join(", ")}], expected [${PERF_ITEMS.join(", ")}]`);
 	}

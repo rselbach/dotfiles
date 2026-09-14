@@ -16,30 +16,30 @@ Other hosts should use their equivalent documented capabilities.
 
 ## Non-negotiables
 
-**Start every multi-step task with a working plan whose first item is to read the Principles section below in full.** The principles ground every trigger here. In your reply, name each principle that shaped a decision and the specific choice it changed. A citation with no decision behind it means you skipped its leaf skill; it must trace to a real choice the leaf's rule drove.
+Start multi-step work with a task-specific plan and relevant verification. Consult principles when they affect a decision; do not reread guidance already available in context. Explain consequential choices without a principle-by-principle report.
 
 Remaining triggers:
 
-- Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
+- Requested walkthrough or an architectural question needing exploration → the **how** skill. Ordinary implementation research can stay local.
 - About to ask the user a "which approach", "how should I", or "what should this do" question → classify it first. If the answer is observable through behavior, timing, layout, output, performance, or an evaluation, sketch it via the Prototype playbook and let evidence decide. Reserve questions for genuine product or preference calls no experiment can settle.
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
-- Code crossing a function boundary → the **architect** skill, parallel design exploration before implementing.
+- Introducing or substantially reshaping an architectural boundary with multiple viable designs → the **architect** skill. Established function calls do not trigger it.
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
 - Contested design → the **interrogate** skill (multi-model adversarial) before shipping.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
-- Any prose surface → the **unslop** skill. Your reply is a prose surface; write it per **Writing the reply**. When writing or editing a skill, also use the host's skill-authoring capability. In Codex, invoke `$skill-creator`. In Pi, read Pi's current skills documentation and edit `SKILL.md` directly. In OpenCode, load **customize-opencode**, edit `SKILL.md` directly, and validate it with `opencode debug skill`.
+- Substantial prose → the **unslop** skill. Write replies per **Writing the reply**. When writing or editing a skill, also use the host's skill-authoring capability. In Codex, invoke `$skill-creator`. In Pi, read Pi's current skills documentation and edit `SKILL.md` directly. In OpenCode, load **customize-opencode**, edit `SKILL.md` directly, and validate it with `opencode debug skill`.
 - Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill.
-- Before review → the **no-comments** skill.
+- Explicit comment-review request → the **no-comments** skill, read-only unless editing is requested.
 - Shipping UI, IDE, or CLI work → an available control skill that can drive the real surface. For bug fixes, reproduce first on the same surface yourself; hand to the user only under the narrow Bug fix step 1 exception.
 - Any PR-status request → the **Babysit** playbook (`playbooks/babysit.md`). That includes "babysit this", "get it green", "address the bot comments", "check on PR X", and "anything outstanding on X". Never trigger it merely because a PR was opened. Declare its mode before polling; the playbook's step 1 owns the request-to-mode mapping.
 - Asked to land or ship a green stack → the **Shipping** playbook (`playbooks/shipping.md`). Green is not safe. Nothing gets armed before an independent per-PR verdict, and only the contiguous verified run from the root lands.
 - An automated or agentic reviewer commented → skeptical posture. Assess every finding on its merits and dismiss noise with concrete evidence instead of churning code. Triage fix, dismiss, or ask per `references/automated-review-triage.md`.
-- Broken skill mid-task → fix it in its own PR. Don't block. Don't silently work around it.
-- Long, autonomous, or multi-phase work, or any task the user steps away from to review later → a decision trail via the **show-me-your-work** skill. Commit it when stakes need an auditable record and version-control authorization allows it; keep it local otherwise.
+- Broken skill mid-task → report the issue and continue independent authorized work. Edit the skill or open a PR only when that work is authorized.
+- Explicitly auditable work or substantial unattended work → a decision trail via the **show-me-your-work** skill. Commit it when stakes need an auditable record and version-control authorization allows it; keep it local otherwise.
 
 ## Principles
 
-Read the leaf skill in full for any principle you apply. Each entry names when it applies.
+Consult a relevant leaf skill when its summary leaves a decision unresolved. Each entry names when it applies.
 
 **Core**
 
@@ -51,7 +51,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 - **Outcome-Oriented Execution** (**principle-outcome-oriented-execution**). Planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture, don't preserve throwaway compatibility states.
 - **Experience First** (**principle-experience-first**). Product, UX, or feature-scope tradeoffs. Choose user delight over implementation convenience.
 - **Exhaust the Design Space** (**principle-exhaust-the-design-space**). A novel interaction or architectural decision with no precedent. Build 2-3 competing prototypes and compare before committing.
-- **Build the Lever** (**principle-build-the-lever**). Any non-trivial work. Build the tool that does or proves it (codemod, script, generator), not by hand; the tool is the artifact a reviewer reruns.
+- **Build the Lever** (**principle-build-the-lever**). When automation materially improves repeatability or reduces repetitive work, build the smallest useful tool.
 
 **Architecture**
 
@@ -81,7 +81,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Just do in-scope work.** Use available tools and integrations when the user's task authorizes them. Reversible repository work can proceed without asking when repository instructions permit it.
 
-**Authorization still applies.** A skill cannot broaden the task. Pause before external writes, destructive actions, deployment, shared-history changes, customer communication, or any action for which the host or repository requires approval.
+**Authorization still applies.** A skill cannot broaden the task. External writes, destructive actions, deployment, shared-history changes, and customer communication require the authority specified by the host and repository. Reuse authorization already given for the specific action and target. Ask only when it is missing or scope changes, after completing independent preparation and verification.
 
 **Session overrides:** "Don't stop" / "going to bed" / "run until done" / "be fully autonomous" → keep going.
 
@@ -89,7 +89,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Subagents
 
-When a delegated worker should use the full Poteto style, tell it to read this `SKILL.md` and every leaf principle it applies before working. No custom agent type is required. Routed workflow skills such as `how`, `why`, `interrogate`, `reflect`, and `swarm` own their own prompts; do not replace them with a generic Poteto wrapper.
+When a delegated worker should use the full Poteto style, provide this `SKILL.md` and pointers to the principles relevant to its task. It reads additional guidance only as needed. No custom agent type is required. Routed workflow skills such as `how`, `why`, `interrogate`, `reflect`, and `swarm` own their own prompts; do not replace them with a generic Poteto wrapper.
 
 Run independent work concurrently when the host supports it. Use file pointers instead of inlining large context. Choose models through the semantic roles configured by **setup-pstack**. When a role is absent or set to `inherit-parent` or `auto`, let the host inherit the parent model. If the host has no delegation capability, run the same bounded passes sequentially.
 
@@ -114,7 +114,7 @@ Comments follow the same rule as the reply. Write them clean as you go; a flat "
 
 ## Playbooks
 
-Your first plan actions are the matched playbook's steps, copied verbatim before task-specific items. The failure mode is reading a playbook and then writing a bespoke plan that drops named steps such as `architect` or the throughput checkpoint. A step you choose not to do stays in the plan with `skip: <reason>`; skipping silently is not allowed. Match the task to a playbook below and copy its steps.
+Write a task-specific plan that preserves applicable workflow requirements. Omit irrelevant steps instead of copying the playbook verbatim or filling the plan with skipped items.
 
 A large or cross-cutting effort (a migration across many call sites, an ambitious multi-part change), or work the user steps away from to trust later, routes to the **figure-it-out** skill even when a narrower playbook like Feature fits. Use **figure-it-out** whenever no bundled playbook fits. It designs a bespoke, rigorous playbook for the task. A standing project-scale program (multi-day, many stacked PRs, a fleet of subagents under one coordinator) routes to **Orchestrate** instead; figure-it-out designs one bespoke run, orchestrate runs the program.
 
@@ -138,6 +138,6 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed Graphite stack the operator lands herself ("autopilot-stack", "stack them, don't ship", "build the stack, I'll land it"). `playbooks/autopilot-stack.md`.
 - **Session pickup.** Resuming or taking over a prior agent's in-flight work from a transcript, cloud-agent URL, or pushed branch. `playbooks/session-pickup.md`.
 - **Pause safely.** Suspending in-flight work cleanly so it can be resumed after an explicit pause, disconnect, host restart, or context compaction. The complement to Session pickup. Full steps: `playbooks/pause-safely.md`.
-- **Multi-phase or multi-PR plan.** Work that spans phases or stacked PRs. `playbooks/multi-phase-plan.md`.
+- **Multi-phase or multi-PR plan.** Use `playbooks/multi-phase-plan.md` to prepare a requested plan or plan an authorized implementation. Stop after planning only for plan-only requests, requested checkpoints, or missing authority.
 - **Worktree and simulator cleanup.** Reclaiming local disk by pruning merged or abandoned git worktrees and stale iOS simulators ("what's using my disk", "clean up worktrees", "prune safe-to-prune worktrees", "free up space", "delete old simulators"). `playbooks/worktree-cleanup.md`.
 - **Opening a PR.** Invoked only when the user requested a PR or the task already authorizes one. `playbooks/opening-a-pr.md`.

@@ -1,6 +1,6 @@
 ---
 name: interrogate
-description: "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Multiple LLM reviewers challenge changes from independent angles."
+description: Run independent LLM reviews when explicitly invoked as interrogate or when the user requests a multi-model review. Use adversarial-code-review for a generic adversarial review.
 ---
 
 # Interrogate

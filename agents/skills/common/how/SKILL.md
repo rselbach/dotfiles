@@ -1,6 +1,6 @@
 ---
 name: how
-description: "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Can critique architecture. Use why for motivation."
+description: Explain code behavior, architecture, or ownership when the user requests a walkthrough or architectural explanation. Use why for historical motivation.
 ---
 
 # How
@@ -57,11 +57,11 @@ Then proceed to Step 3.
 
 ### Step 2b. Direct Explain (simple questions)
 
-Spawn one read-only subagent that explores and explains in one pass, using the configured `how explainer` role when available. If subagents are unavailable, do the pass directly.
+Explore and explain directly in the current thread. A simple question does not require delegation.
 
-The agent does its own exploration with the host's path-search, content-search,
-and file-read tools, then writes the explanation directly. Read
-`references/explainer-prompt.md` for the communication style and output format.
+Use the host's path-search, content-search, and file-read tools as needed,
+then write the explanation. Consult `references/explainer-prompt.md` only
+when additional communication guidance would help.
 Same structure, just no explorer findings as input.
 
 Proceed to Step 4.

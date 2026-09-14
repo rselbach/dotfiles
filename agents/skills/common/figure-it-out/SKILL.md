@@ -11,8 +11,8 @@ Don't reinvent a playbook you already have. A focused single-unit task that matc
 
 ## Start
 
-Create a working checklist whose first item is to read the Principles section
-of the **poteto-mode** skill. Use the host's plan or todo facility when it has
+Create a task-specific checklist. Consult relevant **poteto-mode** principles
+when they help resolve a decision. Use the host's plan or todo facility when it has
 one. Under Pi, keep a concise checklist in chat, use workflow phases during a
 workflow, or write a durable plan file for long work. Then add the phases below.
 
@@ -24,7 +24,7 @@ Ground first, then commit. Don't start the run until you can state:
 - Scope, quantified: rough units and effort, plus the blockers grounding surfaced. Raise them before spending hours, not after fifty doomed commits.
 - The rigor level, biased high. One-way doors and high blast radius get more; reversible low-stakes steps get less. Rigor is gates and artifacts, not "try harder".
 
-Present the framing and tradeoffs before committing to a long run. Reversible work proceeds (the **never-block-on-the-human** principle skill), but a multi-hour run earns one checkpoint.
+Present the framing and tradeoffs, then continue authorized work. Pause only for a plan-only request, a requested checkpoint, or missing authority, not merely because the run is long.
 
 ## Phase B: Design the workflow
 
@@ -51,7 +51,7 @@ Apply the **sequence-verifiable-units** principle skill, verifying each unit bef
 
 ## Phase D: Keep the audit trail
 
-Log the run via the **show-me-your-work** skill, one canonical TSV with a row per decision and per unit, evidence as links. Figure-it-out's work may justify committing the trail so the reviewer can read it in the PR, but commit it only when confidence has to be shown and the user and repository rules authorize version-control changes. Prefer evidence produced by committed scripts so a reviewer can re-run it. The trail plus the diff is what lets the human come back and trust the work.
+For explicitly auditable or substantial unattended work, log the run via **show-me-your-work**, one canonical TSV with a row per decision and per unit, evidence as links. Otherwise retain concise progress and verification notes. Figure-it-out's work may justify committing the trail so the reviewer can read it in the PR, but commit it only when confidence has to be shown and the user and repository rules authorize version-control changes. Prefer evidence produced by committed scripts so a reviewer can re-run it. The trail plus the diff is what lets the human come back and trust the work.
 
 ## Phase E: Verify and hand back
 

@@ -4,8 +4,8 @@
 
 - Workspace: `~/devel`; personal dotfiles live in `~/devel/dotfiles`.
 - For shell, editor, terminal, app, or machine configuration, load the
-  `dotfiles-repo` skill and edit the repo source instead of live files under
-  `$HOME`.
+  `dotfiles-repo` skill. Edit the repo source when it already manages the
+  configuration; otherwise keep the change at its normal live location.
 - Concurrent edits are normal. Refresh context before editing and handoff.
 
 ## Scope and design
@@ -21,6 +21,10 @@
   consult current primary documentation before changing direction.
 - Treat unexpected changes as concurrent work. Preserve them and stop only when
   they prevent a safe change.
+- Write in plain language, with concrete facts and no filler.
+- Reuse authorization already given for the specific action and target. Ask
+  only when authority is missing or scope changes. Complete independent
+  preparation and verification before pausing for approval.
 
 ## Execution and verification
 
@@ -30,6 +34,9 @@
 - Research new dependencies and get approval before adding them.
 - For bugs, reproduce the failure when practical. Run relevant formatters,
   linters, and tests before handoff; report exact failures or untested areas.
+- Format touched files and preserve repository-required checks. Reuse passing
+  results while the code, dependencies, and environment they cover are unchanged.
+  Run live and performance checks when the changed behavior warrants them.
 - Prefer integration or end-to-end tests over mocks when practical.
 - Remove temporary binaries or artifacts created solely for testing.
 - Use Community references for fake data, such as Troy Barnes or Greendale
@@ -45,7 +52,8 @@
 - Use map-based table tests, `tc` for loop cases, and `want` rather than
   `expected`.
 - Add Godoc to exported symbols; use lowercase comments for internal symbols.
-- Run `goimports`, then `golangci-lint run ./...`, after Go changes.
+- Run `goimports` on touched Go files, then lint affected packages. Run
+  `golangci-lint run ./...` when repository policy or cross-package risk warrants it.
 
 ## Swift
 
@@ -103,12 +111,14 @@ when present.
   Git otherwise; never mix them.
 - Prefix new branches and bookmarks with `rselbach/`.
 - Read-only `status`, `diff`, and `log` are safe by default. Branch changes,
-  amend operations, and pushes require user consent.
+  amend operations, and pushes require user consent, which may already have
+  been given for the specific action and target in this task.
 - Never run destructive VCS commands such as `reset --hard`, `clean`, or
   destructive `restore`. Do not delete or rename unexpected files.
 - Avoid manual Git stashes and repository-wide search-and-replace operations.
 - Before editing and handoff, refresh status and diff. Preserve unrelated work.
-- For reviews, fetch first and compare against `main` or `main@origin`. Never
+- For branch or PR reviews, refresh the relevant remote and compare against the
+  intended base. For current-file audits, inspect the requested files. Never
   commit existing uncommitted changes unless explicitly asked.
 - Never add yourself as co-author or include internal thread or agent IDs.
 - Commit messages need a concise subject and one or two short paragraphs that

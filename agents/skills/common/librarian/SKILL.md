@@ -1,9 +1,9 @@
 ---
 name: librarian
-description: "Cache and refresh remote git repositories under ~/.cache/checkouts/<host>/<org>/<repo> so future references can reuse a local copy. Use this skill when the user points you to a remote git repository as reference or you encountered a remote git repo through other means."
+description: Cache and refresh remote repositories when a task needs local inspection of their source.
 ---
 
-Use this skill when the user points you to a remote git repository (GitHub/GitLab/Bitbucket URLs, `git@...`, or `owner/repo` shorthand).
+Use this skill when local source inspection of a remote repository is needed. An incidental repository link or a PR that can be read with `gh` does not require a checkout.
 
 The goal is to keep a reusable local checkout that is:
 

@@ -1,10 +1,13 @@
 ---
 name: hashicorp-pull-request
-description: Creates and updates GitHub pull requests with the required HashiCorp ticket title and PR body. Use on this host when drafting, opening, or editing a pull request.
+description: Create or update pull requests for repositories that use the HashiCorp ticket title and PR template.
 compatibility: Requires the gh CLI and a GitHub repository.
 ---
 
 # HashiCorp pull requests
+
+Check the repository instructions and PR template before applying this format.
+Personal repositories on this host do not inherit HashiCorp requirements.
 
 ## Required format
 

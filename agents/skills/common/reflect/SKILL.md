@@ -10,6 +10,9 @@ Mine the current work for durable lessons, then propose where each lesson belong
 ## When to invoke
 
 - The user says "reflect" or explicitly invokes this skill.
+
+After invocation, look for lessons such as:
+
 - A complex task landed and its non-obvious recipe is worth keeping.
 - The agent hit dead ends before finding a generalizable path.
 - The user corrected the approach.

@@ -53,10 +53,15 @@ Prefix every new branch or bookmark with `rselbach/`.
 
 ## When to Use What
 
+The mutation recipes below apply only when the task authorizes creating,
+describing, or rewriting changes. Loading this skill or inspecting status does
+not authorize those operations. Preserve unrelated work and follow repository
+approval rules, including for recovery commands.
+
 | Situation                   | Do This                                                   |
 | --------------------------- | --------------------------------------------------------- |
-| Starting new work           | `jj new -m "what I'm trying"`                             |
-| Forgot to start with jj new | `jj describe -m "what I'm doing"` (do this immediately)   |
+| Creating an authorized change | `jj new -m "what I'm trying"`                          |
+| Describing an owned change when authorized | `jj describe -m "what I'm doing"`          |
 | Work is done, move on       | `jj new -m "next task"`                                   |
 | Annotate what you did       | `jj describe -m "feat: auth"`                             |
 | Broke something             | `jj op log` → `jj op restore <id>`                        |
@@ -66,14 +71,14 @@ Prefix every new branch or bookmark with `rselbach/`.
 
 ## AI Coding Pattern
 
-**Always have a description.** The working copy should never stay "(no description set)".
+Give changes meaningful descriptions when creating or describing them is authorized. Do not create or describe a change merely because a task started.
 
 ```bash
-# BEFORE starting work - declare intent
+# When authorized, create a new change
 jj new -m "feat: add user logout button"
 # Now implement... jj tracks everything automatically
 
-# FORGOT to start with jj new? Describe immediately
+# Describe an owned change when authorized
 jj describe -m "feat: what I'm working on"
 ```
 

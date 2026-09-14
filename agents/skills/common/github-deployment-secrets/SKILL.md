@@ -27,6 +27,7 @@ Map the item fields to GitHub Actions secrets as follows:
 | `apple_account_id` | `APPLE_ID` |
 | `app_specific_password` | `APPLE_APP_SPECIFIC_PASSWORD` |
 | `apple_team_id` | `APPLE_TEAM_ID` |
+| `apple_signing_identity` | `APPLE_SIGNING_IDENTITY` |
 | `p12_certificate_base64` | `MACOS_CERTIFICATE_P12_BASE64` |
 | `p12_certificate_password` | `MACOS_CERTIFICATE_PASSWORD` |
 | `sparkle_eddsa_private_key` | `SPARKLE_EDDSA_PRIVATE_KEY` |
@@ -39,10 +40,18 @@ The `sparkle_eddsa_public_key` field is not a GitHub secret. Add its value to
 the application's `Info.plist` as `SUPublicEDKey`. The public key is safe to
 commit, but read it only when the task requires configuring Sparkle.
 
-Do not invent missing values. A repository workflow may additionally require a
-signing identity, ephemeral keychain password, GitHub token, or
-application-specific configuration. Identify those separately from the
-workflow and ask the user where they are stored.
+The `apple_signing_identity` field contains the full Developer ID Application
+identity used by `codesign`.
+
+Use the secret names required by the target workflow. For example, LlamaProxy
+uses `APPLE_PASSWORD`, `APPLE_CERTIFICATE`, and `APPLE_CERTIFICATE_PASSWORD`
+instead of `APPLE_APP_SPECIFIC_PASSWORD`, `MACOS_CERTIFICATE_P12_BASE64`, and
+`MACOS_CERTIFICATE_PASSWORD`, respectively. The source fields are unchanged.
+
+Do not invent missing values. A repository workflow may additionally require an
+ephemeral keychain password, GitHub token, or application-specific configuration.
+Identify those separately from the workflow and ask the user where they are
+stored.
 
 ## Workflow
 
@@ -55,7 +64,9 @@ workflow and ask the user where they are stored.
 4. For authorized GitHub configuration, run
    `scripts/configure-macos-secrets.sh OWNER/REPO`. For a workflow that signs
    Sparkle updates, add `--sparkle`. The script streams each value from
-   1Password directly into `gh secret set`.
+   1Password directly into `gh secret set`. If the workflow uses different
+   secret names, adapt the mappings before running the helper or stream the
+   required fields into `gh secret set` individually.
 5. Compare the configured names with the workflow again and report any
    repo-specific secrets that remain.
 

@@ -30,6 +30,7 @@ type UsageTotals = {
 	cacheHitRate?: number;
 };
 
+const TOKEN_RATE_WINDOW_MS = 3_000;
 const SPINNER_FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 const ANSI_CSI_PATTERN = /\x1b\[[0-?]*[ -/]*[@-~]/g;
 
@@ -153,6 +154,10 @@ export default function denseUiExtension(pi: ExtensionAPI) {
 	let activeTui: TUI | undefined;
 	let footerData: FooterData | undefined;
 	let usageCache: { entryCount: number; totals: UsageTotals } | undefined;
+	let tokenStream:
+		| { startedAt: number; characters: number; samples: { at: number; characters: number }[] }
+		| undefined;
+	let tokenRateTotals = { characters: 0, elapsedMs: 0 };
 
 	const separator = (theme: Theme) => theme.fg("borderMuted", " │ ");
 
@@ -204,6 +209,28 @@ export default function denseUiExtension(pi: ExtensionAPI) {
 		return totals;
 	};
 
+	const finishTokenStream = () => {
+		if (!tokenStream) return;
+
+		tokenRateTotals.characters += tokenStream.characters;
+		// Use the live display's minimum measurement interval for short bursts.
+		tokenRateTotals.elapsedMs += Math.max(250, performance.now() - tokenStream.startedAt);
+		tokenStream = undefined;
+	};
+
+	const getTokenRate = (): number | undefined => {
+		if (!tokenStream) return undefined;
+
+		const now = performance.now();
+		const elapsed = Math.min(now - tokenStream.startedAt, TOKEN_RATE_WINDOW_MS);
+		if (elapsed < 250) return undefined;
+
+		tokenStream.samples = tokenStream.samples.filter((sample) => sample.at > now - TOKEN_RATE_WINDOW_MS);
+		const characters = tokenStream.samples.reduce((total, sample) => total + sample.characters, 0);
+		// Providers generally report usage only at completion; estimate from streamed content.
+		return characters / 4 / (elapsed / 1_000);
+	};
+
 	const formatUsage = (theme: Theme, ctx: ExtensionContext): string => {
 		const usage = getUsageTotals(ctx);
 		const parts = [
@@ -214,6 +241,13 @@ export default function denseUiExtension(pi: ExtensionAPI) {
 		];
 		if (usage.cacheHitRate !== undefined) parts.push(`CH${usage.cacheHitRate.toFixed(1)}%`);
 		parts.push(`$${usage.cost.toFixed(3)}`);
+		const tokenRate = getTokenRate();
+		if (tokenRate !== undefined) {
+			parts.push(`${tokenRate.toFixed(0)} tok/s`);
+		} else if (tokenRateTotals.elapsedMs > 0) {
+			const average = tokenRateTotals.characters / 4 / (tokenRateTotals.elapsedMs / 1_000);
+			parts.push(`avg ${average.toFixed(0)} tok/s`);
+		}
 		return theme.fg("muted", parts.join(" "));
 	};
 
@@ -344,6 +378,8 @@ export default function denseUiExtension(pi: ExtensionAPI) {
 	};
 
 	pi.on("session_start", (_event, ctx) => {
+		tokenStream = undefined;
+		tokenRateTotals = { characters: 0, elapsedMs: 0 };
 		isWorking = !ctx.isIdle();
 		invalidateUsage();
 		if (enabled) setDenseUi(ctx);
@@ -356,12 +392,30 @@ export default function denseUiExtension(pi: ExtensionAPI) {
 	});
 
 	pi.on("agent_settled", () => {
+		finishTokenStream();
 		isWorking = false;
 		stopSpinner();
 		requestRender();
 	});
 
-	pi.on("message_end", () => {
+	pi.on("message_start", (event) => {
+		if (event.message.role === "assistant") tokenStream = undefined;
+	});
+
+	pi.on("message_update", (event) => {
+		const update = event.assistantMessageEvent;
+		if (update.type !== "text_delta" && update.type !== "thinking_delta" && update.type !== "toolcall_delta") return;
+		if (update.delta.length === 0) return;
+
+		const now = performance.now();
+		tokenStream ??= { startedAt: now, characters: 0, samples: [] };
+		tokenStream.characters += update.delta.length;
+		tokenStream.samples = tokenStream.samples.filter((sample) => sample.at > now - TOKEN_RATE_WINDOW_MS);
+		tokenStream.samples.push({ at: now, characters: update.delta.length });
+	});
+
+	pi.on("message_end", (event) => {
+		if (event.message.role === "assistant") finishTokenStream();
 		invalidateUsage();
 		requestRender();
 	});
@@ -381,6 +435,7 @@ export default function denseUiExtension(pi: ExtensionAPI) {
 	pi.on("session_info_changed", requestRender);
 
 	pi.on("session_shutdown", () => {
+		tokenStream = undefined;
 		stopSpinner();
 		activeTui = undefined;
 		footerData = undefined;

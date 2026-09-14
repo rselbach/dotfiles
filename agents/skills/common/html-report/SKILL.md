@@ -1,6 +1,6 @@
 ---
 name: html-report
-description: "Create substantive reviews, audits, assessments, investigations, findings, status reports, and similar deliverables as polished self-contained HTML. Use whenever the user asks to review something, generate or write a report, audit a system, summarize findings, assess quality or risk, or produce a document-like analysis. Save the HTML in a fresh temporary directory and open it in a browser before handoff. Skip for brief inline answers or when the user explicitly requests another format."
+description: Create a self-contained HTML report when the user requests HTML or a standalone shareable report. Honor a requested alternative format.
 ---
 
 # HTML report

@@ -3,7 +3,7 @@ Purpose: document build, lint, style, and editing rules for agents.
 Tech Stack: Neovim config in Lua; no Go/TS backend or test harness present.
 Build: none (config only). Do not add build steps.
 Plugin manager: use :Lazy sync (install/update), :Lazy check, :Lazy restore.
-Lint/Format: run `stylua .` (config in stylua.toml: 2-space, width 120).
+Lint/Format: run `stylua` on touched Lua files (config in stylua.toml: 2-space, width 120).
 Import/style: keep `local` requires at top; group stdlib, then plugins, then local modules.
 Module naming: use snake_case file names under lua/, return tables from plugin specs.
 Indentation: 2 spaces; do not use tabs (enforced by stylua).
@@ -17,4 +17,4 @@ Testing: no test suite; if adding tests, prefer plenary (`:lua require'plenary.t
 Single-test example cmd: `nvim --headless -c "PlenaryBustedDirectory tests/file_spec.lua {minimal_init='tests/minimal_init.vim'}"`.
 Do not introduce dependencies without user approval; keep repository minimal.
 Cursor/Copilot rules: none present; copilot configured in plugins/copilot.lua (respect existing keymaps).
-Commit scope: only touch relevant files; run stylua before proposing commits.
+Commit scope: only touch relevant files; format touched Lua files before proposing commits.

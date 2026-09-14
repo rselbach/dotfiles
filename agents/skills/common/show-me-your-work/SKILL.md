@@ -1,11 +1,11 @@
 ---
 name: show-me-your-work
-description: "Keep a reviewable TSV decision trail for autonomous, multi-phase, or unattended work. Record one row per decision or checkpoint with its reason, evidence, and result. Keep the trail local unless version-control rules allow committing it for review."
+description: Keep a reviewable TSV decision trail for explicitly auditable or substantial unattended work. Keep it local unless committing it is authorized.
 ---
 
 # Show me your work
 
-For work a human reviews after the fact, keep one decision trail that explains
+For explicitly auditable or substantial unattended work, keep one decision trail that explains
 what happened without requiring the transcript. Record concise rationale and
 observable evidence, not private reasoning or transcript excerpts.
 
@@ -101,17 +101,18 @@ match it.
 
 ## Independent review
 
-Before the final handoff, ask an independent reviewer to inspect the trail and
-its evidence when the host supports delegated review. Use the host adapter for
-the available mechanism. If delegation is unavailable, perform a separate
-skeptical pass yourself. Check for:
+For explicitly auditable or substantial unattended work, ask an independent
+reviewer to inspect the trail before handoff when delegated review is available.
+For an optional log on ordinary work, the self-audit above is sufficient unless
+independent review was requested. Use the host adapter for delegated review;
+if unavailable, perform a separate skeptical pass yourself. Check for:
 
 - weak or missing evidence;
 - verification claimed without artifact proof;
 - premature, scope-expanding, or symptom-level decisions;
 - gaps the user could miss on a casual skim.
 
-The final handoff includes an `Independent review` section. Identify the
+When independent review applies, the final handoff includes an `Independent review` section. Identify the
 reviewer by agent label or model when known. List each flag with its row and
 evidence, or say `No flags`.
 

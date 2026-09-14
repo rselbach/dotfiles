@@ -31,21 +31,12 @@ explicitly asks to manage it there.
 
 ## How to Find the Real File to Edit
 
-1. Read `~/devel/dotfiles/install.py`.
-2. Find the relevant top-level config unit in `~/devel/dotfiles/`.
-3. Read that unit's `.config.toml` when present.
-4. Edit the repo file that will be linked or rendered, not the installed destination.
-
-Rules to remember:
-
-- Each top-level, non-hidden directory is a config unit.
-- Without a `.config.toml`, `./<name>` is symlinked to `~/.config/<name>`.
-- `target = "..."` changes the whole-directory destination.
-- If any `[[links]]`, `[[downloads]]`, or `[[repositories]]` entries exist, the default whole-directory link is disabled.
-- `[[links]]` can target paths outside `~/.config` and can be filtered by `os` or `hosts`.
-- `[[repositories]]` clones a Git `url` to `dst` at a branch, tag, or commit SHA given by `ref`.
-- `src = "*"` expands inside the config unit; `<name>` in `dst` becomes the matched basename.
-- `secrets = true` means the destination is rendered from secrets data; edit the repo template source, not the rendered file.
+1. Trace the requested path to its managed source using existing links.
+2. When ownership, rendering, or installation behavior is unclear, consult the
+   unit's `.config.toml` and [installer reference](references/installer.md).
+3. Read relevant parts of `~/devel/dotfiles/install.py` only when needed to
+   resolve remaining questions.
+4. Edit the repo source, not an installed or rendered destination.
 
 ## Editing Rules
 

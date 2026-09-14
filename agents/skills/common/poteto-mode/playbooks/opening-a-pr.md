@@ -6,7 +6,7 @@ Use this playbook only when the user requested a pull request or the current tas
 
 **Commits.** Create commits only when authorized. Keep them small, ordered, and independently understandable. Do not rewrite published history or amend work you do not own.
 
-**Review.** Run **no-comments** before review. Use **technical-writing** for the PR title, description, and any commit body, then apply **unslop**. Run **interrogate** when the change is substantial or contested.
+**Review.** Use **no-comments** only for an explicit comment-review request, read-only unless editing is requested. Use **technical-writing** for the PR title, description, and any commit body, then apply **unslop**. Run **interrogate** when the change is substantial or contested.
 
 **Titles.** Use the repository's title convention. When none exists, use Conventional Commits in the form `type(scope): subject`, with a short imperative subject and no trailing period.
 

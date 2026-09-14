@@ -2,13 +2,13 @@
 
 **You own the design. Plan, review, verify.** Delegate implementation; stay in the lead.
 
-1. `how` over the affected subsystem.
-2. `architect` for parallel design exploration. Skipping stays as `architect skipped: <reason>`; do not fold the design decision silently into implementation.
-3. Write the throughput checkpoint as four todo items. A dimension that genuinely does not apply (single file, no fan-out) keeps its item with `n/a: <reason>` rather than being dropped:
+1. Read the affected code. Use `how` for an unresolved architectural question.
+2. Use `architect` when introducing or substantially reshaping an architectural boundary with multiple viable designs.
+3. Plan applicable dependencies and independent workstreams. Omit irrelevant dimensions:
    - **Blocking first steps.** Gates run before fan-out.
    - **Independent workstreams.** Disjoint files, services, or layers parallelize. Shared writes serialize.
    - **Shared mutable state.** Default to splitting the target (the **separate-before-serializing-shared-state** principle skill). Serialize only for real invariants.
-   - **Smallest safe decomposition.** If one worker is best, name why.
+   - **Smallest safe decomposition.** Use one worker when the code is tightly coupled.
 4. Delegate code-writing with the configured `feature` role when the host supports it. Give the worker exact paths, the named data shape and organizing structure, and success criteria; review its diff yourself. When several valid implementation shapes exist, use **arena**. Without subagents, implement directly from the same scoped brief and perform a separate review pass. Comments follow the parent skill. Re-ground against source for upstream-derived files, port shared-primitive improvements to every consumer, and verify each. Commit only when the task and repository workflow authorize it.
 5. Verify on the matching surface. "Inconclusive" or wrong-surface is not a pass; flag it.
 6. Rebase into small, ordered commits; stack follow-ups.
