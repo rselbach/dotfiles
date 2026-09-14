@@ -1,6 +1,6 @@
 {
   "lastChangelogVersion": "0.85.1",
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "low",
   "hideThinkingBlock": false,
   "packages": [
     "npm:pi-web-access",
@@ -12,6 +12,6 @@
     "npm:pi-terminal-mux"
   ],
   "theme": "dark",
-  "defaultProvider": "ollama-local",
-  "defaultModel": "qwen3.8:27b-mlx"
+  "defaultProvider": "github-copilot",
+  "defaultModel": "gpt-6-astra"
 }
