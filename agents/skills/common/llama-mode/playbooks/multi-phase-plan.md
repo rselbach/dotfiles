@@ -7,7 +7,7 @@ Prepare a plan for work spanning phases or stacked PRs. For a plan-only request,
 3. Explore with bounded subagents when the host supports them, using the semantic roles from the Subagents section (the **guard-the-context-window** principle skill). Each returns file pointers, conventions, test commands, and entry points. No inlined dumps.
 4. Copy the skeleton below into the plan file and fill every placeholder. Unless the operator names a path, write the file under the agent store's `docs/`. Keep the main sections and PR sub-blocks in order. Mark an inapplicable verification block `None. <reason>`; do not invent checks to fill it. One section per PR. One PR is one change with its own evidence (the **sequence-verifiable-units** principle skill). Name the execution playbook in **How to read this**. Pick between `playbooks/autopilot-full.md` and `playbooks/autopilot-stack.md` per the rule at the end of `playbooks/autopilot-stack.md`. A standing program takes `playbooks/orchestrate.md`.
 5. Apply **technical-writing** in full, then **unslop**. The body is one Diátaxis mode, how-to. Appendices hold explanation and reference. Two rules apply verbatim. "i dont want any abstract metaphors" and "write like hemingway". Each heading states the task or finding. No long dashes. No mid-sentence colons.
-6. Run `node .agents/skills/poteto-mode/scripts/check-plan.mjs <plan.md>` and fix every line it prints (the **encode-lessons-in-structure** principle skill). It checks the plan structure, evidence for applicable checks, and punctuation.
+6. Run `node .agents/skills/llama-mode/scripts/check-plan.mjs <plan.md>` and fix every line it prints (the **encode-lessons-in-structure** principle skill). It checks the plan structure, evidence for applicable checks, and punctuation.
 7. Present the plan path and validation results. Stop for a plan-only request, a requested checkpoint, or missing authority. Otherwise continue under the named execution playbook using existing authorization.
 
 **Verification.** Preserve repository-required checks and select additional checks for the changed behavior. Reuse passing results while their code, dependencies, and environment remain unchanged. Live checks apply to runtime behavior; performance checks apply to performance-sensitive changes. Mark inapplicable blocks `None. <reason>`. Use as many isolated lanes as the concrete scenarios require, each with an artifact and pass predicate. Applicable performance checks name the metric, probe, baseline, and failure threshold. Preserve requested interaction-review gates.
@@ -23,7 +23,7 @@ Prepare a plan for work spanning phases or stacked PRs. For a plan-only request,
 
 One box is one unit of work. Every box names the evidence that checks it. A nested box is a sub-step of the box above it. Check a box only when its evidence exists, a file, a log line, a screenshot, a test run, or a SHA. The body is a how-to. The appendices explain and record.
 
-The program runs `.agents/skills/poteto-mode/playbooks/<execution playbook>.md`. <Who merges, and which PR ids are the operator's items that stop at merge-ready.>
+The program runs `.agents/skills/llama-mode/playbooks/<execution playbook>.md`. <Who merges, and which PR ids are the operator's items that stop at merge-ready.>
 
 Run repository-required checks and checks relevant to the changed behavior. Reuse valid results for unchanged code.
 
@@ -34,10 +34,10 @@ Run repository-required checks and checks relevant to the changed behavior. Reus
 - [ ] Present the protocol and plan. Continue within existing authorization; pause only for a plan-only request, a requested checkpoint, or missing authority.
 - [ ] When authorized, record a durable program objective through the host's supported mechanism with this exact text. "<The plan path, the PR ids in order, the verification rule, who merges, and the done condition.>"
 - [ ] Read relevant guidance from trunk when needed. Re-read it after a source change or lost context, not at every tick.
-  - [ ] `git show origin/main:.agents/skills/poteto-mode/playbooks/<execution playbook>.md`
+  - [ ] `git show origin/main:.agents/skills/llama-mode/playbooks/<execution playbook>.md`
   - [ ] `git show origin/main:.agents/skills/swarm/SKILL.md`
   - [ ] `git show origin/main:<control skill path>`
-  - [ ] `git show origin/main:.agents/skills/poteto-mode/playbooks/opening-a-pr.md`
+  - [ ] `git show origin/main:.agents/skills/llama-mode/playbooks/opening-a-pr.md`
   - [ ] `git show origin/main:.agents/skills/<each other leaf skill the program uses>`
 - [ ] Arm the 30-minute audit tick through the current host's recurring-monitoring mechanism. Never leave the cadence to memory.
 - [ ] Use this tick prompt, verbatim. "Consult the execution playbook and durable program objective already in context. Refresh changed or missing guidance. Audit the operation against both and fix drift in this tick. Probe every active lane and judge progress by externalized artifacts only. Stand down a stuck lane and dispatch its replacement now. Then send the operator a status message, whether or not anything changed, with the queue table of PR, owner, state, and head SHA, the verdicts since the last tick, what merged, open operator gates, and blockers."

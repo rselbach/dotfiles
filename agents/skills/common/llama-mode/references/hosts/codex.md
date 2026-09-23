@@ -1,6 +1,6 @@
 # Codex host adapter
 
-Use this reference only when pstack runs under Codex.
+Use this reference only when llama-stack runs under Codex.
 
 ## Skills
 
@@ -9,13 +9,13 @@ Codex discovers personal skills under `$HOME/.agents/skills` and repository skil
 Resolve bundled scripts relative to the `SKILL.md` Codex loaded. Do not assume the current repository contains the skill. For a standard personal installation, the worktree audit command is:
 
 ```bash
-bash "$HOME/.agents/skills/poteto-mode/scripts/worktree-audit.sh" \
+bash "$HOME/.agents/skills/llama-mode/scripts/worktree-audit.sh" \
   "$(git rev-parse --show-toplevel)"
 ```
 
 ## Delegation
 
-Codex can delegate after a direct request or when an applicable `AGENTS.md` or skill asks for subagents. Use bounded role prompts and the semantic model roles from the repository's Codex pstack configuration. A custom `.codex/agents` definition is optional and is not required by pstack.
+Codex can delegate after a direct request or when an applicable `AGENTS.md` or skill asks for subagents. Use bounded role prompts and the semantic model roles from the repository's Codex llama-stack configuration. A custom `.codex/agents` definition is optional and is not required by llama-stack.
 
 ## Long-running work
 
@@ -23,4 +23,4 @@ Codex does not provide a `/loop` command. Use the recurring-monitoring or schedu
 
 ## Sessions
 
-For a known prior session, prefer `/resume`, `codex resume`, or `codex fork`. For synthesis across sessions, invoke **recall** and follow its Codex session adapter. Do not make Poteto playbooks parse Codex JSONL directly.
+For a known prior session, prefer `/resume`, `codex resume`, or `codex fork`. For synthesis across sessions, invoke **recall** and follow its Codex session adapter. Do not make llama playbooks parse Codex JSONL directly.

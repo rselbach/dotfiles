@@ -1,16 +1,16 @@
 ---
-name: setup-pstack
-description: Configure the models an agent host uses for pstack roles. Detect available models, preserve other hosts' settings, and update the current host's pstack block in AGENTS.md. Use when explicitly invoked or when changing pstack model choices.
+name: setup-llama-stack
+description: Configure the models an agent host uses for llama-stack roles. Detect available models, preserve other hosts' settings, and update the current host's llama-stack block in AGENTS.md. Use when explicitly invoked or when changing llama-stack model choices.
 ---
 
-# Setup pstack
+# Setup llama-stack
 
-Configure pstack's semantic roles for the current agent host. Skills refer to roles such as `feature`, `how critics`, and `arena runners`; they do not hardcode vendor model names.
+Configure llama-stack's semantic roles for the current agent host. Skills refer to roles such as `feature`, `how critics`, and `arena runners`; they do not hardcode vendor model names.
 
 Keep the mapping in the repository's `AGENTS.md`. Use a host-specific heading so several agents can coexist without overwriting each other:
 
 ```markdown
-## <Host> pstack model configuration
+## <Host> llama-stack model configuration
 
 feature, refactoring: <model or inherit-parent>
 bug-fix: <model or inherit-parent>
@@ -29,7 +29,7 @@ Never copy defaults from another host. `inherit-parent` and `auto` both mean to 
 
 ### 2. Load current state
 
-Read the nearest applicable `AGENTS.md`. Find the `<Host> pstack model configuration` section, if present. Preserve every other instruction and every other host's section.
+Read the nearest applicable `AGENTS.md`. Find the `<Host> llama-stack model configuration` section, if present. Preserve every other instruction and every other host's section.
 
 Start missing roles at `inherit-parent`. Existing confirmed values remain the current choices.
 
@@ -86,8 +86,8 @@ python3 scripts/render-opencode-agents.py \
 
 The output must be the source directory managed by the user's configuration,
 not an installed symlink destination. The generated names are
-`pstack-worker-<provider-model-slug>` and
-`pstack-reviewer-<provider-model-slug>`. Use worker agents for implementation,
+`llama-stack-worker-<provider-model-slug>` and
+`llama-stack-reviewer-<provider-model-slug>`. Use worker agents for implementation,
 tooling, prose, and candidate-runner roles. Use reviewer agents for exploration,
 explanation, investigation, synthesis, judgment, cross-judging, architecture,
 and review roles. `inherit-parent` and `auto` use the ordinary `general` or

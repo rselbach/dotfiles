@@ -22,7 +22,7 @@ TOOL="<skill-directory>/apple-mail.sh"
 # Search emails
 $TOOL search --after 2026-02-01 --has-attachment
 $TOOL search --body "invoice" --mailbox "INBOX" --unread
-$TOOL search --to "rselbach@" --before 2025-12-31
+$TOOL search --to "llama@" --before 2025-12-31
 
 # Show message metadata, recipients, attachments, and summary
 $TOOL info 783660

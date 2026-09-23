@@ -44,9 +44,9 @@ jj squash -m "message"
 
 ## Bookmark Names
 
-Prefix every new branch or bookmark with `rselbach/`.
+Prefix every new branch or bookmark with `llama/`.
 
-- Correct: `rselbach/feature-x`
+- Correct: `llama/feature-x`
 - Incorrect: `feature-x`
 - Existing shared bookmarks such as `main` or `master` keep their repository
   names, but do not move them unless the user explicitly asks.
@@ -115,22 +115,22 @@ jj abandon <change-ids>              # Remove empty ones
 jj describe -m "feat: what you did"
 
 # 3. Create a prefixed bookmark and push it
-jj bookmark create rselbach/feature-x -r @
-jj git push --bookmark rselbach/feature-x
+jj bookmark create llama/feature-x -r @
+jj git push --bookmark llama/feature-x
 ```
 
 **For feature branches (new):**
 
 ```bash
-jj bookmark create rselbach/feature-x -r @
-jj git push --bookmark rselbach/feature-x
+jj bookmark create llama/feature-x -r @
+jj git push --bookmark llama/feature-x
 ```
 
 **For feature branches (updating):**
 
 ```bash
-jj bookmark set rselbach/feature-x -r @
-jj git push --bookmark rselbach/feature-x
+jj bookmark set llama/feature-x -r @
+jj git push --bookmark llama/feature-x
 ```
 
 Teammates see clean git. They don't know you used jj.

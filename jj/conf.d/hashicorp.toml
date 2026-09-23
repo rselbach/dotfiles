@@ -9,3 +9,13 @@ name = "Roberto Selbach"
 behavior = "own"
 backend = "gpg"
 key = "0ECFD015DAF6B114"
+
+#[revsets]
+#log = "@ | ancestors(trunk()..@, 2) | trunk()"
+
+[aliases]
+log-all = [
+  "log",
+  "-r",
+  "present(@) | ancestors(immutable_heads().., 2) | trunk()",
+]

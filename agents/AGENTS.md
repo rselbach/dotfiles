@@ -132,13 +132,13 @@ when present.
 - Report relevant format, lint, build, and test commands and their results.
 - Call out remaining TODOs, uncertainties, or follow-up work.
 
-## Codex pstack model configuration
+## Codex llama-stack model configuration
 
 Ignore this section if your are not Codex.
 
-Use these per-role model overrides only when running pstack on Codex. Each
-pstack SKILL.md names its defaults in a Models section; the values here override
-those defaults. Delete a line to fall back to the skill default. A value of
+Use these per-role model overrides only when running llama-stack on Codex. Each
+llama-stack SKILL.md names its defaults in a Models section; the values here
+override those defaults. Delete a line to fall back to the skill default. A value of
 `inherit-parent` or `auto` runs that role on the parent session's model (the
 Agent call omits `model`); an alias entry in a panel list still counts toward
 that panel's fan-out.
@@ -162,11 +162,11 @@ swarm workers: gpt-5.6-terra
 architect runners: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
 interrogate reviewers: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
 
-## OpenCode pstack model configuration
+## OpenCode llama-stack model configuration
 
 Ignore this section if you are not OpenCode.
 
-OpenCode Task selects an agent rather than a model. Its pstack adapter derives
+OpenCode Task selects an agent rather than a model. Its llama-stack adapter derives
 generated worker and reviewer agent names from these provider-qualified model
 IDs; an entry in a panel list still counts toward that panel's fan-out.
 

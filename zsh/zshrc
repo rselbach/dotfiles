@@ -19,3 +19,10 @@ fi
 unset _zshrc_dir
 
 export PATH="/Users/rselbach/.local/bin:$PATH"
+
+# bun completions
+[ -s "/Users/rselbach/.bun/_bun" ] && source "/Users/rselbach/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

@@ -45,7 +45,7 @@ Mining misses intent that has not appeared in prior work. Prefer the host's stru
 
 Group only the combined signals that earn a section. Common sections include response style, autonomy, understanding before implementation, subagents, prose and code discipline, review and verification, process, and skill-authoring habits.
 
-Read **poteto-mode** for granularity, not content. The user's rules are not Poteto's rules.
+Read **llama-mode** for granularity, not content. The user's rules are not llama's rules.
 
 ### 4. Draft the skill
 

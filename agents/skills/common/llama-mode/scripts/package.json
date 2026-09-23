@@ -1,5 +1,5 @@
 {
-  "name": "@pstack/poteto-mode-tools",
+  "name": "@llama-stack/llama-mode-tools",
   "private": true,
   "type": "module",
   "scripts": {

@@ -1,6 +1,6 @@
 # Pi host adapter
 
-Use this reference only when pstack runs under Pi. Detect Pi through
+Use this reference only when llama-stack runs under Pi. Detect Pi through
 `AI_AGENT=pi` or `PI_CODING_AGENT=true` when the host is not otherwise clear.
 
 ## Skills
@@ -33,7 +33,7 @@ session:
 - If neither tool is available, run the same passes sequentially and keep their
   findings separate.
 
-Use model slugs from the Pi pstack block in `AGENTS.md` when the active tool
+Use model slugs from the Pi llama-stack block in `AGENTS.md` when the active tool
 supports model selection. Omit the model for `inherit-parent` or `auto`.
 
 Pi's one-shot delegated tools do not provide persistent workers that can be

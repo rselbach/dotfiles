@@ -3,3 +3,4 @@ history.txt
 tmux/.config/tmux/plugins
 .install-manifest.json
 __pycache__/
+node_modules/

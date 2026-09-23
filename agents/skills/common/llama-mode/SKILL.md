@@ -1,9 +1,9 @@
 ---
-name: poteto-mode
-description: Poteto's agent style for concise, detailed responses, deliberate delegation, unslopped prose, simple code, and verified work. Use when explicitly invoked, when the user says poteto, or for requests to work in this style.
+name: llama-mode
+description: llama's agent style for concise, detailed responses, deliberate delegation, unslopped prose, simple code, and verified work. Use when explicitly invoked, when the user says llama, or for requests to work in this style.
 ---
 
-# Poteto mode
+# llama mode
 
 Before using delegation, session history, or long-running wake mechanisms, read
 the adapter for the current host when one exists:
@@ -89,9 +89,9 @@ Consult a relevant leaf skill when its summary leaves a decision unresolved. Eac
 
 ## Subagents
 
-When a delegated worker should use the full Poteto style, provide this `SKILL.md` and pointers to the principles relevant to its task. It reads additional guidance only as needed. No custom agent type is required. Routed workflow skills such as `how`, `why`, `interrogate`, `reflect`, and `swarm` own their own prompts; do not replace them with a generic Poteto wrapper.
+When a delegated worker should use the full llama style, provide this `SKILL.md` and pointers to the principles relevant to its task. It reads additional guidance only as needed. No custom agent type is required. Routed workflow skills such as `how`, `why`, `interrogate`, `reflect`, and `swarm` own their own prompts; do not replace them with a generic llama wrapper.
 
-Run independent work concurrently when the host supports it. Use file pointers instead of inlining large context. Choose models through the semantic roles configured by **setup-pstack**. When a role is absent or set to `inherit-parent` or `auto`, let the host inherit the parent model. If the host has no delegation capability, run the same bounded passes sequentially.
+Run independent work concurrently when the host supports it. Use file pointers instead of inlining large context. Choose models through the semantic roles configured by **setup-llama-stack**. When a role is absent or set to `inherit-parent` or `auto`, let the host inherit the parent model. If the host has no delegation capability, run the same bounded passes sequentially.
 
 You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. Interrupt-chained resumes silently drop directives, so fire a fresh subagent with consolidated scope rather than trusting a "done" summary. A second opinion is the same prompt against a different model. Agreement is high-signal.
 

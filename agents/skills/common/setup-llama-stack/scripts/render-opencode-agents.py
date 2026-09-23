@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render model-bound OpenCode agents used by pstack."""
+"""Render model-bound OpenCode agents used by llama-stack."""
 
 from __future__ import annotations
 
@@ -11,8 +11,8 @@ from pathlib import Path
 
 CAPABILITIES = {
     "worker": {
-        "description": "Focused pstack implementation agent bound to {model}",
-        "prompt": """You are a focused pstack execution agent.
+        "description": "Focused llama-stack implementation agent bound to {model}",
+        "prompt": """You are a focused llama-stack execution agent.
 
 Complete the assigned task within its stated scope. You may edit files and run
 verification when the task calls for it. Do not delegate to another agent.
@@ -20,8 +20,8 @@ Return the result, evidence, and any unresolved blocker concisely.
 """,
     },
     "reviewer": {
-        "description": "Read-only pstack analysis agent bound to {model}",
-        "prompt": """You are a read-only pstack analysis and review agent.
+        "description": "Read-only llama-stack analysis agent bound to {model}",
+        "prompt": """You are a read-only llama-stack analysis and review agent.
 
 Investigate the assigned question using repository evidence. Never modify files
 and never delegate to another agent. Return specific findings with file and line
@@ -76,13 +76,13 @@ def expected_files(models: list[str]) -> dict[str, str]:
             )
         slugs[slug] = model
         for capability in CAPABILITIES:
-            name = f"pstack-{capability}-{slug}.md"
+            name = f"llama-stack-{capability}-{slug}.md"
             files[name] = render_agent(model, capability)
     return files
 
 
 def check(output: Path, files: dict[str, str]) -> int:
-    current = {path.name: path for path in output.glob("pstack-*.md")}
+    current = {path.name: path for path in output.glob("llama-stack-*.md")}
     failed = False
 
     for name, content in files.items():
@@ -117,7 +117,7 @@ def main() -> int:
         return check(args.output, files)
 
     args.output.mkdir(parents=True, exist_ok=True)
-    for path in args.output.glob("pstack-*.md"):
+    for path in args.output.glob("llama-stack-*.md"):
         if path.name not in files:
             path.unlink()
     for name, content in files.items():

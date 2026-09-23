@@ -48,12 +48,12 @@ jj git fetch                         # Pull remote
 jj rebase -d main                    # Rebase onto main
 
 # Push requires a prefixed bookmark
-jj bookmark set rselbach/feature-x -r @-
-jj git push --bookmark rselbach/feature-x
+jj bookmark set llama/feature-x -r @-
+jj git push --bookmark llama/feature-x
 
 # For new branches
-jj bookmark create rselbach/feature-x -r @-
-jj git push --bookmark rselbach/feature-x
+jj bookmark create llama/feature-x -r @-
+jj git push --bookmark llama/feature-x
 ```
 
 ## Troubleshooting
@@ -64,7 +64,7 @@ jj git push --bookmark rselbach/feature-x
 | Lost work           | `jj op log` → `jj op restore`                  |
 | Wrong parent        | `jj rebase -r @ -d <target>`                   |
 | Push rejected       | `jj git fetch && jj rebase -d main`            |
-| "Nothing changed"   | Set `rselbach/<name>` to `@-`, then push       |
+| "Nothing changed"   | Set `llama/<name>` to `@-`, then push       |
 | Squash opens editor | Use `jj squash -m "message"` instead           |
 | @ is empty          | Your work is in `@-`; use `-r @-` for commands |
 
@@ -79,4 +79,4 @@ jj git push --bookmark rselbach/feature-x
 | `git reflog`              | `jj op log`                              |
 | `git reset --hard`        | `jj op restore`                          |
 | `git branch`              | `jj bookmark`                            |
-| `git push`                | Set and push bookmark `rselbach/<name>`  |
+| `git push`                | Set and push bookmark `llama/<name>`  |

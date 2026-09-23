@@ -1,6 +1,6 @@
 # OpenCode host adapter
 
-Use this reference only when pstack runs under OpenCode. Detect OpenCode through
+Use this reference only when llama-stack runs under OpenCode. Detect OpenCode through
 `OPENCODE=1` when the host is not otherwise clear.
 
 ## Skills and plans
@@ -16,9 +16,10 @@ at startup, so restart it after changing either one.
 ## Delegation
 
 OpenCode Task selects a `subagent_type`; it does not accept a model argument.
-For pstack roles, read the model from the OpenCode pstack section in `AGENTS.md`
-and replace non-alphanumeric characters with hyphens to derive the generated
-`pstack-worker-<model-slug>` or `pstack-reviewer-<model-slug>` agent. Use workers
+For llama-stack roles, read the model from the OpenCode llama-stack section
+in `AGENTS.md` and replace non-alphanumeric characters with hyphens to derive
+the generated
+`llama-stack-worker-<model-slug>` or `llama-stack-reviewer-<model-slug>` agent. Use workers
 for implementation, tooling, prose, and candidate runners. Use reviewers for
 exploration, explanation, investigation, synthesis, judgment, cross-judging,
 architecture, and review. Resolve `inherit-parent` and `auto` to the ordinary
@@ -28,7 +29,7 @@ Launch independent Tasks together in one tool-call batch. Each Task is bounded
 and returns before the parent continues. OpenCode does not expose a detached
 worker handle that can be polled, steered, or stopped later. Use `explore` for
 read-only source discovery, `reviewer` for ordinary review, and `minion` for
-focused writes when no pstack role applies.
+focused writes when no llama-stack role applies.
 
 ## Long-running work
 

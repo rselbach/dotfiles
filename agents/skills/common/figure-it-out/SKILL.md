@@ -11,7 +11,7 @@ Don't reinvent a playbook you already have. A focused single-unit task that matc
 
 ## Start
 
-Create a task-specific checklist. Consult relevant **poteto-mode** principles
+Create a task-specific checklist. Consult relevant **llama-mode** principles
 when they help resolve a decision. Use the host's plan or todo facility when it has
 one. Under Pi, keep a concise checklist in chat, use workflow phases during a
 workflow, or write a durable plan file for long work. Then add the phases below.
