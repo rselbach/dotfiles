@@ -1,9 +1,9 @@
 {
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "0.99.1",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.6-sol",
+  "defaultModel": "gpt-6.1-sol",
   "packages": [
     "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",

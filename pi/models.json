@@ -84,6 +84,134 @@
         }
       ]
     },
+    "runinfra": {
+      "baseUrl": "https://api.runinfra.ai/v1",
+      "api": "openai-completions",
+      "apiKey": "$RUNINFRA_API_KEY",
+      "compat": {
+        "supportsLongCacheRetention": false
+      },
+      "models": [
+        {
+          "id": "glm-5-3-flash",
+          "name": "GLM 5.3 Flash (RunInfra)",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": null,
+            "minimal": null,
+            "low": "low",
+            "medium": null,
+            "high": "high",
+            "xhigh": null,
+            "max": "max"
+          },
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 1048576,
+          "maxTokens": 1048576,
+          "cost": {
+            "input": 0.11,
+            "output": 0.45,
+            "cacheRead": 0.03,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "deepseek-v4-1-flash",
+          "name": "DeepSeek V4.1 Flash (RunInfra)",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none"
+          },
+          "input": [
+            "text"
+          ],
+          "contextWindow": 1048576,
+          "maxTokens": 1048576,
+          "cost": {
+            "input": 0.14,
+            "output": 0.58,
+            "cacheRead": 0.03,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "nemotron-3-5-lightning-30b",
+          "name": "Nemotron 3.5 Lightning 30B (RunInfra)",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "minimal": null,
+            "low": null,
+            "medium": null,
+            "high": "high",
+            "xhigh": null,
+            "max": null
+          },
+          "input": [
+            "text"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 262144,
+          "cost": {
+            "input": 0.05,
+            "output": 0.15,
+            "cacheRead": 0.01,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "qwen3-8-27b",
+          "name": "Qwen3.8 27B (RunInfra)",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "xhigh": "xhigh",
+            "max": "xhigh"
+          },
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 262144,
+          "cost": {
+            "input": 0.1,
+            "output": 0.4,
+            "cacheRead": 0.01,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "ornith-1-5-35b",
+          "name": "Ornith 1.5 35B (RunInfra)",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "minimal": null,
+            "low": null,
+            "medium": null,
+            "high": "high",
+            "xhigh": null,
+            "max": null
+          },
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 262144,
+          "cost": {
+            "input": 0.1,
+            "output": 0.4,
+            "cacheRead": 0.01,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    },
     "fireworks": {
       "models": [
         {
