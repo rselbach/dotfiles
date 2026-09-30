@@ -8,8 +8,7 @@
     "npm:pi-web-access",
     "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",
-    "npm:pi-terminal-mux",
-    "npm:pi-browser-use"
+    "npm:pi-terminal-mux"
   ],
   "theme": "dark"
 }
