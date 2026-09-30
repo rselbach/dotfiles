@@ -1,16 +1,15 @@
 {
-  "defaultModel": "gpt-6-sol",
+  "defaultModel": "gpt-6.1-sol",
   "defaultProvider": "github-copilot",
   "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "0.99.1",
   "packages": [
     "npm:pi-web-access",
-    "/Users/rselbach/devel/pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",
-    "npm:pi-mcp-adapter",
-    "npm:pi-terminal-mux"
+    "npm:pi-terminal-mux",
+    "npm:pi-browser-use"
   ],
   "theme": "dark"
 }

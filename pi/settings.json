@@ -5,7 +5,6 @@
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
   "packages": [
-    "pi-mcp-adapter",
     "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",
     "npm:@howaboua/pi-codex-conversion"
