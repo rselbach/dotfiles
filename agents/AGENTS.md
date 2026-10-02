@@ -54,6 +54,8 @@
 - Add Godoc to exported symbols; use lowercase comments for internal symbols.
 - Run `goimports` on touched Go files, then lint affected packages. Run
   `golangci-lint run ./...` when repository policy or cross-package risk warrants it.
+- When using `testify/require`, prefer to `r := require.New(t)` over using
+  package-level function (e.g. good: `r.Equal(..)`, bad `require.Equal(...)`)
 
 ## Swift
 
