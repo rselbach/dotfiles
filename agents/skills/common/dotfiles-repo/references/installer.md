@@ -33,6 +33,8 @@
   `platform.node()`.
 - `exclude_hosts`: optional hostname deny-list; compared case-insensitively
   against `platform.node()`.
+- `exclude`: optional list of name globs; glob matches whose basename matches
+  one are skipped.
 - `optional = true`: skip silently when `src` does not exist.
 - `secrets = true`: render the source as a template using decrypted
   `secrets.yaml` values instead of symlinking it. Rendered files are written
