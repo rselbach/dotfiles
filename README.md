@@ -78,6 +78,7 @@ optional = true  # skip silently if src doesn't exist
 [[links]]
 src = "*"
 dst = "~/.<name>"
+exclude = ["*.bak"]  # optional name globs to skip
 ```
 
 **Pre-create directories** (with optional permissions):

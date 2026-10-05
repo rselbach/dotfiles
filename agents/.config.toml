@@ -4,6 +4,7 @@ path = "~/.agents/skills"
 [[links]]
 src = "skills/common/*"
 dst = "~/.agents/skills/<name>"
+exclude = ["synced"]  # claude.ai skills Claude Code syncs here
 
 [[links]]
 src = "skills/hosts/rselbach-KJG3M7PY7D/*"

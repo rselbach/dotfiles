@@ -97,6 +97,7 @@ class LinkSpec:
     os: str | None = None
     hosts: list[str] | None = None
     exclude_hosts: list[str] | None = None
+    exclude: list[str] = field(default_factory=list)
     optional: bool = False
     secrets: bool = False
 
@@ -366,6 +367,8 @@ def expand_links(link: LinkSpec, config_dir: Path) -> list[tuple[Path, Path]]:
         matched = sorted(config_dir.glob(link.src))
         for src_path in matched:
             if src_path.name == ".config.toml":
+                continue
+            if any(fnmatch.fnmatch(src_path.name, pat) for pat in link.exclude):
                 continue
             dst_str = link.dst.replace("<name>", src_path.name)
             results.append((src_path, resolve_path(dst_str)))

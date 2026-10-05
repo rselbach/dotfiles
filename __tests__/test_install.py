@@ -403,5 +403,35 @@ class RepositoryTests(unittest.TestCase):
             )
 
 
+class LinkTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp_dir.name)
+
+    def tearDown(self) -> None:
+        self.temp_dir.cleanup()
+
+    def test_glob_skips_excluded_names(self) -> None:
+        for name in ["abed", "synced", "troy"]:
+            (self.root / "skills" / name).mkdir(parents=True)
+        (self.root / ".config.toml").write_text(
+            "[[links]]\n"
+            'src = "skills/*"\n'
+            'dst = "/greendale/<name>"\n'
+            'exclude = ["synced"]\n'
+        )
+
+        config = installer.load_config(self.root)
+        result = installer.expand_links(config.links[0], self.root)
+
+        self.assertEqual(
+            [
+                (self.root / "skills" / "abed", Path("/greendale/abed")),
+                (self.root / "skills" / "troy", Path("/greendale/troy")),
+            ],
+            result,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
