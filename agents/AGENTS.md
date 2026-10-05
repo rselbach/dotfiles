@@ -101,6 +101,15 @@ when present.
 - Split conventional files such as `variables.tf` and `outputs.tf`.
 - Name a sole resource of its type in a module `this`.
 
+## Bend
+
+When using Bend:
+
+- run `bend guide` to learn it
+- use `LAWS.bend` to keep important rules
+- run `bend PROOF.bend` before committing
+- parallelize the code whenever possible
+
 ## Tools
 
 - Prefer `ast-grep` for structural code searches and tree-safe edits.
@@ -145,24 +154,24 @@ override those defaults. Delete a line to fall back to the skill default. A valu
 Agent call omits `model`); an alias entry in a panel list still counts toward
 that panel's fan-out.
 
-feature, refactoring: gpt-5.6-sol
-bug-fix: gpt-5.6-sol
-perf-issue: gpt-5.6-sol
-hillclimb: gpt-5.6-terra
-judgment and prose: gpt-5.5
-strongest judgment: gpt-5.6-sol
-how explorer: gpt-5.6-sol
-how explainer: gpt-5.5
-how critics: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
-why investigators: gpt-5.6-sol
-why synthesizer: gpt-5.5
-reflect tooling: gpt-5.6-terra
-reflect judgment, divergent, synthesizer: gpt-5.6-sol
-arena runners: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
-arena cross-judge pool: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
-swarm workers: gpt-5.6-terra
-architect runners: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
-interrogate reviewers: gpt-5.6-sol, gpt-5.5, gpt-5.6-luna
+feature, refactoring: gpt-6.1-sol
+bug-fix: gpt-6.1-sol
+perf-issue: gpt-6-astra
+hillclimb: gpt-6-terra
+judgment and prose: gpt-6.1-sol
+strongest judgment: gpt-6.1-sol
+how explorer: gpt-6.1-sol
+how explainer: gpt-6-sol
+how critics: gpt-6.1-sol, gpt-6-sol, gpt-6-luna
+why investigators: gpt-6.1-sol
+why synthesizer: gpt-6-sol
+reflect tooling: gpt-6-terra
+reflect judgment, divergent, synthesizer: gpt-6.1-sol
+arena runners: gpt-6.1-sol, gpt-6-astra, gpt-6-luna
+arena cross-judge pool: gpt-6.1-sol, gpt-6-astra, gpt-6-luna
+swarm workers: gpt-6.1-sol
+architect runners: gpt-6.1-sol, gpt-6-sol, gpt-6-luna
+interrogate reviewers: gpt-6.1-sol, gpt-6-sol, gpt-6-luna
 
 ## OpenCode llama-stack model configuration
 
@@ -172,21 +181,48 @@ OpenCode Task selects an agent rather than a model. Its llama-stack adapter deri
 generated worker and reviewer agent names from these provider-qualified model
 IDs; an entry in a panel list still counts toward that panel's fan-out.
 
-feature, refactoring: openai/gpt-5.6-sol
-bug-fix: openai/gpt-5.6-sol
-perf-issue: openai/gpt-5.6-sol
-hillclimb: openai/gpt-5.6-terra
-judgment and prose: openai/gpt-5.5
-strongest judgment: openai/gpt-5.6-sol
-how explorer: openai/gpt-5.6-sol
-how explainer: openai/gpt-5.5
-how critics: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
-why investigators: openai/gpt-5.6-sol
-why synthesizer: openai/gpt-5.5
-reflect tooling: openai/gpt-5.6-terra
-reflect judgment, divergent, synthesizer: openai/gpt-5.6-sol
-arena runners: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
-arena cross-judge pool: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
-swarm workers: openai/gpt-5.6-terra
-architect runners: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
-interrogate reviewers: openai/gpt-5.6-sol, openai/gpt-5.5, openai/gpt-5.6-luna
+feature, refactoring: openai/gpt-6.1-sol
+bug-fix: openai/gpt-6.1-sol
+perf-issue: openai/gpt-6.1-sol
+hillclimb: openai/gpt-6-terra
+judgment and prose: openai/gpt-6-sol
+strongest judgment: openai/gpt-6.1-sol
+how explorer: openai/gpt-6.1-sol
+how explainer: openai/gpt-6-sol
+how critics: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
+why investigators: openai/gpt-6.1-sol
+why synthesizer: openai/gpt-6-sol
+reflect tooling: openai/gpt-6-terra
+reflect judgment, divergent, synthesizer: openai/gpt-6.1-sol
+arena runners: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
+arena cross-judge pool: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
+swarm workers: openai/gpt-6-terra
+architect runners: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
+interrogate reviewers: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
+
+## Claude Code llama-stack model configuration
+
+Ignore this section if you are not Claude Code.
+
+Values are Agent tool `model` aliases. `inherit-parent` omits `model` so the
+subagent runs on the parent session's model; an entry in a panel list still
+counts toward that panel's fan-out.
+
+feature, refactoring: inherit-parent
+bug-fix: inherit-parent
+perf-issue: inherit-parent
+hillclimb: sonnet
+judgment and prose: inherit-parent
+strongest judgment: inherit-parent
+how explorer: inherit-parent
+how explainer: inherit-parent
+how critics: inherit-parent, fable, sonnet
+why investigators: inherit-parent
+why synthesizer: inherit-parent
+reflect tooling: sonnet
+reflect judgment, divergent, synthesizer: inherit-parent
+arena runners: inherit-parent, fable, sonnet
+arena cross-judge pool: inherit-parent, fable, sonnet
+swarm workers: sonnet
+architect runners: inherit-parent, fable, sonnet
+interrogate reviewers: inherit-parent, fable, sonnet
