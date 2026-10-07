@@ -1,14 +1,17 @@
 {
   "defaultModel": "gpt-6.1-sol",
   "defaultProvider": "github-copilot",
-  "defaultThinkingLevel": "xhigh",
+  "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "0.99.1",
+  "lastChangelogVersion": "1.0.4",
   "packages": [
     "npm:pi-web-access",
     "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",
     "npm:pi-terminal-mux"
   ],
-  "theme": "dark"
+  "theme": "dark",
+  "modelThinkingLevels": {
+    "github-copilot/gpt-6.1-sol": "medium"
+  }
 }

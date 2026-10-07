@@ -11,7 +11,8 @@ Use this skill when helping the user work with PRDE, the AWS-backed Nomad develo
 
 - PRDE is a remote Nomad cluster, but day-to-day access happens through local ports.
 - Ryan's PRDE also has a public URL: `https://rselbach01-ov7lmffx.dev.pedp-remote.hashicorp.services`. This is useful for specific flows such as authentication/OIDC.
-- `hcloud prde proxy` is the main foreground proxy. When it is running, Nomad, Vault, Consul, Cadence, databases, and app UIs are reachable on localhost.
+- Start the main foreground proxy with `hcloud prde proxy --exclude postgres`. Nomad, Vault, Consul, Cadence, other databases, and app UIs are reachable on localhost. Excluding PostgreSQL avoids conflicts with the local PostgreSQL database used to speed up local testing.
+- For PRDE PostgreSQL access, use a separate tunnel with `hcloud prde connect 5433:postgres.postgres:postgres`. Connect to `localhost:5433`, not port `5432`, which is reserved for the local database.
 - Most services run as Nomad jobs. Use the local `nomad` CLI against `http://localhost:4646` to inspect jobs, allocations, events, and logs.
 - Service repos are usually named `cloud-<service>`, but the Nomad job usually drops the prefix and runs as `<service>`; for example, `cloud-iam` deploys/runs as the `iam` job.
 - `hcloud prde connect` creates an additional foreground port-forward from a specific Nomad service/port to localhost. Use it for private APIs, especially gRPC with `grpcurl`.
@@ -31,7 +32,7 @@ Use this skill when helping the user work with PRDE, the AWS-backed Nomad develo
 
 ## Local Service Map
 
-These endpoints are available when `hcloud prde proxy` is healthy:
+These endpoints are available when `hcloud prde proxy --exclude postgres` is healthy, except PostgreSQL, which requires the separate tunnel described below:
 
 | Service | Local access |
 | --- | --- |
@@ -48,7 +49,7 @@ These endpoints are available when `hcloud prde proxy` is healthy:
 | vault | `http://localhost:8200` |
 | consul | `http://localhost:8500` |
 | mysql | `mysql --host=127.0.0.1 --user=root --password=root` |
-| postgres | `psql 'postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable'` |
+| postgres | After starting the separate tunnel: `psql 'postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable'` |
 
 Fresh or purged environments may show app services as unhealthy until `hcloud prde up` has been run. Once Nomad, Consul, and Vault are green, it is generally safe to run `up` if the user confirms.
 
@@ -66,7 +67,7 @@ nomad job allocs <job>
 If the proxy is not running and the user wants you to start it, use a persistent session:
 
 ```bash
-tmux new -d -s prde-proxy 'hcloud prde proxy'
+tmux new -d -s prde-proxy 'hcloud prde proxy --exclude postgres'
 tmux capture-pane -pt prde-proxy
 ```
 
@@ -275,8 +276,23 @@ Do not invent another non-interactive token flow. If a public API call needs aut
 
 Use local DB access only for targeted investigation or data setup requested by the user.
 
+For PRDE PostgreSQL, verify that the proxy is running, then start a separate tunnel if one is not already active:
+
 ```bash
-psql 'postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable'
+hcloud prde connect 5433:postgres.postgres:postgres
+```
+
+The tunnel runs in the foreground. Use a persistent `tmux` session when needed. From another terminal or session, connect on port `5433`:
+
+```bash
+psql 'postgres://postgres:postgres@localhost:5433/postgres?sslmode=disable'
+```
+
+Do not use port `5432` for PRDE PostgreSQL. It is reserved for the local PostgreSQL database used for faster local testing.
+
+For PRDE MySQL:
+
+```bash
 mysql --host=127.0.0.1 --user=root --password=root
 ```
 
