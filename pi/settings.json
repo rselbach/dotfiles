@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "1.0.1",
+  "lastChangelogVersion": "1.0.4",
   "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": true,
   "defaultProvider": "claude-bridge",

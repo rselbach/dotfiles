@@ -7,7 +7,7 @@ readonly OP_ITEM="App deployment secrets"
 readonly OP_VAULT="Private"
 
 usage() {
-  echo "usage: $0 [--sparkle] OWNER/REPO" >&2
+  echo "usage: $0 [--sparkle] [--homebrew-tap] OWNER/REPO" >&2
 }
 
 set_secret() {
@@ -27,10 +27,18 @@ set_secret() {
 
 main() {
   local include_sparkle=false
-  if [[ "${1:-}" == "--sparkle" ]]; then
-    include_sparkle=true
+  local include_homebrew_tap=false
+  while [[ "${1:-}" == --* ]]; do
+    case "$1" in
+      --sparkle) include_sparkle=true ;;
+      --homebrew-tap) include_homebrew_tap=true ;;
+      *)
+        usage
+        return 2
+        ;;
+    esac
     shift
-  fi
+  done
   if (( $# != 1 )); then
     usage
     return 2
@@ -58,6 +66,10 @@ main() {
   if [[ "${include_sparkle}" == true ]]; then
     fields+=("sparkle_eddsa_private_key")
     secret_names+=("SPARKLE_EDDSA_PRIVATE_KEY")
+  fi
+  if [[ "${include_homebrew_tap}" == true ]]; then
+    fields+=("homebrew_tap_token")
+    secret_names+=("TAP_GITHUB_TOKEN")
   fi
 
   if [[ ! "${repo}" =~ ^[^/]+/[^/]+$ ]]; then

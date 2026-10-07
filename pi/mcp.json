@@ -5,6 +5,12 @@
     },
     "atlassian": {
       "url": "https://mcp.atlassian.com/v1/mcp/authv2"
+    },
+    "open-computer-use": {
+      "command": "open-computer-use",
+      "args": [
+        "mcp"
+      ]
     }
   }
 }
