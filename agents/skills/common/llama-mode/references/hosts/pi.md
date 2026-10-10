@@ -33,8 +33,12 @@ session:
 - If neither tool is available, run the same passes sequentially and keep their
   findings separate.
 
-Use model slugs from the Pi llama-stack block in `AGENTS.md` when the active tool
-supports model selection. Omit the model for `inherit-parent` or `auto`.
+In `workflow`, each `agent()` runs as its own `pi` process with the same
+providers as the parent, `claude-bridge` included. Take a role's models from
+`roles['<role>']`, which `workflow` resolves from the `pi` host in
+`~/.agents/skills/setup-llama-stack/models.json`, and pass each entry as
+`opts.model`; `inherit-parent` runs on the parent's model. Children can run their
+own `workflow` once; grandchildren cannot.
 
 Pi's one-shot delegated tools do not provide persistent workers that can be
 steered, queried, or stopped later. Do not select Orchestrate, Autopilot-full,

@@ -1,18 +1,20 @@
 {
-  "lastChangelogVersion": "1.0.4",
-  "defaultThinkingLevel": "xhigh",
+  "lastChangelogVersion": "1.1.0",
+  "defaultThinkingLevel": "medium",
   "hideThinkingBlock": true,
   "defaultProvider": "claude-bridge",
   "defaultModel": "claude-opus-5-5",
   "packages": [
-    "npm:pi-dynamic-workflows",
     "npm:@ff-labs/pi-fff",
     "npm:@howaboua/pi-codex-conversion",
     "npm:pi-claude-bridge"
   ],
   "theme": "omarchy-system",
   "modelThinkingLevels": {
-    "openai-codex/gpt-6.1-sol": "high",
-    "claude-bridge/claude-opus-5-5": "xhigh"
+    "openai-codex/gpt-6.1-sol": "medium",
+    "claude-bridge/claude-opus-5-5": "medium",
+    "claude-bridge/claude-sonnet-5-5": "medium",
+    "openai-codex/gpt-6-luna": "medium",
+    "claude-bridge/claude-fable-5-1": "medium"
   }
 }

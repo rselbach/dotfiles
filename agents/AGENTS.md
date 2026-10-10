@@ -143,86 +143,12 @@ When using Bend:
 - Report relevant format, lint, build, and test commands and their results.
 - Call out remaining TODOs, uncertainties, or follow-up work.
 
-## Codex llama-stack model configuration
+## llama-stack models
 
-Ignore this section if your are not Codex.
-
-Use these per-role model overrides only when running llama-stack on Codex. Each
-llama-stack SKILL.md names its defaults in a Models section; the values here
-override those defaults. Delete a line to fall back to the skill default. A value of
-`inherit-parent` or `auto` runs that role on the parent session's model (the
-Agent call omits `model`); an alias entry in a panel list still counts toward
-that panel's fan-out.
-
-feature, refactoring: gpt-6.1-sol
-bug-fix: gpt-6.1-sol
-perf-issue: gpt-6-astra
-hillclimb: gpt-6-terra
-judgment and prose: gpt-6.1-sol
-strongest judgment: gpt-6.1-sol
-how explorer: gpt-6.1-sol
-how explainer: gpt-6-sol
-how critics: gpt-6.1-sol, gpt-6-sol, gpt-6-luna
-why investigators: gpt-6.1-sol
-why synthesizer: gpt-6-sol
-reflect tooling: gpt-6-terra
-reflect judgment, divergent, synthesizer: gpt-6.1-sol
-arena runners: gpt-6.1-sol, gpt-6-astra, gpt-6-luna
-arena cross-judge pool: gpt-6.1-sol, gpt-6-astra, gpt-6-luna
-swarm workers: gpt-6.1-sol
-architect runners: gpt-6.1-sol, gpt-6-sol, gpt-6-luna
-interrogate reviewers: gpt-6.1-sol, gpt-6-sol, gpt-6-luna
-
-## OpenCode llama-stack model configuration
-
-Ignore this section if you are not OpenCode.
-
-OpenCode Task selects an agent rather than a model. Its llama-stack adapter derives
-generated worker and reviewer agent names from these provider-qualified model
-IDs; an entry in a panel list still counts toward that panel's fan-out.
-
-feature, refactoring: openai/gpt-6.1-sol
-bug-fix: openai/gpt-6.1-sol
-perf-issue: openai/gpt-6.1-sol
-hillclimb: openai/gpt-6-terra
-judgment and prose: openai/gpt-6-sol
-strongest judgment: openai/gpt-6.1-sol
-how explorer: openai/gpt-6.1-sol
-how explainer: openai/gpt-6-sol
-how critics: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
-why investigators: openai/gpt-6.1-sol
-why synthesizer: openai/gpt-6-sol
-reflect tooling: openai/gpt-6-terra
-reflect judgment, divergent, synthesizer: openai/gpt-6.1-sol
-arena runners: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
-arena cross-judge pool: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
-swarm workers: openai/gpt-6-terra
-architect runners: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
-interrogate reviewers: openai/gpt-6.1-sol, openai/gpt-6-sol, openai/gpt-6-luna
-
-## Claude Code llama-stack model configuration
-
-Ignore this section if you are not Claude Code.
-
-Values are Agent tool `model` aliases. `inherit-parent` omits `model` so the
-subagent runs on the parent session's model; an entry in a panel list still
-counts toward that panel's fan-out.
-
-feature, refactoring: inherit-parent
-bug-fix: inherit-parent
-perf-issue: inherit-parent
-hillclimb: sonnet
-judgment and prose: inherit-parent
-strongest judgment: inherit-parent
-how explorer: inherit-parent
-how explainer: inherit-parent
-how critics: inherit-parent, fable, sonnet
-why investigators: inherit-parent
-why synthesizer: inherit-parent
-reflect tooling: sonnet
-reflect judgment, divergent, synthesizer: inherit-parent
-arena runners: inherit-parent, fable, sonnet
-arena cross-judge pool: inherit-parent, fable, sonnet
-swarm workers: sonnet
-architect runners: inherit-parent, fable, sonnet
-interrogate reviewers: inherit-parent, fable, sonnet
+Skills name semantic roles such as `bug-fix` or `how critics`. Resolve them
+through `~/.agents/skills/setup-llama-stack/models.json`: `roles` maps each role
+to a tier (`default`, `strongest`, `fast`, `panel`), and `hosts.<host>` maps each
+tier to a model or a list of models for `pi`, `claude-code`, `codex`, or
+`opencode`. A list runs one agent per entry, so its length sets the fan-out.
+`inherit-parent` and `auto` run on the parent session's model. Under Pi, the
+`workflow` tool exposes the resolved lists as `roles['<role>']`.

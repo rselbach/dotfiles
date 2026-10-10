@@ -15,7 +15,7 @@ bash "$HOME/.agents/skills/llama-mode/scripts/worktree-audit.sh" \
 
 ## Delegation
 
-Codex can delegate after a direct request or when an applicable `AGENTS.md` or skill asks for subagents. Use bounded role prompts and the semantic model roles from the repository's Codex llama-stack configuration. A custom `.codex/agents` definition is optional and is not required by llama-stack.
+Codex can delegate after a direct request or when an applicable `AGENTS.md` or skill asks for subagents. Use bounded role prompts and the semantic model roles, resolved through the `codex` host in `~/.agents/skills/setup-llama-stack/models.json`. A custom `.codex/agents` definition is optional and is not required by llama-stack.
 
 ## Long-running work
 
