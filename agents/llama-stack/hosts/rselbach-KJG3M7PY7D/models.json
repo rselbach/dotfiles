@@ -21,16 +21,14 @@
   },
   "hosts": {
     "pi": {
-      "default": "inherit-parent",
-      "strongest": "inherit-parent",
-      "fast": "fireworks/accounts/fireworks/models/glm-5p3-flash",
+      "default": "github-copilot/gpt-6.1-sol",
+      "strongest": "github-copilot/gpt-6.1-sol",
+      "fast": "github-copilot/gpt-6-luna",
       "panel": [
-        "inherit-parent",
-        "openai-codex/gpt-6.1-sol",
-        "claude-bridge/claude-fable-5-1",
-        "fireworks/accounts/fireworks/models/glm-5p3-flash"
+        "github-copilot/gpt-6.1-sol",
+        "github-copilot/gemini-3.8-flash"
       ],
-      "judge": "openai-codex/gpt-6-sol"
+      "judge": "github-copilot/claude-sonnet-5.5"
     },
     "claude-code": {
       "default": "inherit-parent",
