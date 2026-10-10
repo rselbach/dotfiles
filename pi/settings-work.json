@@ -12,6 +12,7 @@
   ],
   "theme": "dark",
   "modelThinkingLevels": {
-    "github-copilot/gpt-6.1-sol": "medium"
+    "github-copilot/gpt-6.1-sol": "medium",
+    "github-copilot/gpt-6-sol": "medium"
   }
 }
