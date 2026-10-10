@@ -13,8 +13,9 @@
   "modelThinkingLevels": {
     "openai-codex/gpt-6.1-sol": "medium",
     "claude-bridge/claude-opus-5-5": "medium",
-    "claude-bridge/claude-sonnet-5-5": "medium",
-    "openai-codex/gpt-6-luna": "medium",
-    "claude-bridge/claude-fable-5-1": "medium"
+    "claude-bridge/claude-sonnet-5-5": "xhigh",
+    "openai-codex/gpt-6-luna": "max",
+    "claude-bridge/claude-fable-5-1": "medium",
+    "fireworks/accounts/fireworks/models/glm-5p3-flash": "max"
   }
 }
