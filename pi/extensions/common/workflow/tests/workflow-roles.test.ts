@@ -54,6 +54,14 @@ test("the shipped models file resolves every role for every host", () => {
   }
 });
 
+test("the shipped arena judge never built a candidate", () => {
+  for (const host of ["pi", "claude-code", "codex", "opencode"]) {
+    const roles = loadRoles(host, realModelsFile);
+    const overlap = roles["arena cross-judge pool"].filter((model) => roles["arena runners"].includes(model));
+    assert.deepEqual(overlap, [], host);
+  }
+});
+
 test("workflow scripts can fan out over a role's models", async () => {
   const calls: Array<string | undefined> = [];
   const agent = {

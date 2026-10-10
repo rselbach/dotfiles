@@ -13,7 +13,7 @@ The mapping lives in this skill's [`models.json`](models.json). `roles` maps eac
 {
   "roles": { "bug-fix": "strongest", "how critics": "panel", "swarm workers": "fast" },
   "hosts": {
-    "<host>": { "default": "<model>", "strongest": "<model>", "fast": "<model>", "panel": ["<model>", "<model>"] }
+    "<host>": { "default": "<model>", "strongest": "<model>", "fast": "<model>", "panel": ["<model>", "<model>"], "judge": "<model>" }
   }
 }
 ```
@@ -36,7 +36,7 @@ Read `models.json`. Show the current host's tiers and which roles use each tier.
 
 ### 3. Map and confirm
 
-Mark unavailable real slugs as needing a choice. Let the user accept the tiers, change a tier's models, or move a role to another tier. A role change affects every host, so say so. `arena cross-judge pool` is a list too, but Arena chooses one entry and prefers a model different from the candidates when practical.
+Mark unavailable real slugs as needing a choice. Let the user accept the tiers, change a tier's models, or move a role to another tier. A role change affects every host, so say so. `arena cross-judge pool` uses the `judge` tier. Keep its models out of `panel` so the arena judge never built a candidate.
 
 ### 4. Validate
 
