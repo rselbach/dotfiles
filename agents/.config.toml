@@ -10,3 +10,13 @@ exclude = ["synced"]  # claude.ai skills Claude Code syncs here
 src = "skills/hosts/rselbach-KJG3M7PY7D/*"
 dst = "~/.agents/skills/<name>"
 hosts = ["rselbach-KJG3M7PY7D"]
+
+# llama-stack role-to-model tiers; the work laptop uses its own models
+[[links]]
+src = "llama-stack/models.json"
+dst = "~/.agents/llama-stack/models.json"
+
+[[links]]
+src = "llama-stack/hosts/rselbach-KJG3M7PY7D/models.json"
+dst = "~/.agents/llama-stack/models.json"
+hosts = ["rselbach-KJG3M7PY7D"]

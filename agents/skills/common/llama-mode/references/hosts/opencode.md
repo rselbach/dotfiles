@@ -17,7 +17,7 @@ at startup, so restart it after changing either one.
 
 OpenCode Task selects a `subagent_type`; it does not accept a model argument.
 For llama-stack roles, resolve the role's tier through the `opencode` host in
-`~/.agents/skills/setup-llama-stack/models.json` and replace non-alphanumeric characters with hyphens to derive
+`~/.agents/llama-stack/models.json` and replace non-alphanumeric characters with hyphens to derive
 the generated
 `llama-stack-worker-<model-slug>` or `llama-stack-reviewer-<model-slug>` agent. Use workers
 for implementation, tooling, prose, and candidate runners. Use reviewers for

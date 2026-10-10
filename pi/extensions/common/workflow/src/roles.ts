@@ -4,8 +4,8 @@ import { join } from "node:path";
 
 /** Overrides the llama-stack models file path. */
 export const MODELS_ENV = "LLAMA_STACK_MODELS";
-/** The llama-stack models file installed with the setup-llama-stack skill. */
-export const DEFAULT_MODELS_FILE = join(homedir(), ".agents", "skills", "setup-llama-stack", "models.json");
+/** The llama-stack models file the dotfiles installer links for this machine. */
+export const DEFAULT_MODELS_FILE = join(homedir(), ".agents", "llama-stack", "models.json");
 
 export type Roles = Readonly<Record<string, readonly string[]>>;
 

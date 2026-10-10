@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -7,9 +7,11 @@ import { fileURLToPath } from "node:url";
 import { loadRoles } from "../src/roles.js";
 import { runWorkflow } from "../src/workflow.js";
 
-const realModelsFile = fileURLToPath(
-  new URL("../../../../../agents/skills/common/setup-llama-stack/models.json", import.meta.url),
-);
+const llamaStackDir = fileURLToPath(new URL("../../../../../agents/llama-stack/", import.meta.url));
+const realModelsFiles = [
+  join(llamaStackDir, "models.json"),
+  ...readdirSync(join(llamaStackDir, "hosts")).map((host) => join(llamaStackDir, "hosts", host, "models.json")),
+];
 
 function modelsFile(content: unknown): string {
   const file = join(mkdtempSync(join(tmpdir(), "greendale-")), "models.json");
@@ -47,18 +49,22 @@ test("loadRoles rejects an empty panel", () => {
   assert.throws(() => loadRoles("pi", file), /hosts.pi.panel must be a model or a non-empty list/);
 });
 
-test("the shipped models file resolves every role for every host", () => {
-  for (const host of ["pi", "claude-code", "codex", "opencode"]) {
-    const roles = loadRoles(host, realModelsFile);
-    assert.ok(Object.keys(roles).length > 0, host);
+test("every shipped models file resolves every role for every host", () => {
+  for (const file of realModelsFiles) {
+    for (const host of ["pi", "claude-code", "codex", "opencode"]) {
+      const roles = loadRoles(host, file);
+      assert.ok(Object.keys(roles).length > 0, `${file} ${host}`);
+    }
   }
 });
 
 test("the shipped arena judge never built a candidate", () => {
-  for (const host of ["pi", "claude-code", "codex", "opencode"]) {
-    const roles = loadRoles(host, realModelsFile);
-    const overlap = roles["arena cross-judge pool"].filter((model) => roles["arena runners"].includes(model));
-    assert.deepEqual(overlap, [], host);
+  for (const file of realModelsFiles) {
+    for (const host of ["pi", "claude-code", "codex", "opencode"]) {
+      const roles = loadRoles(host, file);
+      const overlap = roles["arena cross-judge pool"].filter((model) => roles["arena runners"].includes(model));
+      assert.deepEqual(overlap, [], `${file} ${host}`);
+    }
   }
 });
 

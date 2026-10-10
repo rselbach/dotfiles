@@ -1,0 +1,69 @@
+{
+  "roles": {
+    "feature, refactoring": "default",
+    "bug-fix": "strongest",
+    "perf-issue": "strongest",
+    "hillclimb": "strongest",
+    "judgment and prose": "default",
+    "strongest judgment": "strongest",
+    "how explorer": "default",
+    "how explainer": "default",
+    "how critics": "panel",
+    "why investigators": "default",
+    "why synthesizer": "default",
+    "reflect tooling": "fast",
+    "reflect judgment, divergent, synthesizer": "default",
+    "arena runners": "panel",
+    "arena cross-judge pool": "judge",
+    "swarm workers": "fast",
+    "architect runners": "panel",
+    "interrogate reviewers": "panel"
+  },
+  "hosts": {
+    "pi": {
+      "default": "inherit-parent",
+      "strongest": "inherit-parent",
+      "fast": "fireworks/accounts/fireworks/models/glm-5p3-flash",
+      "panel": [
+        "inherit-parent",
+        "openai-codex/gpt-6.1-sol",
+        "claude-bridge/claude-fable-5-1",
+        "fireworks/accounts/fireworks/models/glm-5p3-flash"
+      ],
+      "judge": "openai-codex/gpt-6-sol"
+    },
+    "claude-code": {
+      "default": "inherit-parent",
+      "strongest": "inherit-parent",
+      "fast": "sonnet",
+      "panel": [
+        "inherit-parent",
+        "fable",
+        "sonnet"
+      ],
+      "judge": "opus"
+    },
+    "codex": {
+      "default": "gpt-6.1-sol",
+      "strongest": "gpt-6-astra",
+      "fast": "gpt-6-terra",
+      "panel": [
+        "gpt-6.1-sol",
+        "gpt-6-astra",
+        "gpt-6-luna"
+      ],
+      "judge": "gpt-6-sol"
+    },
+    "opencode": {
+      "default": "openai/gpt-6.1-sol",
+      "strongest": "openai/gpt-6.1-sol",
+      "fast": "openai/gpt-6-terra",
+      "panel": [
+        "openai/gpt-6.1-sol",
+        "openai/gpt-6-sol",
+        "openai/gpt-6-luna"
+      ],
+      "judge": "openai/gpt-6-astra"
+    }
+  }
+}

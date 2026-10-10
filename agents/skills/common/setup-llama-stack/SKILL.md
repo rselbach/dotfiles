@@ -7,7 +7,7 @@ description: Configure the models an agent host uses for llama-stack roles. Dete
 
 Configure llama-stack's semantic roles for the current agent host. Skills refer to roles such as `feature`, `how critics`, and `arena runners`; they do not hardcode vendor model names.
 
-The mapping lives in this skill's [`models.json`](models.json). `roles` maps each role to a tier, and `hosts` gives each host its models per tier:
+The mapping lives in `~/.agents/llama-stack/models.json`, a symlink the dotfiles installer creates per machine. Edit its target, not a copy: `agents/llama-stack/models.json` in the dotfiles repo by default, or `agents/llama-stack/hosts/<hostname>/models.json` when that file exists for the current hostname (check with `readlink ~/.agents/llama-stack/models.json`). `roles` maps each role to a tier, and `hosts` gives each host its models per tier:
 
 ```json
 {
@@ -32,7 +32,7 @@ Never copy model values from another host.
 
 ### 2. Load current state
 
-Read `models.json`. Show the current host's tiers and which roles use each tier. Start a missing host with every tier at `inherit-parent`.
+Read the current machine's `models.json`. Show the current host's tiers and which roles use each tier. Start a missing host with every tier at `inherit-parent`.
 
 ### 3. Map and confirm
 

@@ -36,7 +36,7 @@ session:
 In `workflow`, each `agent()` runs as its own `pi` process with the same
 providers as the parent, `claude-bridge` included. Take a role's models from
 `roles['<role>']`, which `workflow` resolves from the `pi` host in
-`~/.agents/skills/setup-llama-stack/models.json`, and pass each entry as
+`~/.agents/llama-stack/models.json`, and pass each entry as
 `opts.model`; `inherit-parent` runs on the parent's model. Children can run their
 own `workflow` once; grandchildren cannot.
 

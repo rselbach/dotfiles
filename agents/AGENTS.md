@@ -146,7 +146,7 @@ When using Bend:
 ## llama-stack models
 
 Skills name semantic roles such as `bug-fix` or `how critics`. Resolve them
-through `~/.agents/skills/setup-llama-stack/models.json`: `roles` maps each role
+through `~/.agents/llama-stack/models.json`: `roles` maps each role
 to a tier (`default`, `strongest`, `fast`, `panel`, `judge`), and `hosts.<host>` maps each
 tier to a model or a list of models for `pi`, `claude-code`, `codex`, or
 `opencode`. A list runs one agent per entry, so its length sets the fan-out.
