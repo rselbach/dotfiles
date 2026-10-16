@@ -1,9 +1,9 @@
 {
   "defaultModel": "gpt-6.1-sol",
   "defaultProvider": "github-copilot",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.1.0",
+  "lastChangelogVersion": "1.2.0",
   "packages": [
     "npm:pi-web-access",
     "npm:@ff-labs/pi-fff",
@@ -11,7 +11,9 @@
   ],
   "theme": "dark",
   "modelThinkingLevels": {
-    "github-copilot/gpt-6.1-sol": "medium",
-    "github-copilot/gpt-6-sol": "medium"
+    "github-copilot/gpt-6.1-sol": "high",
+    "github-copilot/gpt-6-sol": "high",
+    "github-copilot/gemini-3.8-flash": "medium",
+    "github-copilot/gpt-6-luna": "high"
   }
 }

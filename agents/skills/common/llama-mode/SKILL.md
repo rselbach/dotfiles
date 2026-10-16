@@ -16,7 +16,7 @@ Other hosts should use their equivalent documented capabilities.
 
 ## Non-negotiables
 
-Start multi-step work with a task-specific plan and relevant verification. Consult principles when they affect a decision; do not reread guidance already available in context. Explain consequential choices without a principle-by-principle report.
+The Principles section below grounds every trigger. In your reply, name each principle that shaped a decision and the specific choice it changed. Cite only principles whose leaf SKILL.md you read this session.
 
 Remaining triggers:
 

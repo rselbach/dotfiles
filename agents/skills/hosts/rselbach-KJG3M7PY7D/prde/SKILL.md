@@ -147,6 +147,39 @@ grpcurl -plaintext -H "Authorization: Bearer ${TOKEN}" localhost:<local-port> li
 curl -H "Authorization: Bearer ${TOKEN}" http://localhost:<port>/<path>
 ```
 
+## Recover expired Artifactory login
+
+For registry pull or push errors such as `Token failed verification: expired`
+or `401 Unauthorized`, refresh Docker authentication through Doormat. Do not
+ask the user to create or paste a token when this recovery path is available.
+Run it when the current task already authorizes the build or PRDE deployment:
+
+```bash
+bash ~/.agents/skills/prde/scripts/artifactory-login.sh
+```
+
+The helper runs `doormat login`, obtains a temporary token with
+`doormat artifactory create-token`, and logs Docker into both registries:
+
+- `cloud-services-local.artifactory.hashicorp.engineering`
+- `cloud-dev-docker-local.artifactory.hashicorp.engineering`
+
+It uses `${USER}@hashicorp.com` as the username. It checks token creation and
+JSON extraction separately, rejects missing or empty tokens, and supplies the
+token through `docker login --password-stdin`. It stops if either login fails.
+Do not print the token, record its JSON response, enable shell tracing, or pass
+it in command arguments. Docker stores the resulting login through its
+configured credential mechanism.
+
+Doormat may require interactive SSO. Use the existing authenticated session
+when possible. Pause only if authentication needs a human-only action, and
+report the exact failure without exposing credentials.
+
+After both logins succeed, retry the original failed pull, build, or push once
+and check its result. A successful login alone does not prove that the original
+operation now works. Do not skip the build or substitute an image to hide an
+authentication failure.
+
 ## Deploying Current Repo with `hcloud prde run`
 
 `hcloud prde run` is the standard command for deploying local repository changes to PRDE. Use it only from the root of a service repo when the user wants to deploy that local code.
