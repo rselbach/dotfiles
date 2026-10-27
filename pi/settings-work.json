@@ -9,7 +9,6 @@
     "npm:@ff-labs/pi-fff",
     "npm:pi-terminal-mux"
   ],
-  "theme": "dark",
   "modelThinkingLevels": {
     "github-copilot/gpt-6.1-sol": "high",
     "github-copilot/gpt-6-sol": "high",
