@@ -21,3 +21,9 @@ url = "https://mcp.atlassian.com/v2/mcp"
 
 [features]
 hooks = true
+
+[hooks.state."/Users/rselbach/.codex/hooks.json:pre_tool_use:1:0"]
+trusted_hash = "sha256:0c49e3a55187062481514e2710c8c13490b469e0961a039f36d45bd11357282b"
+
+[hooks.state."/Users/rselbach/.codex/hooks.json:post_tool_use:1:0"]
+trusted_hash = "sha256:526d3bcc21816eb3153eccce389bd603b3852b5a333198cd961dd472ae687029"

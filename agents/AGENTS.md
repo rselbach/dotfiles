@@ -38,6 +38,12 @@
   results while the code, dependencies, and environment they cover are unchanged.
   Run live and performance checks when the changed behavior warrants them.
 - Prefer integration or end-to-end tests over mocks when practical.
+- Use blank lines to separate logical sections in tests: fixture setup,
+  mock expectations, the operation under test, and assertions. In multi-step
+  tests, separate each action-and-assertion sequence from the next.
+- Keep closely related statements together, including a call and its error
+  check or assertions about the same result. Do not put a blank line after
+  every statement or add section comments when whitespace is enough.
 - Remove temporary binaries or artifacts created solely for testing.
 - Use Community references for fake data, such as Troy Barnes or Greendale
   Community College.

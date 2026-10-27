@@ -199,14 +199,76 @@ def active_downloads_for(downloads: list[DownloadSpec]) -> list[DownloadSpec]:
     return [download for download in downloads if download.os in (None, os_name)]
 
 
+def load_host_groups() -> dict[str, list[str]]:
+    """Load and validate host groups from the repo-root .config.toml."""
+    path = DOTFILES / ".config.toml"
+    if not path.exists():
+        return {}
+
+    try:
+        with path.open("rb") as f:
+            raw = tomllib.load(f).get("host_groups", {})
+    except (OSError, tomllib.TOMLDecodeError) as err:
+        raise InstallError(f"{path}: {err}") from err
+
+    if not isinstance(raw, dict):
+        raise InstallError(f"{path}: host_groups must be a table")
+
+    groups: dict[str, list[str]] = {}
+    for name, hosts in raw.items():
+        if not name.strip() or name.startswith("@"):
+            raise InstallError(f"{path}: invalid host group name: {name!r}")
+        key = name.lower()
+        if key in groups:
+            raise InstallError(f"{path}: duplicate host group: {name}")
+        if not isinstance(hosts, list) or not hosts:
+            raise InstallError(f"{path}: host group {name!r} must be a non-empty list")
+        if any(
+            not isinstance(host, str) or not host.strip() or host.startswith("@")
+            for host in hosts
+        ):
+            raise InstallError(
+                f"{path}: host group {name!r} must contain only literal hostnames"
+            )
+        groups[key] = hosts
+    return groups
+
+
+def expand_host_groups(
+    hosts: list[str], groups: dict[str, list[str]], path: Path
+) -> list[str]:
+    """Replace @group references in a host list with literal hostnames."""
+    if not isinstance(hosts, list) or any(
+        not isinstance(host, str) or not host.strip() for host in hosts
+    ):
+        raise InstallError(f"{path}: host filters must be lists of non-empty strings")
+
+    expanded: list[str] = []
+    for host in hosts:
+        if not host.startswith("@"):
+            expanded.append(host)
+            continue
+        key = host[1:].lower()
+        if key not in groups:
+            raise InstallError(f"{path}: unknown host group: {host}")
+        expanded.extend(groups[key])
+    return expanded
+
+
 def load_config(config_dir: Path) -> Config:
     """Parse .config.toml from a directory, or return default Config."""
+    groups = load_host_groups()
     toml_path = config_dir / ".config.toml"
     if not toml_path.exists():
         return Config()
 
     with open(toml_path, "rb") as f:
         raw = tomllib.load(f)
+
+    for entry in raw.get("links", []) + raw.get("run", []):
+        for key in ("hosts", "exclude_hosts"):
+            if key in entry:
+                entry[key] = expand_host_groups(entry[key], groups, toml_path)
 
     return Config(
         target=raw.get("target"),
@@ -934,20 +996,12 @@ def main() -> None:
     match command:
         case "install":
             requested = rest if rest else discover_dirs(DOTFILES)
-            try:
-                names = resolve_install_names(requested)
-            except InstallError as err:
-                print(f"ERROR: {err}")
-                sys.exit(1)
+            names = resolve_install_names(requested)
             manifest = {"symlinks": [], "files": [], "dirs_created": []}
             for name in names:
                 config = load_config(DOTFILES / name)
                 print(f"[{name}]")
-                try:
-                    install_dir(name, config, manifest)
-                except InstallError as err:
-                    print(f"  ERROR: {err}")
-                    sys.exit(1)
+                install_dir(name, config, manifest)
                 if not config.skip:
                     check_watches(name, config)
             save_manifest(manifest)
@@ -966,4 +1020,8 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except InstallError as err:
+        print(f"ERROR: {err}", file=sys.stderr)
+        sys.exit(1)

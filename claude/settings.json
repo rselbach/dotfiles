@@ -6,33 +6,33 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "^Bash$",
         "hooks": [
           {
             "type": "command",
-            "command": "atuin hook claude-code"
+            "command": "/Users/rselbach/.atuin/bin/atuin hook claude-code"
           }
         ]
       }
     ],
     "PostToolUseFailure": [
       {
-        "matcher": "Bash",
+        "matcher": "^Bash$",
         "hooks": [
           {
             "type": "command",
-            "command": "atuin hook claude-code"
+            "command": "/Users/rselbach/.atuin/bin/atuin hook claude-code"
           }
         ]
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "^Bash$",
         "hooks": [
           {
             "type": "command",
-            "command": "atuin hook claude-code"
+            "command": "/Users/rselbach/.atuin/bin/atuin hook claude-code"
           }
         ]
       }

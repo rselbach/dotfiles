@@ -5,7 +5,7 @@ dst = "~/.config/opencode/opencode.json"
 [[links]]
 src = "opencode-work.json"
 dst = "~/.config/opencode/opencode.json"
-hosts = ["rselbach-KJG3M7PY7D"]
+hosts = ["@work"]
 
 [[links]]
 src = "../agents/AGENTS.md"

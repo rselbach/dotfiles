@@ -22,7 +22,16 @@ async function startHistory(
 	try {
 		const result = await pi.exec(
 			"atuin",
-			["history", "start", "--author", ATUIN_AUTHOR, "--", command],
+			[
+				"history",
+				"start",
+				"--author",
+				ATUIN_AUTHOR,
+				"--author-kind",
+				"agent",
+				"--",
+				command,
+			],
 			{ cwd, timeout: ATUIN_TIMEOUT_MS },
 		);
 
@@ -52,10 +61,16 @@ async function endHistory(
 	}
 }
 
-// The bash tool reports failures by appending a status line to the result
+// pi's bash tool reports failures by appending a status line to the result
 // text rather than exposing a numeric exit code, so recover it from there.
+// omp's keeps them in its details too, and brackets the status lines.
 function exitCodeFromResult(result: unknown, isError: boolean): number {
 	if (!isError) return 0;
+
+	const details = (result as { details?: { exitCode?: unknown; timedOut?: unknown } } | undefined)
+		?.details;
+	if (details?.timedOut === true) return 124;
+	if (typeof details?.exitCode === "number") return details.exitCode;
 
 	const content = (result as { content?: unknown } | undefined)?.content;
 	const text = Array.isArray(content)
@@ -69,8 +84,8 @@ function exitCodeFromResult(result: unknown, isError: boolean): number {
 
 	const exited = text.match(/Command exited with code (\d+)\s*$/);
 	if (exited) return Number(exited[1]);
-	if (/Command aborted\s*$/.test(text)) return 130;
-	if (/Command timed out after \S+ seconds\s*$/.test(text)) return 124;
+	if (/Command aborted\]?\s*$/.test(text) || text.startsWith("[Command cancelled]")) return 130;
+	if (/Command timed out( after \S+ seconds)?\]?\s*$/.test(text)) return 124;
 	return 1;
 }
 

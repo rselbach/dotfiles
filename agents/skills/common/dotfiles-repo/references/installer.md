@@ -20,6 +20,30 @@
   config unit. Defining `[[downloads]]` or `[[repositories]]` also disables the
   default link.
 
+## Global host groups
+
+The optional repo-root `.config.toml` defines shared hostname groups:
+
+```toml
+[host_groups]
+work = ["troy-laptop", "abed-desktop"]
+```
+
+`"@work"` expands to those hostnames in `links[].hosts`,
+`links[].exclude_hosts`, and `run[].hosts`. Lists can mix group references and
+literal hostnames. Bare `"work"` remains a literal hostname.
+
+- Group names and hostname matching are case-insensitive.
+- A hostname can belong to multiple groups. Full hostnames, including any
+  `.local` suffix, must be listed explicitly.
+- Groups must contain non-empty lists of literal hostnames. Nested groups and
+  unknown references are errors.
+- Group names cannot be empty, start with `@`, or differ only by case.
+- Group-based links have the same priority as literal hostname-based links.
+  The last matching link wins when priority and destination are equal.
+- Without the root file, literal host filters work as before. Group references
+  are errors.
+
 ## `.config.toml` details
 
 `[[links]]` fields:
@@ -29,10 +53,9 @@
 - `dst`: destination path. `~` and environment variables are expanded.
 - `os`: optional filter; values are normalized platform names like `darwin`,
   `linux`, `windows`.
-- `hosts`: optional hostname allow-list; compared case-insensitively against
-  `platform.node()`.
-- `exclude_hosts`: optional hostname deny-list; compared case-insensitively
-  against `platform.node()`.
+- `hosts`: optional allow-list of hostnames or `@group` references; expanded
+  hostnames are compared case-insensitively against `platform.node()`.
+- `exclude_hosts`: optional deny-list with the same hostname and group syntax.
 - `exclude`: optional list of name globs; glob matches whose basename matches
   one are skipped.
 - `optional = true`: skip silently when `src` does not exist.

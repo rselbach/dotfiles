@@ -180,3 +180,45 @@ hosts = ["callisto"]
 
 On host `callisto`, the second link replaces the first (same `dst`). On all
 other hosts, the first link applies.
+
+### Host groups
+
+The optional repo-root `.config.toml` defines groups shared by all config units:
+
+```toml
+[host_groups]
+work = ["troy-laptop", "abed-desktop"]
+```
+
+A name prefixed with `@` expands to the group's hostnames in link `hosts`, link
+`exclude_hosts`, and run-command `hosts` lists:
+
+```toml
+[[links]]
+src = "settings-work.json"
+dst = "~/.config/example/settings.json"
+hosts = ["@work"]
+
+[[links]]
+src = "personal.json"
+dst = "~/.config/example/personal.json"
+exclude_hosts = ["@work"]
+
+[[run]]
+cmd = "echo work setup"
+hosts = ["@work", "jeff-laptop"]
+```
+
+Group names and hostname matching are case-insensitive. A hostname can belong
+to multiple groups. Bare names remain literal hostnames, so `"work"` and
+`"@work"` mean different things. Full hostnames must be listed explicitly;
+`"troy-laptop"` and `"troy-laptop.local"` are separate entries.
+
+Groups must contain a non-empty list of literal hostnames. Nested groups,
+unknown references, and group names that differ only by case are errors.
+Group names cannot be empty or start with `@`.
+
+Group-based links have the same priority as literal hostname-based links.
+When matching links have equal priority and the same destination, the last
+entry wins. Without a repo-root `.config.toml`, literal host filters work as
+before, but group references are errors.

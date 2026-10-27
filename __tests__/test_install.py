@@ -3,6 +3,7 @@ import io
 import os
 import stat
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -55,6 +56,224 @@ class DependencyTests(unittest.TestCase):
                 "config unit not found: abed",
             ):
                 installer.resolve_install_names(["troy"])
+
+
+class HostGroupTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp_dir.cleanup)
+        self.root = Path(self.temp_dir.name).resolve() / "dotfiles"
+        self.root.mkdir()
+        self.home = self.root.parent / "home"
+        self.home.mkdir()
+        self.unit = self.root / "community"
+        self.unit.mkdir()
+        self.global_config = self.root / ".config.toml"
+        self.global_config.write_text('[host_groups]\nwork = ["Troy", "Abed"]\n')
+        patcher = mock.patch.object(installer, "DOTFILES", self.root)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def load_config(self, contents: str) -> installer.Config:
+        (self.unit / ".config.toml").write_text(contents)
+        return installer.load_config(self.unit)
+
+    def cli(self, *args: str) -> subprocess.CompletedProcess[str]:
+        script = self.root / "install.py"
+        script.write_text(Path(installer.__file__).read_text())
+        return subprocess.run(
+            [sys.executable, str(script), *args],
+            env={**os.environ, "HOME": str(self.home)},
+            capture_output=True,
+            text=True,
+        )
+
+    def test_expands_groups_in_all_host_fields(self) -> None:
+        self.global_config.write_text(
+            '[host_groups]\nWork = ["Troy", "Abed"]\n'
+            'study = ["Abed", "Annie"]\n'
+        )
+
+        config = self.load_config(
+            '[[links]]\nsrc = "config"\ndst = "~/config"\n'
+            'hosts = ["@WORK", "Jeff", "@study"]\n'
+            'exclude_hosts = ["@work"]\n'
+            '[[run]]\ncmd = "true"\nhosts = ["@work"]\n'
+        )
+
+        self.assertEqual(
+            ["Troy", "Abed", "Jeff", "Abed", "Annie"], config.links[0].hosts
+        )
+        self.assertEqual(["Troy", "Abed"], config.links[0].exclude_hosts)
+        self.assertEqual(["Troy", "Abed"], config.runs[0].hosts)
+
+    def test_literal_hosts_work_without_global_config(self) -> None:
+        self.global_config.unlink()
+
+        config = self.load_config(
+            '[[links]]\nsrc = "config"\ndst = "~/config"\n'
+            'hosts = ["Troy"]\nexclude_hosts = ["Abed"]\n'
+            '[[run]]\ncmd = "true"\nhosts = []\n'
+        )
+
+        self.assertEqual(["Troy"], config.links[0].hosts)
+        self.assertEqual(["Abed"], config.links[0].exclude_hosts)
+        self.assertEqual([], config.runs[0].hosts)
+
+    def test_rejects_unknown_groups_in_all_host_fields(self) -> None:
+        for section, field in [
+            ('[[links]]\nsrc = "config"\ndst = "~/config"', "hosts"),
+            ('[[links]]\nsrc = "config"\ndst = "~/config"', "exclude_hosts"),
+            ('[[run]]\ncmd = "true"', "hosts"),
+        ]:
+            with self.subTest(section=section, field=field):
+                with self.assertRaisesRegex(
+                    installer.InstallError, "unknown host group: @missing"
+                ) as error:
+                    self.load_config(f'{section}\n{field} = ["@missing"]\n')
+
+                self.assertIn(str(self.unit / ".config.toml"), str(error.exception))
+
+    def test_group_reference_without_global_config_is_an_error(self) -> None:
+        self.global_config.unlink()
+
+        with self.assertRaisesRegex(installer.InstallError, "unknown host group"):
+            self.load_config(
+                '[[links]]\nsrc = "config"\ndst = "~/config"\nhosts = ["@work"]\n'
+            )
+
+    def test_rejects_invalid_group_definitions(self) -> None:
+        cases = {
+            "not a table": 'host_groups = ["work"]\n',
+            "not a list": '[host_groups]\nwork = "Troy"\n',
+            "empty group": '[host_groups]\nwork = []\n',
+            "empty member": '[host_groups]\nwork = [""]\n',
+            "non-string member": '[host_groups]\nwork = [42]\n',
+            "nested group": '[host_groups]\nwork = ["@study"]\n',
+            "empty name": '[host_groups]\n"" = ["Troy"]\n',
+            "prefixed name": '[host_groups]\n"@work" = ["Troy"]\n',
+            "duplicate name": '[host_groups]\nwork = ["Troy"]\nWORK = ["Abed"]\n',
+            "invalid TOML": '[host_groups\n',
+        }
+        for name, contents in cases.items():
+            with self.subTest(name=name):
+                self.global_config.write_text(contents)
+
+                with self.assertRaises(installer.InstallError) as error:
+                    self.load_config('target = "~/community"\n')
+
+                self.assertIn(str(self.global_config), str(error.exception))
+
+    def test_rejects_invalid_host_lists(self) -> None:
+        for hosts in ['"@work"', '[42]']:
+            with self.subTest(hosts=hosts):
+                with self.assertRaises(installer.InstallError):
+                    self.load_config(
+                        '[[links]]\nsrc = "config"\ndst = "~/config"\n'
+                        f'hosts = {hosts}\n'
+                    )
+
+    def test_filters_groups_case_insensitively(self) -> None:
+        config = self.load_config(
+            '[[links]]\nsrc = "work"\ndst = "~/work"\nhosts = ["@work"]\n'
+            '[[links]]\nsrc = "personal"\ndst = "~/personal"\n'
+            'exclude_hosts = ["@work"]\n'
+            '[[run]]\ncmd = "true"\nhosts = ["@work"]\n'
+        )
+        for host, matches in {"TROY": True, "abed": True, "Jeff": False}.items():
+            with self.subTest(host=host):
+                with mock.patch.object(installer.platform, "node", return_value=host):
+                    work = installer.active_link_specificity(config.links[0])
+                    personal = installer.active_link_specificity(config.links[1])
+                    runs = installer.active_runs_for(config.runs)
+
+                self.assertEqual(2 if matches else None, work)
+                self.assertEqual(None if matches else 0, personal)
+                self.assertEqual(config.runs if matches else [], runs)
+
+    def test_bare_group_name_remains_a_literal_hostname(self) -> None:
+        config = self.load_config(
+            '[[links]]\nsrc = "config"\ndst = "~/config"\nhosts = ["work"]\n'
+        )
+
+        with mock.patch.object(installer.platform, "node", return_value="Troy"):
+            self.assertIsNone(installer.active_link_specificity(config.links[0]))
+
+        with mock.patch.object(installer.platform, "node", return_value="work"):
+            self.assertEqual(2, installer.active_link_specificity(config.links[0]))
+
+    def test_group_links_keep_hostname_priority(self) -> None:
+        config = self.load_config(
+            '[[links]]\nsrc = "default"\ndst = "~/config"\n'
+            '[[links]]\nsrc = "os"\ndst = "~/config"\nos = "linux"\n'
+            '[[links]]\nsrc = "work"\ndst = "~/config"\nhosts = ["@work"]\n'
+            '[[links]]\nsrc = "troy"\ndst = "~/config"\nhosts = ["Troy"]\n'
+        )
+        for links, want in [
+            (config.links[:3], "work"),
+            (config.links, "troy"),
+            ([*config.links[:2], config.links[3], config.links[2]], "work"),
+        ]:
+            with self.subTest(want=want, links=len(links)):
+                with (
+                    mock.patch.object(installer.platform, "node", return_value="Troy"),
+                    mock.patch.object(
+                        installer.platform, "system", return_value="Linux"
+                    ),
+                ):
+                    entries = installer.active_link_entries_for(links, self.unit)
+
+                self.assertEqual([self.unit / want], [entry.src for entry in entries])
+
+    def test_cli_installs_checks_and_uninstalls_group_links(self) -> None:
+        self.global_config.write_text(
+            f'[host_groups]\nwork = ["{installer.current_host()}"]\n'
+        )
+        for name in ["default", "work", "personal"]:
+            (self.unit / name).write_text(name)
+        self.load_config(
+            '[[links]]\nsrc = "default"\ndst = "~/.community"\n'
+            '[[links]]\nsrc = "work"\ndst = "~/.community"\nhosts = ["@work"]\n'
+            '[[links]]\nsrc = "personal"\ndst = "~/.personal"\n'
+            'exclude_hosts = ["@work"]\n'
+            '[[run]]\ncmd = "touch group-ran"\nhosts = ["@work"]\n'
+            '[[run]]\ncmd = "touch other-ran"\nhosts = ["CityCollege"]\n'
+        )
+
+        result = self.cli("install", "community")
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertTrue((self.home / ".community").is_symlink())
+        self.assertEqual(self.unit / "work", (self.home / ".community").resolve())
+        self.assertFalse((self.home / ".personal").exists())
+        self.assertTrue((self.unit / "group-ran").is_file())
+        self.assertFalse((self.unit / "other-ran").exists())
+
+        result = self.cli("status")
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("1 ok, 0 broken", result.stdout)
+
+        result = self.cli("uninstall")
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertFalse((self.home / ".community").is_symlink())
+
+    def test_cli_reports_config_errors_without_installing(self) -> None:
+        (self.unit / ".config.toml").write_text(
+            '[[links]]\nsrc = "config"\ndst = "~/.community"\n'
+            'hosts = ["@missing"]\n'
+        )
+        for command in ["install", "status"]:
+            with self.subTest(command=command):
+                result = self.cli(command)
+
+                self.assertEqual(1, result.returncode)
+                self.assertIn("ERROR:", result.stderr)
+                self.assertIn("unknown host group: @missing", result.stderr)
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertEqual([], list(self.home.iterdir()))
+                self.assertFalse((self.root / ".install-manifest.json").exists())
 
 
 class DownloadTests(unittest.TestCase):

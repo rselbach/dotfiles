@@ -3,7 +3,7 @@
   "defaultProvider": "github-copilot",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.2.0",
+  "lastChangelogVersion": "1.4.0",
   "packages": [
     "npm:pi-web-access",
     "npm:@ff-labs/pi-fff",
