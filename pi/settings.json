@@ -1,9 +1,9 @@
 {
-  "lastChangelogVersion": "1.2.0",
-  "defaultThinkingLevel": "max",
+  "lastChangelogVersion": "1.4.0",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-6.1-sol",
+  "defaultProvider": "claude-bridge",
+  "defaultModel": "claude-opus-5-5",
   "packages": [
     "npm:@ff-labs/pi-fff",
     "npm:@howaboua/pi-codex-conversion",
@@ -12,11 +12,12 @@
   "theme": "omarchy-system",
   "modelThinkingLevels": {
     "openai-codex/gpt-6.1-sol": "max",
-    "claude-bridge/claude-opus-5-5": "medium",
+    "claude-bridge/claude-opus-5-5": "high",
     "claude-bridge/claude-sonnet-5-5": "xhigh",
     "openai-codex/gpt-6-luna": "max",
     "claude-bridge/claude-fable-5-1": "medium",
     "fireworks/accounts/fireworks/models/glm-5p3-flash": "max",
-    "openai-codex/gpt-6-astra": "max"
+    "openai-codex/gpt-6-astra": "max",
+    "opencode-go/kimi-k3.1-pro": "max"
   }
 }
