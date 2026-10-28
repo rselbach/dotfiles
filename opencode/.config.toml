@@ -18,3 +18,7 @@ dst = "~/.config/opencode/agents"
 [[links]]
 src = "plugins"
 dst = "~/.config/opencode/plugins"
+
+[[links]]
+src = "cli.json"
+dst = "~/.config/opencode/cli.json"
