@@ -30,7 +30,5 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # opencode
 export PATH=/Users/rselbach/.opencode/bin:$PATH
 
-eval "$(atuin init zsh)"
-
 # Added by the Hunk installer (https://hunk.dev)
 export PATH='/Users/rselbach/.hunk/bin':"$PATH"
