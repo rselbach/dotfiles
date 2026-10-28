@@ -4,5 +4,5 @@ if [[ ! -o interactive &&
     -n ${CODEX_THREAD_ID:-} ||
     -n ${OPENCODE:-} ||
     -n ${PI_CODING_AGENT:-} ) ]]; then
-  unsetopt nomatch equals
+  unsetopt sh_word_split nomatch equals
 fi
