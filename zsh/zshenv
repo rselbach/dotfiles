@@ -1,0 +1,8 @@
+# Relax expansion errors only for noninteractive agent shells.
+if [[ ! -o interactive &&
+  ( -n ${CLAUDECODE:-} ||
+    -n ${CODEX_THREAD_ID:-} ||
+    -n ${OPENCODE:-} ||
+    -n ${PI_CODING_AGENT:-} ) ]]; then
+  unsetopt nomatch equals
+fi
