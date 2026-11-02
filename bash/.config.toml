@@ -1,0 +1,9 @@
+depends = ["jj-git-prompt"]
+
+[[links]]
+src = "bashrc"
+dst = "~/.bashrc"
+
+[[links]]
+src = "bash_profile"
+dst = "~/.bash_profile"

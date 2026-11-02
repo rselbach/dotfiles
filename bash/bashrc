@@ -1,0 +1,41 @@
+# Bootstrap Bash without loading interactive features in scripts or SSH commands.
+if [[ -r /usr/share/omarchy/default/bash/env-bootstrap ]]; then
+  # shellcheck source=/dev/null
+  source /usr/share/omarchy/default/bash/env-bootstrap || return
+fi
+[[ $- == *i* ]] || return 0
+
+
+# PROMPT_COMMAND arrays require Bash 5.1 or newer.
+if (( BASH_VERSINFO[0] < 5 ||
+  (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] < 1) )); then
+  printf '%s\n' 'This configuration requires Bash 5.1 or newer.' >&2
+  return 1
+fi
+
+# Resolve the installed ~/.bashrc symlink, including relative link targets.
+_bashrc_path=${BASH_SOURCE[0]}
+while [[ -L "${_bashrc_path}" ]]; do
+  _bashrc_dir=$(cd -P -- "$(dirname -- "${_bashrc_path}")" && pwd) || return
+  _bashrc_path=$(readlink -- "${_bashrc_path}") || return
+  [[ ${_bashrc_path} == /* ]] || _bashrc_path=${_bashrc_dir}/${_bashrc_path}
+done
+_bashrc_dir=$(cd -P -- "$(dirname -- "${_bashrc_path}")" && pwd) || return
+
+for _bashrc_file in "${_bashrc_dir}"/rc.d/*.bash; do
+  # shellcheck source=/dev/null
+  if ! source "${_bashrc_file}"; then
+    printf 'failed to load %s\n' "${_bashrc_file}" >&2
+    unset _bashrc_path _bashrc_dir _bashrc_file
+    return 1
+  fi
+done
+unset _bashrc_path _bashrc_dir _bashrc_file
+
+if [[ -f "${HOME}/.bash.local" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.bash.local" || return
+fi
+
+. "$HOME/.atuin/bin/env"
+eval "$(atuin init bash)"
