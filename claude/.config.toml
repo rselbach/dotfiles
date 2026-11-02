@@ -1,9 +1,4 @@
 [[links]]
-src = "settings.json"
-dst = "~/.claude/settings.json"
-exclude_hosts = ["@work"]
-
-[[links]]
 src = "../agents/AGENTS.md"
 dst = "~/.claude/CLAUDE.md"
 exclude_hosts = ["@work"]

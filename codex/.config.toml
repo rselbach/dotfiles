@@ -4,10 +4,5 @@ dst = "~/.codex/AGENTS.md"
 exclude_hosts = ["@work"]
 
 [[links]]
-src = "./config-work.toml"
-dst = "~/.codex/config.toml"
-hosts = ["@work"]
-
-[[links]]
 src = "./prompts"
 dst = "~/.codex/prompts"
