@@ -1,18 +1,2 @@
-export GOLANG_PROTOBUF_REGISTRATION_CONFLICT='ignore'
-export GOPRIVATE='github.com/hashicorp'
-
-_path_add \
-  "${HOME}/.govm/current/bin" \
-  "${HOME}/devel/go/bin" \
-  "${HOME}/go/bin"
-
-coverhtml() {
-  go test -coverprofile=/tmp/c.out "$@" || return 1
-  go tool cover -html=/tmp/c.out -o /tmp/coverage.html || return 2
-
-  if command -v open >/dev/null; then
-    open /tmp/coverage.html
-  elif command -v xdg-open >/dev/null; then
-    xdg-open /tmp/coverage.html
-  fi
-}
+# shellcheck source=shell/rc.d/15-go.sh
+source "${_bashrc_dir:?}/../shell/rc.d/15-go.sh"

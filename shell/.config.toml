@@ -1,0 +1,2 @@
+# Shared fragments are sourced relative to the Bash and Zsh repo directories.
+skip = true

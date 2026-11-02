@@ -1,2 +1,2 @@
-export GOOGLE_APPLICATION_CREDENTIALS=\
-"${XDG_CONFIG_HOME}/gcloud/application_default_credentials.json"
+# shellcheck source=shell/rc.d/20-gcloud.sh
+source "${_bashrc_dir:?}/../shell/rc.d/20-gcloud.sh"

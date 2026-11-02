@@ -1,7 +1,8 @@
 # Bash experiment
 
 Requires Bash 5.1 or newer (use Homebrew Bash on macOS, not `/bin/bash`).
-The configuration is independent of Zsh and never sources its files.
+Shell-specific setup stays here; common aliases and helpers live in
+[`../shell/rc.d`](../shell/rc.d) and are also loaded by Zsh.
 
 To try the configuration without installing it:
 
