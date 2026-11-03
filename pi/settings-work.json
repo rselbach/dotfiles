@@ -1,7 +1,7 @@
 {
   "defaultModel": "gpt-6.1-sol",
   "defaultProvider": "github-copilot",
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "max",
   "hideThinkingBlock": false,
   "lastChangelogVersion": "1.4.0",
   "packages": [
@@ -10,7 +10,7 @@
     "npm:pi-terminal-mux"
   ],
   "modelThinkingLevels": {
-    "github-copilot/gpt-6.1-sol": "high",
+    "github-copilot/gpt-6.1-sol": "max",
     "github-copilot/gpt-6-sol": "high",
     "github-copilot/gemini-3.8-flash": "medium",
     "github-copilot/gpt-6-luna": "high"

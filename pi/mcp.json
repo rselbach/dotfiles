@@ -11,6 +11,9 @@
       "args": [
         "mcp"
       ]
+    },
+    "setsquare": {
+      "url": "https://setsquare.rselbach.com/mcp"
     }
   }
 }
