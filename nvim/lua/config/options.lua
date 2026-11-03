@@ -7,6 +7,8 @@ vim.opt.wrap = true
 vim.opt.textwidth = 80
 vim.opt.scrolloff = 8
 vim.opt.mouse = "a"
+-- use the theme cursor color instead of the terminal default, preserving shapes
+vim.opt.guicursor:append("a:Cursor")
 -- vim.g.codeium_os = "Darwin"
 -- vim.g.codeium_arch = "arm64"
 vim.g.codeium_enabled = false
