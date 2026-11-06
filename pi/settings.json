@@ -1,9 +1,9 @@
 {
-  "lastChangelogVersion": "1.4.0",
+  "lastChangelogVersion": "1.5.0",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
-  "defaultProvider": "claude-bridge",
-  "defaultModel": "claude-opus-5-5",
+  "defaultProvider": "magpie",
+  "defaultModel": "claude/claude-opus-5-5",
   "packages": [
     "npm:@ff-labs/pi-fff",
     "npm:@howaboua/pi-codex-conversion",
@@ -18,6 +18,11 @@
     "claude-bridge/claude-fable-5-1": "medium",
     "fireworks/accounts/fireworks/models/glm-5p3-flash": "max",
     "openai-codex/gpt-6-astra": "max",
-    "opencode-go/kimi-k3.1-pro": "max"
+    "opencode-go/kimi-k3.1-pro": "max",
+    "magpie/claude/claude-opus-5-5": "high",
+    "magpie/codex/gpt-6.1-sol": "high"
+  },
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "4.0.4"
   }
 }

@@ -15,8 +15,8 @@ or feedback. If the user's instructions name council members, use
 those. Otherwise pick the ones below:
 
 - GPT Sol (xhigh)
-- GPT Astra (xhigh)
-- Claude Opus (medium)
+- Claude Opus 5.5 (high)
+- Antigravity Gemini 4 Argon (high)
 
 In T3 Code, use `orchestrator_capabilities` to resolve the models, then
 `delegate_task` to start one delegate per model in parallel. Elsewhere, use
