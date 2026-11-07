@@ -1,57 +1,58 @@
 ---
 name: github-deployment-secrets
-description: Configure or audit GitHub Actions deployment secrets sourced from the 1Password item "App deployment secrets". Use when setting up a GitHub repository for macOS Developer ID signing, notarization, Sparkle update signing, or Homebrew tap updates, when a workflow references Apple deployment credentials or TAP_GITHUB_TOKEN, or when checking which shared deployment fields already exist in 1Password.
+description: Configure or audit GitHub Actions deployment secrets sourced from the 1Password Environment "Github deployment". Use when setting up a GitHub repository for macOS Developer ID signing, notarization, Sparkle update signing, or Homebrew tap updates, when a workflow references Apple deployment credentials or TAP_GITHUB_TOKEN, or when checking which shared deployment fields already exist in 1Password.
 ---
 
 # GitHub Deployment Secrets
 
-Use the 1Password item `App deployment secrets` in the `Private` vault as the
-source of shared macOS deployment credentials.
+Use the 1Password Environment `Github deployment` as the source of shared macOS
+deployment credentials. Its secrets are mounted as a local `.env` file at
+`~/.config/scimtest-deploy/github-deployment.env`.
 
 ## Safety
 
 - Never print, log, paste, or store secret values in files or model output.
-- Retrieve fields with `op read` and pipe them directly to the consumer.
-- Report field names and availability only.
-- Never commit credentials. Keep 1Password references out of public CI config
-  when they reveal private account or vault structure unnecessarily.
-- Get explicit user authorization before writing GitHub secrets. Reading field
-  metadata is safe by default.
+- Read values only through `scripts/configure-macos-secrets.sh`, which pipes
+  each one directly into `gh secret set`.
+- Report variable names and availability only.
+- Never commit credentials or the mounted file.
+- Get explicit user authorization before writing GitHub secrets. Reading
+  secret names is safe by default.
 
-## Known fields
+## Known variables
 
-Map the item fields to GitHub Actions secrets as follows:
+Map the Environment variables to GitHub Actions secrets as follows:
 
-| 1Password field | GitHub secret |
+| Environment variable | GitHub secret |
 | --- | --- |
-| `apple_account_id` | `APPLE_ID` |
-| `app_specific_password` | `APPLE_APP_SPECIFIC_PASSWORD` |
-| `apple_team_id` | `APPLE_TEAM_ID` |
-| `apple_signing_identity` | `APPLE_SIGNING_IDENTITY` |
-| `p12_certificate_base64` | `MACOS_CERTIFICATE_P12_BASE64` |
-| `p12_certificate_password` | `MACOS_CERTIFICATE_PASSWORD` |
-| `sparkle_eddsa_private_key` | `SPARKLE_EDDSA_PRIVATE_KEY` |
-| `homebrew_tap_token` | `TAP_GITHUB_TOKEN` |
+| `APPLE_ACCOUNT_ID` | `APPLE_ID` |
+| `APP_SPECIFIC_PASSWORD` | `APPLE_APP_SPECIFIC_PASSWORD` |
+| `APPLE_TEAM_ID` | `APPLE_TEAM_ID` |
+| `APPLE_SIGNING_IDENTITY` | `APPLE_SIGNING_IDENTITY` |
+| `P12_CERTIFICATE_BASE64` | `MACOS_CERTIFICATE_P12_BASE64` |
+| `P12_CERTIFICATE_PASSWORD` | `MACOS_CERTIFICATE_PASSWORD` |
+| `SPARKLE_EDDSA_PRIVATE_KEY` | `SPARKLE_EDDSA_PRIVATE_KEY` |
+| `HOMEBREW_TAP_TOKEN` | `TAP_GITHUB_TOKEN` |
 
-These fields support Developer ID signing plus `notarytool` authentication with
-an Apple Account. The Sparkle private key signs update archives and appcasts.
-They do not imply App Store distribution.
+These variables support Developer ID signing plus `notarytool` authentication
+with an Apple Account. The Sparkle private key signs update archives and
+appcasts. They do not imply App Store distribution.
 
-The `homebrew_tap_token` field is a GitHub token that can push to
+The `HOMEBREW_TAP_TOKEN` variable is a GitHub token that can push to
 `rselbach/homebrew-tap`. Release workflows use it to update a formula or cask
 after they publish a release.
 
-The `sparkle_eddsa_public_key` field is not a GitHub secret. Add its value to
+The `SPARKLE_EDDSA_PUBLIC_KEY` variable is not a GitHub secret. Add its value to
 the application's `Info.plist` as `SUPublicEDKey`. The public key is safe to
 commit, but read it only when the task requires configuring Sparkle.
 
-The `apple_signing_identity` field contains the full Developer ID Application
+The `APPLE_SIGNING_IDENTITY` variable contains the full Developer ID Application
 identity used by `codesign`.
 
 Use the secret names required by the target workflow. For example, LlamaProxy
 uses `APPLE_PASSWORD`, `APPLE_CERTIFICATE`, and `APPLE_CERTIFICATE_PASSWORD`
 instead of `APPLE_APP_SPECIFIC_PASSWORD`, `MACOS_CERTIFICATE_P12_BASE64`, and
-`MACOS_CERTIFICATE_PASSWORD`, respectively. The source fields are unchanged.
+`MACOS_CERTIFICATE_PASSWORD`, respectively. The source variables are unchanged.
 
 Do not invent missing values. A repository workflow may additionally require an
 ephemeral keychain password, another GitHub token, or application-specific
@@ -62,20 +63,25 @@ stored.
 ## Workflow
 
 1. Inspect the repository workflow and enumerate required secret names.
-2. Check `op account list` without exposing values. If desktop integration is
-   unavailable, ask the user to unlock/restart 1Password and enable its CLI
-   integration under Developer settings.
-3. For a read-only audit, check that each expected field resolves; discard the
-   value and report only present/missing state.
+2. For a read-only audit, call the 1Password MCP `list_secrets` for the
+   `Github deployment` Environment and confirm each expected variable name is
+   present. Report only present or missing names.
+3. Confirm the mount exists at `~/.config/scimtest-deploy/github-deployment.env`.
+   If it is missing, recreate it with the MCP `create_local_env_file` tool
+   (accountId `DCEK4TMLNBDINKUDDVMEZSEG6E`, environmentId
+   `6gbwtrqhednbhoojky2jt352uq`, environmentName `Github deployment`) and
+   ask the user before doing so.
 4. For authorized GitHub configuration, run
    `scripts/configure-macos-secrets.sh OWNER/REPO`. For a workflow that signs
    Sparkle updates, add `--sparkle`. For a workflow that updates the Homebrew
-   tap, add `--homebrew-tap`. The script streams each value from
-   1Password directly into `gh secret set`. If the workflow uses different
-   secret names, adapt the mappings before running the helper or stream the
-   required fields into `gh secret set` individually.
+   tap, add `--homebrew-tap`. The script checks that every expected variable is
+   present before it writes anything. If the workflow uses different secret
+   names, adapt the mappings in the script first.
 5. Compare the configured names with the workflow again and report any
    repo-specific secrets that remain.
+6. The helper removes the mount after all secrets are set. If it fails, the
+   mount stays so the run can be retried. Check leftovers with the MCP
+   `list_local_env_files` tool.
 
 Prefer repository secrets. Use environment secrets only when the workflow
 explicitly references a protected GitHub Environment and adjust the helper
