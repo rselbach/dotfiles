@@ -82,3 +82,7 @@ mouse-scroll-multiplier = 0.95
 # keybind = cmd+8=text:\x1b[56;6u
 # keybind = cmd+digit_9=text:\x1b[57;6u
 # keybind = cmd+9=text:\x1b[57;6u
+
+# >>> Scene: managed include. Remove this block to detach Scene. >>>
+config-file = ?"/Users/rselbach/.config/ghostty/scene.conf"
+# <<< Scene <<<
