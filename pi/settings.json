@@ -1,9 +1,9 @@
 {
+  "defaultModel": "accounts/fireworks/models/deepseek-v4p1-flash-1017",
+  "defaultProvider": "fireworks",
   "lastChangelogVersion": "1.5.0",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
-  "defaultProvider": "magpie",
-  "defaultModel": "claude/claude-opus-5-5",
   "packages": [
     "npm:@ff-labs/pi-fff",
     "npm:@howaboua/pi-codex-conversion",
@@ -20,7 +20,9 @@
     "openai-codex/gpt-6-astra": "max",
     "opencode-go/kimi-k3.1-pro": "max",
     "magpie/claude/claude-opus-5-5": "high",
-    "magpie/codex/gpt-6.1-sol": "high"
+    "magpie/codex/gpt-6.1-sol": "high",
+    "ollama-local/granite4:latest": "high",
+    "fireworks/accounts/fireworks/models/deepseek-v4p1-flash-1017": "high"
   },
   "extensionChangelogVersions": {
     "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "4.0.4"
