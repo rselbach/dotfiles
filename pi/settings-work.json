@@ -1,7 +1,7 @@
 {
-  "defaultModel": "gpt-6.1-sol",
-  "defaultProvider": "github-copilot",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "granite4:latest",
+  "defaultProvider": "ollama-local",
+  "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
   "lastChangelogVersion": "1.5.0",
   "packages": [
@@ -13,7 +13,11 @@
     "github-copilot/gpt-6.1-sol": "high",
     "github-copilot/gpt-6-sol": "high",
     "github-copilot/gemini-3.8-flash": "medium",
-    "github-copilot/gpt-6-luna": "high"
+    "github-copilot/gpt-6-luna": "high",
+    "github-copilot/claude-opus-5.5": "medium",
+    "magpie/claude/claude-haiku-5-5": "off",
+    "magpie/claude/claude-opus-5-5": "high",
+    "ollama-local/granite4:latest": "medium"
   },
   "extensionChangelogVersions": {
     "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.46.0"
