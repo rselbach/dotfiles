@@ -1,6 +1,6 @@
 [host_groups]
 work = [
   "rselbach-KJG3M7PY7D",
-  "robertos-macbook-pro",
-  "Robertos-MacBook-Pro.local",
+  "rselbach-G1XFH6LDV2",
+  "rselbach-G1XFH6LDV2.local"
 ]
