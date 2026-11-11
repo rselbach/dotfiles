@@ -1,12 +1,15 @@
 {
   "providers": {
     "ollama-local": {
-      "baseUrl": "http://rhea.local:11434/v1",
+      "_baseUrl": "http://rhea.local:11434/v1",
+      "baseUrl": "http://127.0.0.1:11432/v1",
       "api": "openai-responses",
-      "apiKey": "not-used",
+      "_apiKey": "not-used",
+      "apiKey": "123456",
       "models": [
         {
-          "id": "granite4.1:8b",
+          "id": "claude-cli/claude-fable-5-2",
+          "_id": "granite4.1:8b",
           "name": "granite4.1:8b",
           "reasoning": false,
           "input": [

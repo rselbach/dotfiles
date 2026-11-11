@@ -1,6 +1,6 @@
 {
-  "defaultModel": "accounts/fireworks/models/deepseek-v4p1-flash-1017",
-  "defaultProvider": "fireworks",
+  "defaultModel": "gpt-6.1-sol",
+  "defaultProvider": "openai-codex",
   "lastChangelogVersion": "1.5.0",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
@@ -11,7 +11,7 @@
   ],
   "theme": "omarchy-system",
   "modelThinkingLevels": {
-    "openai-codex/gpt-6.1-sol": "max",
+    "openai-codex/gpt-6.1-sol": "high",
     "claude-bridge/claude-opus-5-5": "high",
     "claude-bridge/claude-sonnet-5-5": "xhigh",
     "openai-codex/gpt-6-luna": "max",
@@ -22,7 +22,8 @@
     "magpie/claude/claude-opus-5-5": "high",
     "magpie/codex/gpt-6.1-sol": "high",
     "ollama-local/granite4:latest": "high",
-    "fireworks/accounts/fireworks/models/deepseek-v4p1-flash-1017": "high"
+    "fireworks/accounts/fireworks/models/deepseek-v4p1-flash-1017": "high",
+    "ollama-local/claude-cli/claude-fable-5-2": "off"
   },
   "extensionChangelogVersions": {
     "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "4.0.4"
