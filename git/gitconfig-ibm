@@ -5,3 +5,10 @@
 
 [url "git@github.com:hashicorp"]
 	insteadOf = https://github.com/hashicorp
+
+[hook "ciso-vr"]
+        event = pre-commit
+        command = [ ! -d /opt/vault-radar ] && exit 0 || exec sh /opt/vault-radar/hooks.d/confighook/pre-commit
+[hook "ciso-vr-prepush"]
+        event = pre-push
+        command = [ ! -d /opt/vault-radar ] && exit 0 || exec sh /opt/vault-radar/hooks.d/confighook/pre-push
