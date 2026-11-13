@@ -1,3 +1,6 @@
+export PATH="/Users/rselbach/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex:$PATH"
+
+
 # Relax expansion errors only for noninteractive agent shells.
 if [[ ! -o interactive &&
   ( -n ${CLAUDECODE:-} ||

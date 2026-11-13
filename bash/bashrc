@@ -1,3 +1,5 @@
+export PATH="/Users/rselbach/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS:$PATH"
+
 # Bootstrap Bash without loading interactive features in scripts or SSH commands.
 if [[ -r /usr/share/omarchy/default/bash/env-bootstrap ]]; then
   # shellcheck source=/dev/null
@@ -5,10 +7,9 @@ if [[ -r /usr/share/omarchy/default/bash/env-bootstrap ]]; then
 fi
 [[ $- == *i* ]] || return 0
 
-
 # PROMPT_COMMAND arrays require Bash 5.1 or newer.
-if (( BASH_VERSINFO[0] < 5 ||
-  (BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] < 1) )); then
+if ((BASH_VERSINFO[0] < 5 || (\
+  BASH_VERSINFO[0] == 5 && BASH_VERSINFO[1] < 1))); then
   printf '%s\n' 'This configuration requires Bash 5.1 or newer.' >&2
   return 1
 fi

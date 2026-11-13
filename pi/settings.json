@@ -1,7 +1,7 @@
 {
-  "defaultModel": "gpt-6.1-sol",
+  "defaultModel": "gpt-5.6-sol",
   "defaultProvider": "openai-codex",
-  "lastChangelogVersion": "1.5.0",
+  "lastChangelogVersion": "1.5.2",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "packages": [
@@ -23,9 +23,12 @@
     "magpie/codex/gpt-6.1-sol": "high",
     "ollama-local/granite4:latest": "high",
     "fireworks/accounts/fireworks/models/deepseek-v4p1-flash-1017": "high",
-    "ollama-local/claude-cli/claude-fable-5-2": "off"
+    "ollama-local/claude-cli/claude-fable-5-2": "off",
+    "fireworks/accounts/fireworks/models/kimi-k3": "high",
+    "claude-bridge/claude-fable-5-2": "high",
+    "openai-codex/gpt-5.6-sol": "high"
   },
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "4.0.4"
+    "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "4.0.10"
   }
 }
