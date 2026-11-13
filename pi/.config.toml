@@ -16,8 +16,18 @@ src = "models.json"
 dst = "~/.pi/agent/models.json"
 
 [[links]]
+src = "models-work.json"
+dst = "~/.pi/agent/models.json"
+hosts = ["@work"]
+
+[[links]]
 src = "mcp.json"
 dst = "~/.pi/agent/mcp.json"
+
+[[links]]
+src = "mcp-work.json"
+dst = "~/.pi/agent/mcp.json"
+hosts = ["@work"]
 
 [[links]]
 src = "keybindings.json"

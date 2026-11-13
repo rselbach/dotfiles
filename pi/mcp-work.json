@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "atlassian": {
+      "url": "https://mcp.atlassian.com/v1/mcp/authv2"
+    },
+    "slopdraw": {
+      "url": "https://slopdraw.com/mcp"
+    },
+    "rex-community": {
+      "url": "https://www.superlogical.com/rex/community-mcp"
+    }
+  }
+}

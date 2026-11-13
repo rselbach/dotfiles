@@ -1,9 +1,9 @@
 {
-  "defaultModel": "granite4:latest",
+  "defaultModel": "granite42:latest",
   "defaultProvider": "ollama-local",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.5.0",
+  "lastChangelogVersion": "1.5.2",
   "packages": [
     "npm:pi-web-access",
     "npm:@ff-labs/pi-fff",
@@ -17,9 +17,10 @@
     "github-copilot/claude-opus-5.5": "medium",
     "magpie/claude/claude-haiku-5-5": "off",
     "magpie/claude/claude-opus-5-5": "high",
-    "ollama-local/granite4:latest": "medium"
+    "ollama-local/granite4:latest": "medium",
+    "ollama-local/granite42:latest": "high"
   },
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.46.0"
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0"
   }
 }
