@@ -1,6 +1,6 @@
 {
-  "defaultModel": "gpt-5.6-sol",
-  "defaultProvider": "openai-codex",
+  "defaultModel": "claude-opus-5-5",
+  "defaultProvider": "claude-bridge",
   "lastChangelogVersion": "1.5.2",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
@@ -29,6 +29,6 @@
     "openai-codex/gpt-5.6-sol": "high"
   },
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "4.0.10"
+    "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "5.0.0"
   }
 }

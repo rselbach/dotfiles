@@ -1,0 +1,380 @@
+#
+# c-cedilla
+#
+<dead_acute> <C>			: "Ç"	U0106 # LATIN CAPITAL LETTER C WITH ACUTE
+<dead_acute> <c>			: "ç"	U0107 # LATIN SMALL LETTER C WITH ACUTE
+#
+# These seem to be needed on terminals under KDE for some bizarre reason
+#
+<dead_diaeresis> <space>		: "\""	quotedbl 	# QUOTATION MARK
+<dead_diaeresis> <dead_diaeresis>	: "\""	quotedbl	# QUOTATION MARK
+#
+# Grave accent followed by anything but a vowel
+#
+<dead_grave> <B>			: "`B"	# GRAVE ACCENT FOLLOWED BY CAPITAL B
+<dead_grave> <b>			: "`b"	# GRAVE ACCENT FOLLOWED BY SMALL B
+<dead_grave> <C>			: "`C"	# GRAVE ACCENT FOLLOWED BY CAPITAL C
+<dead_grave> <c>			: "`c"	# GRAVE ACCENT FOLLOWED BY SMALL C
+<dead_grave> <D>			: "`D"	# GRAVE ACCENT FOLLOWED BY CAPITAL D
+<dead_grave> <d>			: "`d"	# GRAVE ACCENT FOLLOWED BY SMALL D
+<dead_grave> <F>			: "`F"	# GRAVE ACCENT FOLLOWED BY CAPITAL F
+<dead_grave> <f>			: "`f"	# GRAVE ACCENT FOLLOWED BY SMALL F
+<dead_grave> <G>			: "`G"	# GRAVE ACCENT FOLLOWED BY CAPITAL G
+<dead_grave> <g>			: "`g"	# GRAVE ACCENT FOLLOWED BY SMALL G
+<dead_grave> <H>			: "`H"	# GRAVE ACCENT FOLLOWED BY CAPITAL H
+<dead_grave> <h>			: "`h"	# GRAVE ACCENT FOLLOWED BY SMALL H
+<dead_grave> <J>			: "`J"	# GRAVE ACCENT FOLLOWED BY CAPITAL J
+<dead_grave> <j>			: "`j"	# GRAVE ACCENT FOLLOWED BY SMALL J
+<dead_grave> <K>			: "`K"	# GRAVE ACCENT FOLLOWED BY CAPITAL K
+<dead_grave> <k>			: "`k"	# GRAVE ACCENT FOLLOWED BY SMALL K
+<dead_grave> <L>			: "`L"	# GRAVE ACCENT FOLLOWED BY CAPITAL L
+<dead_grave> <l>			: "`l"	# GRAVE ACCENT FOLLOWED BY SMALL L
+<dead_grave> <M>			: "`M"	# GRAVE ACCENT FOLLOWED BY CAPITAL M
+<dead_grave> <m>			: "`m"	# GRAVE ACCENT FOLLOWED BY SMALL M
+<dead_grave> <N>			: "`N"	# GRAVE ACCENT FOLLOWED BY CAPITAL N
+<dead_grave> <n>			: "`n"	# GRAVE ACCENT FOLLOWED BY SMALL N
+<dead_grave> <P>			: "`P"	# GRAVE ACCENT FOLLOWED BY CAPITAL P
+<dead_grave> <p>			: "`p"	# GRAVE ACCENT FOLLOWED BY SMALL P
+<dead_grave> <Q>			: "`Q"	# GRAVE ACCENT FOLLOWED BY CAPITAL Q
+<dead_grave> <q>			: "`q"	# GRAVE ACCENT FOLLOWED BY SMALL Q
+<dead_grave> <R>			: "`R"	# GRAVE ACCENT FOLLOWED BY CAPITAL R
+<dead_grave> <r>			: "`r"	# GRAVE ACCENT FOLLOWED BY SMALL R
+<dead_grave> <S>			: "`S"	# GRAVE ACCENT FOLLOWED BY CAPITAL S
+<dead_grave> <s>			: "`s"	# GRAVE ACCENT FOLLOWED BY SMALL S
+<dead_grave> <T>			: "`T"	# GRAVE ACCENT FOLLOWED BY CAPITAL T
+<dead_grave> <t>			: "`t"	# GRAVE ACCENT FOLLOWED BY SMALL T
+<dead_grave> <V>			: "`V"	# GRAVE ACCENT FOLLOWED BY CAPITAL V
+<dead_grave> <v>			: "`v"	# GRAVE ACCENT FOLLOWED BY SMALL V
+<dead_grave> <W>			: "`W"	# GRAVE ACCENT FOLLOWED BY CAPITAL W
+<dead_grave> <w>			: "`w"	# GRAVE ACCENT FOLLOWED BY SMALL W
+<dead_grave> <X>			: "`X"	# GRAVE ACCENT FOLLOWED BY CAPITAL X
+<dead_grave> <x>			: "`x"	# GRAVE ACCENT FOLLOWED BY SMALL X
+<dead_grave> <Y>			: "`Y"	# GRAVE ACCENT FOLLOWED BY CAPITAL Y
+<dead_grave> <y>			: "`y"	# GRAVE ACCENT FOLLOWED BY SMALL Y
+<dead_grave> <Z>			: "`Z"	# GRAVE ACCENT FOLLOWED BY CAPITAL Z
+<dead_grave> <z>			: "`z"	# GRAVE ACCENT FOLLOWED BY SMALL Z
+<dead_grave> <0>			: "`0"	# GRAVE ACCENT FOLLOWED BY DIGIT 0
+<dead_grave> <1>			: "`1"	# GRAVE ACCENT FOLLOWED BY DIGIT 1
+<dead_grave> <2>			: "`2"	# GRAVE ACCENT FOLLOWED BY DIGIT 2
+<dead_grave> <3>			: "`3"	# GRAVE ACCENT FOLLOWED BY DIGIT 3
+<dead_grave> <4>			: "`4"	# GRAVE ACCENT FOLLOWED BY DIGIT 4
+<dead_grave> <5>			: "`5"	# GRAVE ACCENT FOLLOWED BY DIGIT 5
+<dead_grave> <6>			: "`6"	# GRAVE ACCENT FOLLOWED BY DIGIT 6
+<dead_grave> <7>			: "`7"	# GRAVE ACCENT FOLLOWED BY DIGIT 7
+<dead_grave> <8>			: "`8"	# GRAVE ACCENT FOLLOWED BY DIGIT 8
+<dead_grave> <9>			: "`9"	# GRAVE ACCENT FOLLOWED BY DIGIT 9
+<dead_grave> <exclam>			: "`!"	# GRAVE ACCENT FOLLOWED BY EXCLAM
+<dead_grave> <quotedbl>			: "`\""	# GRAVE ACCENT FOLLOWED BY QUOTEDBL
+<dead_grave> <numbersign>			: "`#"	# GRAVE ACCENT FOLLOWED BY NUMBERSIGN
+<dead_grave> <dollar>			: "`$"	# GRAVE ACCENT FOLLOWED BY DOLLAR
+<dead_grave> <percent>			: "`%"	# GRAVE ACCENT FOLLOWED BY PERCENT
+<dead_grave> <ampersand>			: "`&"	# GRAVE ACCENT FOLLOWED BY AMPERSAND
+<dead_grave> <apostrophe>			: "`'"	# GRAVE ACCENT FOLLOWED BY APOSTROPHE
+<dead_grave> <parenleft>			: "`("	# GRAVE ACCENT FOLLOWED BY PARENLEFT
+<dead_grave> <parenright>			: "`)"	# GRAVE ACCENT FOLLOWED BY PARENRIGHT
+<dead_grave> <asterisk>			: "`*"	# GRAVE ACCENT FOLLOWED BY ASTERISK
+<dead_grave> <plus>			: "`+"	# GRAVE ACCENT FOLLOWED BY PLUS
+<dead_grave> <comma>			: "`,"	# GRAVE ACCENT FOLLOWED BY COMMA
+<dead_grave> <minus>			: "`-"	# GRAVE ACCENT FOLLOWED BY MINUS
+<dead_grave> <period>			: "`."	# GRAVE ACCENT FOLLOWED BY PERIOD
+<dead_grave> <slash>			: "`/"	# GRAVE ACCENT FOLLOWED BY SLASH
+<dead_grave> <colon>			: "`:"	# GRAVE ACCENT FOLLOWED BY COLON
+<dead_grave> <semicolon>			: "`;"	# GRAVE ACCENT FOLLOWED BY SEMICOLON
+<dead_grave> <less>			: "`<"	# GRAVE ACCENT FOLLOWED BY LESS
+<dead_grave> <equal>			: "`="	# GRAVE ACCENT FOLLOWED BY EQUAL
+<dead_grave> <greater>			: "`>"	# GRAVE ACCENT FOLLOWED BY GREATER
+<dead_grave> <question>			: "`?"	# GRAVE ACCENT FOLLOWED BY QUESTION
+<dead_grave> <at>			: "`@"	# GRAVE ACCENT FOLLOWED BY AT
+<dead_grave> <bracketleft>			: "`["	# GRAVE ACCENT FOLLOWED BY BRACKETLEFT
+<dead_grave> <backslash>			: "`\\"	# GRAVE ACCENT FOLLOWED BY BACKSLASH
+<dead_grave> <bracketright>			: "`]"	# GRAVE ACCENT FOLLOWED BY BRACKETRIGHT
+<dead_grave> <asciicircum>			: "`^"	# GRAVE ACCENT FOLLOWED BY ASCIICIRCUM
+<dead_grave> <underscore>			: "`_"	# GRAVE ACCENT FOLLOWED BY UNDERSCORE
+<dead_grave> <grave>			: "``"	# GRAVE ACCENT FOLLOWED BY GRAVE
+<dead_grave> <braceleft>			: "`{"	# GRAVE ACCENT FOLLOWED BY BRACELEFT
+<dead_grave> <bar>			: "`|"	# GRAVE ACCENT FOLLOWED BY BAR
+<dead_grave> <braceright>			: "`}"	# GRAVE ACCENT FOLLOWED BY BRACERIGHT
+<dead_grave> <asciitilde>			: "`~"	# GRAVE ACCENT FOLLOWED BY ASCIITILDE
+<dead_grave> <dead_grave>			: "``"	# GRAVE ACCENT FOLLOWED BY DEAD_GRAVE
+<dead_grave> <dead_acute>			: "`'"	# GRAVE ACCENT FOLLOWED BY DEAD_ACUTE
+<dead_grave> <dead_tilde>			: "`~"	# GRAVE ACCENT FOLLOWED BY DEAD_TILDE
+<dead_grave> <dead_circumflex>			: "`^"	# GRAVE ACCENT FOLLOWED BY DEAD_CIRCUMFLEX
+<dead_grave> <dead_diaeresis>			: "`\""	# GRAVE ACCENT FOLLOWED BY DEAD_DIAERESIS
+<dead_grave> <space>			: "`"	# GRAVE ACCENT
+#
+# Apostrophe followed by anything but a vowel
+#
+<dead_acute> <B>			: "'B"	# APOSTROPHE FOLLOWED BY CAPITAL B
+<dead_acute> <b>			: "'b"	# APOSTROPHE FOLLOWED BY SMALL B
+<dead_acute> <D>			: "'D"	# APOSTROPHE FOLLOWED BY CAPITAL D
+<dead_acute> <d>			: "'d"	# APOSTROPHE FOLLOWED BY SMALL D
+<dead_acute> <F>			: "'F"	# APOSTROPHE FOLLOWED BY CAPITAL F
+<dead_acute> <f>			: "'f"	# APOSTROPHE FOLLOWED BY SMALL F
+<dead_acute> <G>			: "'G"	# APOSTROPHE FOLLOWED BY CAPITAL G
+<dead_acute> <g>			: "'g"	# APOSTROPHE FOLLOWED BY SMALL G
+<dead_acute> <H>			: "'H"	# APOSTROPHE FOLLOWED BY CAPITAL H
+<dead_acute> <h>			: "'h"	# APOSTROPHE FOLLOWED BY SMALL H
+<dead_acute> <J>			: "'J"	# APOSTROPHE FOLLOWED BY CAPITAL J
+<dead_acute> <j>			: "'j"	# APOSTROPHE FOLLOWED BY SMALL J
+<dead_acute> <K>			: "'K"	# APOSTROPHE FOLLOWED BY CAPITAL K
+<dead_acute> <k>			: "'k"	# APOSTROPHE FOLLOWED BY SMALL K
+<dead_acute> <L>			: "'L"	# APOSTROPHE FOLLOWED BY CAPITAL L
+<dead_acute> <l>			: "'l"	# APOSTROPHE FOLLOWED BY SMALL L
+<dead_acute> <M>			: "'M"	# APOSTROPHE FOLLOWED BY CAPITAL M
+<dead_acute> <m>			: "'m"	# APOSTROPHE FOLLOWED BY SMALL M
+<dead_acute> <N>			: "'N"	# APOSTROPHE FOLLOWED BY CAPITAL N
+<dead_acute> <n>			: "'n"	# APOSTROPHE FOLLOWED BY SMALL N
+<dead_acute> <P>			: "'P"	# APOSTROPHE FOLLOWED BY CAPITAL P
+<dead_acute> <p>			: "'p"	# APOSTROPHE FOLLOWED BY SMALL P
+<dead_acute> <Q>			: "'Q"	# APOSTROPHE FOLLOWED BY CAPITAL Q
+<dead_acute> <q>			: "'q"	# APOSTROPHE FOLLOWED BY SMALL Q
+<dead_acute> <R>			: "'R"	# APOSTROPHE FOLLOWED BY CAPITAL R
+<dead_acute> <r>			: "'r"	# APOSTROPHE FOLLOWED BY SMALL R
+<dead_acute> <S>			: "'S"	# APOSTROPHE FOLLOWED BY CAPITAL S
+<dead_acute> <s>			: "'s"	# APOSTROPHE FOLLOWED BY SMALL S
+<dead_acute> <T>			: "'T"	# APOSTROPHE FOLLOWED BY CAPITAL T
+<dead_acute> <t>			: "'t"	# APOSTROPHE FOLLOWED BY SMALL T
+<dead_acute> <V>			: "'V"	# APOSTROPHE FOLLOWED BY CAPITAL V
+<dead_acute> <v>			: "'v"	# APOSTROPHE FOLLOWED BY SMALL V
+<dead_acute> <W>			: "'W"	# APOSTROPHE FOLLOWED BY CAPITAL W
+<dead_acute> <w>			: "'w"	# APOSTROPHE FOLLOWED BY SMALL W
+<dead_acute> <X>			: "'X"	# APOSTROPHE FOLLOWED BY CAPITAL X
+<dead_acute> <x>			: "'x"	# APOSTROPHE FOLLOWED BY SMALL X
+<dead_acute> <Y>			: "'Y"	# APOSTROPHE FOLLOWED BY CAPITAL Y
+<dead_acute> <y>			: "'y"	# APOSTROPHE FOLLOWED BY SMALL Y
+<dead_acute> <Z>			: "'Z"	# APOSTROPHE FOLLOWED BY CAPITAL Z
+<dead_acute> <z>			: "'z"	# APOSTROPHE FOLLOWED BY SMALL Z
+<dead_acute> <0>			: "'0"	# APOSTROPHE FOLLOWED BY DIGIT 0
+<dead_acute> <1>			: "'1"	# APOSTROPHE FOLLOWED BY DIGIT 1
+<dead_acute> <2>			: "'2"	# APOSTROPHE FOLLOWED BY DIGIT 2
+<dead_acute> <3>			: "'3"	# APOSTROPHE FOLLOWED BY DIGIT 3
+<dead_acute> <4>			: "'4"	# APOSTROPHE FOLLOWED BY DIGIT 4
+<dead_acute> <5>			: "'5"	# APOSTROPHE FOLLOWED BY DIGIT 5
+<dead_acute> <6>			: "'6"	# APOSTROPHE FOLLOWED BY DIGIT 6
+<dead_acute> <7>			: "'7"	# APOSTROPHE FOLLOWED BY DIGIT 7
+<dead_acute> <8>			: "'8"	# APOSTROPHE FOLLOWED BY DIGIT 8
+<dead_acute> <9>			: "'9"	# APOSTROPHE FOLLOWED BY DIGIT 9
+<dead_acute> <exclam>			: "'!"	# APOSTROPHE FOLLOWED BY EXCLAM
+<dead_acute> <quotedbl>			: "'\""	# APOSTROPHE FOLLOWED BY QUOTEDBL
+<dead_acute> <numbersign>			: "'#"	# APOSTROPHE FOLLOWED BY NUMBERSIGN
+<dead_acute> <dollar>			: "'$"	# APOSTROPHE FOLLOWED BY DOLLAR
+<dead_acute> <percent>			: "'%"	# APOSTROPHE FOLLOWED BY PERCENT
+<dead_acute> <ampersand>			: "'&"	# APOSTROPHE FOLLOWED BY AMPERSAND
+<dead_acute> <apostrophe>			: "''"	# APOSTROPHE FOLLOWED BY APOSTROPHE
+<dead_acute> <parenleft>			: "'("	# APOSTROPHE FOLLOWED BY PARENLEFT
+<dead_acute> <parenright>			: "')"	# APOSTROPHE FOLLOWED BY PARENRIGHT
+<dead_acute> <asterisk>			: "'*"	# APOSTROPHE FOLLOWED BY ASTERISK
+<dead_acute> <plus>			: "'+"	# APOSTROPHE FOLLOWED BY PLUS
+<dead_acute> <comma>			: "',"	# APOSTROPHE FOLLOWED BY COMMA
+<dead_acute> <minus>			: "'-"	# APOSTROPHE FOLLOWED BY MINUS
+<dead_acute> <period>			: "'."	# APOSTROPHE FOLLOWED BY PERIOD
+<dead_acute> <slash>			: "'/"	# APOSTROPHE FOLLOWED BY SLASH
+<dead_acute> <colon>			: "':"	# APOSTROPHE FOLLOWED BY COLON
+<dead_acute> <semicolon>			: "';"	# APOSTROPHE FOLLOWED BY SEMICOLON
+<dead_acute> <less>			: "'<"	# APOSTROPHE FOLLOWED BY LESS
+<dead_acute> <equal>			: "'="	# APOSTROPHE FOLLOWED BY EQUAL
+<dead_acute> <greater>			: "'>"	# APOSTROPHE FOLLOWED BY GREATER
+<dead_acute> <question>			: "'?"	# APOSTROPHE FOLLOWED BY QUESTION
+<dead_acute> <at>			: "'@"	# APOSTROPHE FOLLOWED BY AT
+<dead_acute> <bracketleft>			: "'["	# APOSTROPHE FOLLOWED BY BRACKETLEFT
+<dead_acute> <backslash>			: "'\\"	# APOSTROPHE FOLLOWED BY BACKSLASH
+<dead_acute> <bracketright>			: "']"	# APOSTROPHE FOLLOWED BY BRACKETRIGHT
+<dead_acute> <asciicircum>			: "'^"	# APOSTROPHE FOLLOWED BY ASCIICIRCUM
+<dead_acute> <underscore>			: "'_"	# APOSTROPHE FOLLOWED BY UNDERSCORE
+<dead_acute> <grave>			: "'`"	# APOSTROPHE FOLLOWED BY GRAVE
+<dead_acute> <braceleft>			: "'{"	# APOSTROPHE FOLLOWED BY BRACELEFT
+<dead_acute> <bar>			: "'|"	# APOSTROPHE FOLLOWED BY BAR
+<dead_acute> <braceright>			: "'}"	# APOSTROPHE FOLLOWED BY BRACERIGHT
+<dead_acute> <asciitilde>			: "'~"	# APOSTROPHE FOLLOWED BY ASCIITILDE
+<dead_acute> <dead_grave>			: "'`"	# APOSTROPHE FOLLOWED BY DEAD_GRAVE
+<dead_acute> <dead_acute>			: "''"	# APOSTROPHE FOLLOWED BY DEAD_ACUTE
+<dead_acute> <dead_tilde>			: "'~"	# APOSTROPHE FOLLOWED BY DEAD_TILDE
+<dead_acute> <dead_circumflex>			: "'^"	# APOSTROPHE FOLLOWED BY DEAD_CIRCUMFLEX
+<dead_acute> <dead_diaeresis>			: "'\""	# APOSTROPHE FOLLOWED BY DEAD_DIAERESIS
+<dead_acute> <space>			: "'"	# APOSTROPHE
+#
+# Tilde followed by anything but a vowel
+#
+<dead_tilde> <B>			: "~B"	# TILDE FOLLOWED BY CAPITAL B
+<dead_tilde> <b>			: "~b"	# TILDE FOLLOWED BY SMALL B
+<dead_tilde> <C>			: "~C"	# TILDE FOLLOWED BY CAPITAL C
+<dead_tilde> <c>			: "~c"	# TILDE FOLLOWED BY SMALL C
+<dead_tilde> <D>			: "~D"	# TILDE FOLLOWED BY CAPITAL D
+<dead_tilde> <d>			: "~d"	# TILDE FOLLOWED BY SMALL D
+<dead_tilde> <F>			: "~F"	# TILDE FOLLOWED BY CAPITAL F
+<dead_tilde> <f>			: "~f"	# TILDE FOLLOWED BY SMALL F
+<dead_tilde> <G>			: "~G"	# TILDE FOLLOWED BY CAPITAL G
+<dead_tilde> <g>			: "~g"	# TILDE FOLLOWED BY SMALL G
+<dead_tilde> <H>			: "~H"	# TILDE FOLLOWED BY CAPITAL H
+<dead_tilde> <h>			: "~h"	# TILDE FOLLOWED BY SMALL H
+<dead_tilde> <J>			: "~J"	# TILDE FOLLOWED BY CAPITAL J
+<dead_tilde> <j>			: "~j"	# TILDE FOLLOWED BY SMALL J
+<dead_tilde> <K>			: "~K"	# TILDE FOLLOWED BY CAPITAL K
+<dead_tilde> <k>			: "~k"	# TILDE FOLLOWED BY SMALL K
+<dead_tilde> <L>			: "~L"	# TILDE FOLLOWED BY CAPITAL L
+<dead_tilde> <l>			: "~l"	# TILDE FOLLOWED BY SMALL L
+<dead_tilde> <M>			: "~M"	# TILDE FOLLOWED BY CAPITAL M
+<dead_tilde> <m>			: "~m"	# TILDE FOLLOWED BY SMALL M
+<dead_tilde> <N>			: "~N"	# TILDE FOLLOWED BY CAPITAL N
+<dead_tilde> <n>			: "~n"	# TILDE FOLLOWED BY SMALL N
+<dead_tilde> <P>			: "~P"	# TILDE FOLLOWED BY CAPITAL P
+<dead_tilde> <p>			: "~p"	# TILDE FOLLOWED BY SMALL P
+<dead_tilde> <Q>			: "~Q"	# TILDE FOLLOWED BY CAPITAL Q
+<dead_tilde> <q>			: "~q"	# TILDE FOLLOWED BY SMALL Q
+<dead_tilde> <R>			: "~R"	# TILDE FOLLOWED BY CAPITAL R
+<dead_tilde> <r>			: "~r"	# TILDE FOLLOWED BY SMALL R
+<dead_tilde> <S>			: "~S"	# TILDE FOLLOWED BY CAPITAL S
+<dead_tilde> <s>			: "~s"	# TILDE FOLLOWED BY SMALL S
+<dead_tilde> <T>			: "~T"	# TILDE FOLLOWED BY CAPITAL T
+<dead_tilde> <t>			: "~t"	# TILDE FOLLOWED BY SMALL T
+<dead_tilde> <V>			: "~V"	# TILDE FOLLOWED BY CAPITAL V
+<dead_tilde> <v>			: "~v"	# TILDE FOLLOWED BY SMALL V
+<dead_tilde> <W>			: "~W"	# TILDE FOLLOWED BY CAPITAL W
+<dead_tilde> <w>			: "~w"	# TILDE FOLLOWED BY SMALL W
+<dead_tilde> <X>			: "~X"	# TILDE FOLLOWED BY CAPITAL X
+<dead_tilde> <x>			: "~x"	# TILDE FOLLOWED BY SMALL X
+<dead_tilde> <Y>			: "~Y"	# TILDE FOLLOWED BY CAPITAL Y
+<dead_tilde> <y>			: "~y"	# TILDE FOLLOWED BY SMALL Y
+<dead_tilde> <Z>			: "~Z"	# TILDE FOLLOWED BY CAPITAL Z
+<dead_tilde> <z>			: "~z"	# TILDE FOLLOWED BY SMALL Z
+<dead_tilde> <0>			: "~0"	# TILDE FOLLOWED BY DIGIT 0
+<dead_tilde> <1>			: "~1"	# TILDE FOLLOWED BY DIGIT 1
+<dead_tilde> <2>			: "~2"	# TILDE FOLLOWED BY DIGIT 2
+<dead_tilde> <3>			: "~3"	# TILDE FOLLOWED BY DIGIT 3
+<dead_tilde> <4>			: "~4"	# TILDE FOLLOWED BY DIGIT 4
+<dead_tilde> <5>			: "~5"	# TILDE FOLLOWED BY DIGIT 5
+<dead_tilde> <6>			: "~6"	# TILDE FOLLOWED BY DIGIT 6
+<dead_tilde> <7>			: "~7"	# TILDE FOLLOWED BY DIGIT 7
+<dead_tilde> <8>			: "~8"	# TILDE FOLLOWED BY DIGIT 8
+<dead_tilde> <9>			: "~9"	# TILDE FOLLOWED BY DIGIT 9
+<dead_tilde> <exclam>			: "~!"	# TILDE FOLLOWED BY EXCLAM
+<dead_tilde> <quotedbl>			: "~\""	# TILDE FOLLOWED BY QUOTEDBL
+<dead_tilde> <numbersign>			: "~#"	# TILDE FOLLOWED BY NUMBERSIGN
+<dead_tilde> <dollar>			: "~$"	# TILDE FOLLOWED BY DOLLAR
+<dead_tilde> <percent>			: "~%"	# TILDE FOLLOWED BY PERCENT
+<dead_tilde> <ampersand>			: "~&"	# TILDE FOLLOWED BY AMPERSAND
+<dead_tilde> <apostrophe>			: "~'"	# TILDE FOLLOWED BY APOSTROPHE
+<dead_tilde> <parenleft>			: "~("	# TILDE FOLLOWED BY PARENLEFT
+<dead_tilde> <parenright>			: "~)"	# TILDE FOLLOWED BY PARENRIGHT
+<dead_tilde> <asterisk>			: "~*"	# TILDE FOLLOWED BY ASTERISK
+<dead_tilde> <plus>			: "~+"	# TILDE FOLLOWED BY PLUS
+<dead_tilde> <comma>			: "~,"	# TILDE FOLLOWED BY COMMA
+<dead_tilde> <minus>			: "~-"	# TILDE FOLLOWED BY MINUS
+<dead_tilde> <period>			: "~."	# TILDE FOLLOWED BY PERIOD
+<dead_tilde> <slash>			: "~/"	# TILDE FOLLOWED BY SLASH
+<dead_tilde> <colon>			: "~:"	# TILDE FOLLOWED BY COLON
+<dead_tilde> <semicolon>			: "~;"	# TILDE FOLLOWED BY SEMICOLON
+<dead_tilde> <less>			: "~<"	# TILDE FOLLOWED BY LESS
+<dead_tilde> <equal>			: "~="	# TILDE FOLLOWED BY EQUAL
+<dead_tilde> <greater>			: "~>"	# TILDE FOLLOWED BY GREATER
+<dead_tilde> <question>			: "~?"	# TILDE FOLLOWED BY QUESTION
+<dead_tilde> <at>			: "~@"	# TILDE FOLLOWED BY AT
+<dead_tilde> <bracketleft>			: "~["	# TILDE FOLLOWED BY BRACKETLEFT
+<dead_tilde> <backslash>			: "~\\"	# TILDE FOLLOWED BY BACKSLASH
+<dead_tilde> <bracketright>			: "~]"	# TILDE FOLLOWED BY BRACKETRIGHT
+<dead_tilde> <asciicircum>			: "~^"	# TILDE FOLLOWED BY ASCIICIRCUM
+<dead_tilde> <underscore>			: "~_"	# TILDE FOLLOWED BY UNDERSCORE
+<dead_tilde> <grave>			: "~`"	# TILDE FOLLOWED BY GRAVE
+<dead_tilde> <braceleft>			: "~{"	# TILDE FOLLOWED BY BRACELEFT
+<dead_tilde> <bar>			: "~|"	# TILDE FOLLOWED BY BAR
+<dead_tilde> <braceright>			: "~}"	# TILDE FOLLOWED BY BRACERIGHT
+<dead_tilde> <asciitilde>			: "~~"	# TILDE FOLLOWED BY ASCIITILDE
+<dead_tilde> <dead_grave>			: "~`"	# TILDE FOLLOWED BY DEAD_GRAVE
+<dead_tilde> <dead_acute>			: "~'"	# TILDE FOLLOWED BY DEAD_ACUTE
+<dead_tilde> <dead_tilde>			: "~~"	# TILDE FOLLOWED BY DEAD_TILDE
+<dead_tilde> <dead_circumflex>			: "~^"	# TILDE FOLLOWED BY DEAD_CIRCUMFLEX
+<dead_tilde> <dead_diaeresis>			: "~\""	# TILDE FOLLOWED BY DEAD_DIAERESIS
+<dead_tilde> <space>			: "~"	# TILDE
+#
+# Circumflex accent followed by anything but a vowel
+#
+<dead_circumflex> <B>			: "^B"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL B
+<dead_circumflex> <b>			: "^b"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL B
+<dead_circumflex> <C>			: "^C"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL C
+<dead_circumflex> <c>			: "^c"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL C
+<dead_circumflex> <D>			: "^D"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL D
+<dead_circumflex> <d>			: "^d"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL D
+<dead_circumflex> <F>			: "^F"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL F
+<dead_circumflex> <f>			: "^f"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL F
+<dead_circumflex> <G>			: "^G"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL G
+<dead_circumflex> <g>			: "^g"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL G
+<dead_circumflex> <H>			: "^H"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL H
+<dead_circumflex> <h>			: "^h"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL H
+<dead_circumflex> <J>			: "^J"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL J
+<dead_circumflex> <j>			: "^j"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL J
+<dead_circumflex> <K>			: "^K"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL K
+<dead_circumflex> <k>			: "^k"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL K
+<dead_circumflex> <L>			: "^L"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL L
+<dead_circumflex> <l>			: "^l"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL L
+<dead_circumflex> <M>			: "^M"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL M
+<dead_circumflex> <m>			: "^m"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL M
+<dead_circumflex> <N>			: "^N"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL N
+<dead_circumflex> <n>			: "^n"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL N
+<dead_circumflex> <P>			: "^P"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL P
+<dead_circumflex> <p>			: "^p"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL P
+<dead_circumflex> <Q>			: "^Q"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL Q
+<dead_circumflex> <q>			: "^q"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL Q
+<dead_circumflex> <R>			: "^R"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL R
+<dead_circumflex> <r>			: "^r"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL R
+<dead_circumflex> <S>			: "^S"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL S
+<dead_circumflex> <s>			: "^s"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL S
+<dead_circumflex> <T>			: "^T"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL T
+<dead_circumflex> <t>			: "^t"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL T
+<dead_circumflex> <V>			: "^V"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL V
+<dead_circumflex> <v>			: "^v"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL V
+<dead_circumflex> <W>			: "^W"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL W
+<dead_circumflex> <w>			: "^w"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL W
+<dead_circumflex> <X>			: "^X"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL X
+<dead_circumflex> <x>			: "^x"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL X
+<dead_circumflex> <Y>			: "^Y"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL Y
+<dead_circumflex> <y>			: "^y"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL Y
+<dead_circumflex> <Z>			: "^Z"	# CIRCUMFLEX ACCENT FOLLOWED BY CAPITAL Z
+<dead_circumflex> <z>			: "^z"	# CIRCUMFLEX ACCENT FOLLOWED BY SMALL Z
+<dead_circumflex> <0>			: "^0"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 0
+<dead_circumflex> <1>			: "^1"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 1
+<dead_circumflex> <2>			: "^2"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 2
+<dead_circumflex> <3>			: "^3"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 3
+<dead_circumflex> <4>			: "^4"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 4
+<dead_circumflex> <5>			: "^5"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 5
+<dead_circumflex> <6>			: "^6"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 6
+<dead_circumflex> <7>			: "^7"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 7
+<dead_circumflex> <8>			: "^8"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 8
+<dead_circumflex> <9>			: "^9"	# CIRCUMFLEX ACCENT FOLLOWED BY DIGIT 9
+<dead_circumflex> <exclam>			: "^!"	# CIRCUMFLEX ACCENT FOLLOWED BY EXCLAM
+<dead_circumflex> <quotedbl>			: "^\""	# CIRCUMFLEX ACCENT FOLLOWED BY QUOTEDBL
+<dead_circumflex> <numbersign>			: "^#"	# CIRCUMFLEX ACCENT FOLLOWED BY NUMBERSIGN
+<dead_circumflex> <dollar>			: "^$"	# CIRCUMFLEX ACCENT FOLLOWED BY DOLLAR
+<dead_circumflex> <percent>			: "^%"	# CIRCUMFLEX ACCENT FOLLOWED BY PERCENT
+<dead_circumflex> <ampersand>			: "^&"	# CIRCUMFLEX ACCENT FOLLOWED BY AMPERSAND
+<dead_circumflex> <apostrophe>			: "^'"	# CIRCUMFLEX ACCENT FOLLOWED BY APOSTROPHE
+<dead_circumflex> <parenleft>			: "^("	# CIRCUMFLEX ACCENT FOLLOWED BY PARENLEFT
+<dead_circumflex> <parenright>			: "^)"	# CIRCUMFLEX ACCENT FOLLOWED BY PARENRIGHT
+<dead_circumflex> <asterisk>			: "^*"	# CIRCUMFLEX ACCENT FOLLOWED BY ASTERISK
+<dead_circumflex> <plus>			: "^+"	# CIRCUMFLEX ACCENT FOLLOWED BY PLUS
+<dead_circumflex> <comma>			: "^,"	# CIRCUMFLEX ACCENT FOLLOWED BY COMMA
+<dead_circumflex> <minus>			: "^-"	# CIRCUMFLEX ACCENT FOLLOWED BY MINUS
+<dead_circumflex> <period>			: "^."	# CIRCUMFLEX ACCENT FOLLOWED BY PERIOD
+<dead_circumflex> <slash>			: "^/"	# CIRCUMFLEX ACCENT FOLLOWED BY SLASH
+<dead_circumflex> <colon>			: "^:"	# CIRCUMFLEX ACCENT FOLLOWED BY COLON
+<dead_circumflex> <semicolon>			: "^;"	# CIRCUMFLEX ACCENT FOLLOWED BY SEMICOLON
+<dead_circumflex> <less>			: "^<"	# CIRCUMFLEX ACCENT FOLLOWED BY LESS
+<dead_circumflex> <equal>			: "^="	# CIRCUMFLEX ACCENT FOLLOWED BY EQUAL
+<dead_circumflex> <greater>			: "^>"	# CIRCUMFLEX ACCENT FOLLOWED BY GREATER
+<dead_circumflex> <question>			: "^?"	# CIRCUMFLEX ACCENT FOLLOWED BY QUESTION
+<dead_circumflex> <at>			: "^@"	# CIRCUMFLEX ACCENT FOLLOWED BY AT
+<dead_circumflex> <bracketleft>			: "^["	# CIRCUMFLEX ACCENT FOLLOWED BY BRACKETLEFT
+<dead_circumflex> <backslash>			: "^\\"	# CIRCUMFLEX ACCENT FOLLOWED BY BACKSLASH
+<dead_circumflex> <bracketright>			: "^]"	# CIRCUMFLEX ACCENT FOLLOWED BY BRACKETRIGHT
+<dead_circumflex> <asciicircum>			: "^^"	# CIRCUMFLEX ACCENT FOLLOWED BY ASCIICIRCUM
+<dead_circumflex> <underscore>			: "^_"	# CIRCUMFLEX ACCENT FOLLOWED BY UNDERSCORE
+<dead_circumflex> <grave>			: "^`"	# CIRCUMFLEX ACCENT FOLLOWED BY GRAVE
+<dead_circumflex> <braceleft>			: "^{"	# CIRCUMFLEX ACCENT FOLLOWED BY BRACELEFT
+<dead_circumflex> <bar>			: "^|"	# CIRCUMFLEX ACCENT FOLLOWED BY BAR
+<dead_circumflex> <braceright>			: "^}"	# CIRCUMFLEX ACCENT FOLLOWED BY BRACERIGHT
+<dead_circumflex> <asciitilde>			: "^~"	# CIRCUMFLEX ACCENT FOLLOWED BY ASCIITILDE
+<dead_circumflex> <dead_grave>			: "^`"	# CIRCUMFLEX ACCENT FOLLOWED BY DEAD_GRAVE
+<dead_circumflex> <dead_acute>			: "^'"	# CIRCUMFLEX ACCENT FOLLOWED BY DEAD_ACUTE
+<dead_circumflex> <dead_tilde>			: "^~"	# CIRCUMFLEX ACCENT FOLLOWED BY DEAD_TILDE
+<dead_circumflex> <dead_circumflex>			: "^^"	# CIRCUMFLEX ACCENT FOLLOWED BY DEAD_CIRCUMFLEX
+<dead_circumflex> <dead_diaeresis>			: "^\""	# CIRCUMFLEX ACCENT FOLLOWED BY DEAD_DIAERESIS
+<dead_circumflex> <space>			: "^"	# CIRCUMFLEX ACCENT

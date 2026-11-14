@@ -40,3 +40,7 @@ fi
 
 . "$HOME/.atuin/bin/env"
 eval "$(atuin init bash)"
+
+# Pi
+export PATH="/home/parallels/.pi/agent/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
