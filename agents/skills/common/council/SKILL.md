@@ -14,9 +14,9 @@ Bring in three delegates to help with the user's request, usually for review
 or feedback. If the user's instructions name council members, use
 those. Otherwise pick the ones below:
 
-- GPT Sol (xhigh)
-- Claude Opus 5.5 (high)
-- Antigravity Gemini 4 Argon (high)
+- GPT Sol (`xhigh`)
+- Claude Opus 5.5 (`high`)
+- DeepSeek V4.1 Flash (`max`)
 
 In T3 Code, use `orchestrator_capabilities` to resolve the models, then
 `delegate_task` to start one delegate per model in parallel. Elsewhere, use
