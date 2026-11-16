@@ -58,7 +58,7 @@ get-token() {
   )"
   exit_code=$?
 
-  if (( exit_code != 0 )); then
+  if ((exit_code != 0)); then
     printf "Error: Failed to retrieve token for item '%s'.\n" \
       "${item_name}" >&2
     printf '       op said: %s\n' "${token}" >&2
@@ -71,5 +71,5 @@ get-token() {
     return 1
   fi
 
-  printf '%s' "${token}"
+  printf '%s\n' "${token}"
 }
