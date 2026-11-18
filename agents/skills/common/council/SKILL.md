@@ -14,7 +14,7 @@ Bring in three delegates to help with the user's request, usually for review
 or feedback. If the user's instructions name council members, use
 those. Otherwise pick the ones below:
 
-- GPT Sol (`xhigh`)
+- GPT Sol 6.2 (`xhigh`)
 - Claude Opus 5.5 (`high`)
 - DeepSeek V4.1 Flash (`max`)
 

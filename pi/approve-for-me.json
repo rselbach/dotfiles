@@ -1,0 +1,7 @@
+{
+  "models": [
+    "openai-codex/gpt-6-luna",
+    "openai-codex/gpt-6.1-terra",
+    "pi-cc/claude-haiku-5-5"
+  ]
+}

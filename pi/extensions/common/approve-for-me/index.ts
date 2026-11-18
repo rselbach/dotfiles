@@ -1,16 +1,18 @@
 import {
-	complete,
 	parseJsonWithRepair,
 	type Api,
 	type Model,
 	type UserMessage,
 } from "@earendil-works/pi-ai";
-import type {
-	ExtensionAPI,
-	ExtensionContext,
-	ModelRegistry,
+import {
+	getAgentDir,
+	type ExtensionAPI,
+	type ExtensionContext,
+	type ModelRegistry,
 } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 const FLAG_NAME = "approve-for-me";
 const REVIEW_ENTRY_TYPE = "approve-for-me-review";
@@ -20,11 +22,7 @@ const MAX_ACTION_CHARS = 16_000;
 const MAX_TRANSCRIPT_CHARS = 12_000;
 const MAX_MESSAGE_CHARS = 2_000;
 
-const REVIEW_MODEL_CANDIDATES = [
-	["openai-codex", "gpt-5.4-mini"],
-	["openai-codex", "gpt-5.3-codex-spark"],
-	["anthropic", "claude-haiku-4-5"],
-] as const;
+const CONFIG_PATH = join(getAgentDir(), "approve-for-me.json");
 
 const READ_ONLY_TOOLS = new Set([
 	"find",
@@ -71,12 +69,6 @@ interface ReviewResult {
 	recommendation: "allow" | "ask";
 	rationale: string;
 	model: string;
-}
-
-interface ReviewModel {
-	model: Model<Api>;
-	apiKey?: string;
-	headers?: Record<string, string>;
 }
 
 interface ReviewEntry {
@@ -172,24 +164,53 @@ function canAutoApprove(review: ReviewResult): boolean {
 	return review.userAuthorization === "medium" || review.userAuthorization === "high";
 }
 
-async function findReviewModel(
+interface ModelRef {
+	provider: string;
+	modelId: string;
+}
+
+// a missing file means no configured reviewers, so only the session model reviews
+function loadConfiguredModels(): ModelRef[] {
+	let raw: string;
+	try {
+		raw = readFileSync(CONFIG_PATH, "utf8");
+	} catch (error) {
+		if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+		throw error;
+	}
+
+	const invalid = new Error(
+		`${CONFIG_PATH} must look like {"models": ["provider/model-id", ...]}`,
+	);
+	let value: unknown;
+	try {
+		value = JSON.parse(raw);
+	} catch {
+		throw invalid;
+	}
+	const models = (value as { models?: unknown } | null)?.models;
+	if (!Array.isArray(models)) throw invalid;
+
+	return models.map((entry) => {
+		const slash = typeof entry === "string" ? entry.indexOf("/") : -1;
+		if (slash <= 0 || slash === entry.length - 1) throw invalid;
+		return { provider: entry.slice(0, slash), modelId: entry.slice(slash + 1) };
+	});
+}
+
+function reviewModels(
 	currentModel: Model<Api> | undefined,
 	modelRegistry: ModelRegistry,
-): Promise<ReviewModel | undefined> {
+	errors: string[],
+): Model<Api>[] {
 	const candidates: Model<Api>[] = [];
-	for (const [provider, modelId] of REVIEW_MODEL_CANDIDATES) {
+	for (const { provider, modelId } of loadConfiguredModels()) {
 		const model = modelRegistry.find(provider, modelId);
-		if (model) candidates.push(model);
+		if (!model) errors.push(`${provider}/${modelId}: unknown model`);
+		else if (modelRegistry.hasConfiguredAuth(model)) candidates.push(model);
 	}
 	if (currentModel) candidates.push(currentModel);
-
-	for (const model of candidates) {
-		const auth = await modelRegistry.getApiKeyAndHeaders(model);
-		if (auth.ok) {
-			return { model, apiKey: auth.apiKey, headers: auth.headers };
-		}
-	}
-	return undefined;
+	return candidates;
 }
 
 function actionForReview(event: {
@@ -216,9 +237,6 @@ async function reviewAction(
 	ctx: ExtensionContext,
 	projectInstructions: string,
 ): Promise<ReviewResult | undefined> {
-	const selected = await findReviewModel(ctx.model, ctx.modelRegistry);
-	if (!selected) return undefined;
-
 	const prompt = [
 		"Review this exact planned action.",
 		projectInstructions
@@ -232,31 +250,34 @@ async function reviewAction(
 		content: [{ type: "text", text: prompt }],
 		timestamp: Date.now(),
 	};
-	const signals = [AbortSignal.timeout(REVIEW_TIMEOUT_MS)];
-	if (ctx.signal) signals.push(ctx.signal);
-	const response = await complete(
-		selected.model,
-		{ systemPrompt: REVIEW_SYSTEM_PROMPT, messages: [userMessage] },
-		{
-			apiKey: selected.apiKey,
-			headers: selected.headers,
-			maxTokens: 400,
-			reasoning: "minimal",
-			signal: AbortSignal.any(signals),
-		},
-	);
-	if (response.stopReason === "error") {
-		throw new Error(response.errorMessage ?? "The reviewer request failed.");
-	}
-	if (response.stopReason === "aborted") {
-		throw new Error("The reviewer request was aborted or timed out.");
-	}
+	const errors: string[] = [];
+	for (const model of reviewModels(ctx.model, ctx.modelRegistry, errors)) {
+		const name = `${model.provider}/${model.id}`;
+		const signals = [AbortSignal.timeout(REVIEW_TIMEOUT_MS)];
+		if (ctx.signal) signals.push(ctx.signal);
+		const response = await ctx.modelRegistry
+			.streamSimple(
+				model,
+				{ systemPrompt: REVIEW_SYSTEM_PROMPT, messages: [userMessage] },
+				{ maxTokens: 400, reasoning: "minimal", signal: AbortSignal.any(signals) },
+			)
+			.result();
+		if (ctx.signal?.aborted) throw new Error("The reviewer request was aborted.");
+		if (response.stopReason === "error" || response.stopReason === "aborted") {
+			errors.push(`${name}: ${response.errorMessage ?? "request failed or timed out"}`);
+			continue;
+		}
 
-	const responseText = response.content
-		.filter((part): part is { type: "text"; text: string } => part.type === "text")
-		.map((part) => part.text)
-		.join("\n");
-	return parseReview(responseText, `${selected.model.provider}/${selected.model.id}`);
+		const responseText = response.content
+			.filter((part) => part.type === "text")
+			.map((part) => part.text)
+			.join("\n");
+		const review = parseReview(responseText, name);
+		if (review) return review;
+		errors.push(`${name}: invalid response`);
+	}
+	if (errors.length === 0) return undefined;
+	throw new Error(errors.join("; "));
 }
 
 function approvalPrompt(event: { toolName: string; input: unknown }, review?: ReviewResult): string {

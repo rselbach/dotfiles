@@ -30,6 +30,15 @@ dst = "~/.pi/agent/mcp.json"
 hosts = ["@work"]
 
 [[links]]
+src = "approve-for-me.json"
+dst = "~/.pi/agent/approve-for-me.json"
+
+[[links]]
+src = "approve-for-me-work.json"
+dst = "~/.pi/agent/approve-for-me.json"
+hosts = ["@work"]
+
+[[links]]
 src = "keybindings.json"
 dst = "~/.pi/agent/keybindings.json"
 

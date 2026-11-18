@@ -6,8 +6,9 @@ description: Use when the user says "sol loop".
 # sol-loop
 
 This is a workflow for making your code changes more correct before (or
-sometimes after) filing a pull request. tl;dr - use OpenAI's GPT Sol to review
-your code in a loop.
+sometimes after) filing a pull request. tl;dr - use OpenAI's GPT Sol 6.2 to review
+your code in a loop. Unless the user specifies something else, use `xhigh`
+reasoning.
 
 Make the most minimal possible changes to appease the Sol reviewers. Be careful
 of scope creep and don't be scared to push back.
