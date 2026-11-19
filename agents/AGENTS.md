@@ -10,6 +10,7 @@ Remaining triggers:
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
 - Nontrivial multi-step → write the throughput checkpoint (Feature step 3).
 - Any prose surface, your reply to the user included → the **unslop** skill. Write the reply per **Writing the reply**.
+- When an advisor tool is available → consult it before a plan locks, after the same error appears twice, and before marking a task done.
 
 ## Principles
 
