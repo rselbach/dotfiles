@@ -62,26 +62,14 @@ Consult a relevant leaf skill when its summary leaves a decision unresolved. Eac
   configuration; otherwise keep the change at its normal live location.
 - Concurrent edits are normal. Refresh context before editing and handoff.
 
-## Scope and design
+## Testing
 
-- Prefer the simplest solution that fully meets the request. No speculative
-  features, abstractions, or configurability.
-- Touch only task-related code. Match existing style and avoid adjacent cleanup.
-- Do not leave breadcrumbs such as `// moved to X` after deleting or moving code.
-
-## Execution and verification
-
-- Keep closely related statements together, including a call and its error
-  check or assertions about the same result. Do not put a blank line after
-  every statement or add section comments when whitespace is enough.
 - Remove temporary binaries or artifacts created solely for testing.
 - Use Community references for fake data, such as Troy Barnes or Greendale
   Community College.
 
 ## Go
 
-- Never discard or overwrite an error without checking it. Avoid panics outside
-  `Must*` functions.
 - Prefer `any` to `interface{}`.
 - Prefer early returns and `switch` to `if`/`else`; avoid `else` where practical.
 - Use map-based table tests, `tc` for loop cases, and `want` rather than
@@ -128,21 +116,9 @@ when present.
 
 ## Version control
 
-- Before the first VCS operation, detect `.jj`. Use only JJ when present and only
-  Git otherwise; never mix them.
 - Prefix new branches and bookmarks with `rselbach/`.
-- Never run destructive VCS commands such as `reset --hard`, `clean`, or
-  destructive `restore`. Do not delete or rename unexpected files.
-- Avoid manual Git stashes and repository-wide search-and-replace operations.
 - Before editing and handoff, refresh status and diff. Preserve unrelated work.
-- For branch or PR reviews, refresh the relevant remote and compare against the
-  intended base. For current-file audits, inspect the requested files. Never
-  commit existing uncommitted changes unless explicitly asked.
 - Never add yourself as co-author or include internal thread or agent IDs.
-- Commit messages need a concise subject and one or two short paragraphs that
-  explain the purpose.
-- In JJ repositories, load the `jj-workflow` skill. Before committing, pull the
-  nearest bookmark with `jj tug`; ask if unsure.
 
 ## Autonomy
 

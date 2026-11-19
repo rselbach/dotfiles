@@ -1,6 +1,6 @@
 {
-  "defaultModel": "claude-opus-5-5",
-  "defaultProvider": "pi-cc",
+  "defaultModel": "gpt-6.2-sol-ultrafast",
+  "defaultProvider": "openai-codex",
   "lastChangelogVersion": "1.5.2",
   "defaultThinkingLevel": "xhigh",
   "hideThinkingBlock": true,
@@ -33,11 +33,12 @@
     "deepseek/deepseek-flash": "max",
     "openai-codex/gpt-6.2-astra": "xhigh",
     "openai-codex/gpt-6.2-sol": "xhigh",
-    "deepseek/deepseek-v4-pro": "max",
+    "deepseek/deepseek-v4-pro": "high",
     "pi-cc/claude-sonnet-5-5": "xhigh",
     "pi-cc/claude-opus-5-5": "xhigh",
     "openai-codex/gpt-6.2-sol-ultrafast": "xhigh",
-    "openai-codex/gpt-6-astra-fast": "xhigh"
+    "openai-codex/gpt-6-astra-fast": "xhigh",
+    "github-copilot/gemini-4-carbon": "high"
   },
   "extensionChangelogVersions": {
     "{\"source\":\"npm:@howaboua/pi-codex-conversion\",\"scope\":\"user\"}": "5.0.1",

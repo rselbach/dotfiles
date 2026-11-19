@@ -1,0 +1,16 @@
+[[dirs]]
+path = "~/.gemini/config/skills"
+
+[[links]]
+src = "../agents/AGENTS.md"
+dst = "~/.gemini/AGENTS.md"
+
+[[links]]
+src = "../agents/skills/common/*"
+dst = "~/.gemini/config/skills/<name>"
+exclude = ["synced"]  # claude.ai skills Claude Code syncs here
+
+[[links]]
+src = "../agents/skills/hosts/rselbach-KJG3M7PY7D/*"
+dst = "~/.gemini/config/skills/<name>"
+hosts = ["@work"]
